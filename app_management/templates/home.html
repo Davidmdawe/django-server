@@ -1,0 +1,1890 @@
+<!DOCTYPE html>
+<html lang="en">
+{% load static %}
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Retail Audit Reporting</title>
+    <link rel="stylesheet" type="text/css" href="{% static 'css/controls.css' %}">
+    <link rel="stylesheet" type="text/css" href="{% static 'system_management/css/user_engagement.css' %}">
+    
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/raphael"></script>
+    <script src="https://cdn.jsdelivr.net/npm/justgage/justgage.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/apexcharts"></script>
+    <script src="https://code.highcharts.com/stock/highstock.js"></script>
+    <script src="https://code.highcharts.com/stock/highcharts-more.js"></script>
+    <script src="https://code.highcharts.com/highcharts.js"></script>
+    <script src="https://code.highcharts.com/modules/data.js"></script>
+    <script src="https://code.highcharts.com/modules/drilldown.js"></script>
+    <script src="https://code.highcharts.com/modules/exporting.js"></script>
+    <script src="https://code.highcharts.com/modules/export-data.js"></script>
+    <script src="https://code.highcharts.com/modules/accessibility.js"></script>
+    <link href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.14.0-beta2/css/bootstrap-select.min.css" />
+    <script src="https://code.jquery.com/jquery-3.1.1.min.js"></script>
+    <script src="https://code.highcharts.com/maps/highmaps.js"></script>
+    <script src="https://code.highcharts.com/mapdata/index.js"></script>
+    <script src="https://code.highcharts.com/modules/accessibility.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.12.1/jquery-ui.js"></script>
+    <script src="https://www.highcharts.com/samples/static/jquery.combobox.js"></script>
+    <link href="https://ajax.googleapis.com/ajax/libs/jqueryui/1.12.1/themes/base/jquery-ui.css" rel="stylesheet">
+    <link href="https://netdna.bootstrapcdn.com/font-awesome/4.0.3/css/font-awesome.css" rel="stylesheet">
+    <!-- Add these links to your HTML -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.9.0/css/bootstrap-datepicker.min.css">
+    <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.9.0/js/bootstrap-datepicker.min.js"></script>
+
+   
+    <style>
+        body {
+            font-family: 'Arial', sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: white;
+        }
+
+        header {
+            background-color: white;
+            color: #0a0606;
+            padding: 15px;
+            text-align: center;
+            position: relative;
+        }
+
+        header img {
+            position: absolute;
+            top: 10px;
+            left: 10px;
+            max-width: 100px; /* Adjust the size as needed */
+            height: auto;
+        }
+
+        nav a {
+            display: inline-block;
+            color: black;
+            text-decoration: none;
+            position: fixed;
+            top: 20px; /* Adjust the top margin */
+            right: 0;
+            margin: 0 15px;
+            padding: 10px 20px; /* Adjust padding to control button size */
+            background-color: #FFC72C; /* McDonald's red color */
+            font-family: 'Speedee', sans-serif;
+            border-radius: 5px;
+            transition: background-color 0.3s ease;
+        }
+
+        nav a:hover {
+            background-color: #FFC72C; /* Lighter shade for hover effect */
+        }
+
+        
+
+        .dashboard-content {
+            background-color: white;
+            border: 2px solid #FFC72C;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            text-align: center;
+            margin-bottom: 20px;
+        }
+
+        h1 {
+    font-family: 'YourMcDonaldsFont', sans-serif; /* Replace 'YourMcDonaldsFont' with the actual font name */
+    /* Add any additional styles as needed */
+}
+h2 {
+    font-family: 'YourMcDonaldsFont', sans-serif; /* Replace 'YourMcDonaldsFont' with the actual font name */
+    /* Add any additional styles as needed */
+}
+
+select {
+            padding: 8px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            margin-right: 20px;
+        }
+
+        .form-control.textbox {
+    width: 100%;
+}
+
+.form-control.textbox.topMargin {
+    margin-top: 1vw;
+}
+
+.mcdonalds-yellow {
+    background-color: #FFD200; /* McDonald's yellow color */
+    color: black; /* Text color */
+    /* Add any additional styles as needed */
+}
+.container {
+    width: calc(100% - 600px); /* Adjust the width based on your needs */
+        }
+
+
+        h1 {
+    font-size: 30px;
+    margin: 0 auto; /* Center horizontally */
+    text-align: center; /* Center text inside the element */
+}
+
+.username {
+            margin-left: 2011px;  /* Adjust the margin to create space between username and logout */
+        }
+
+        .container {
+            display: none;
+        }
+        .container.active {
+            display: block;
+        }
+        @import url('https://fonts.googleapis.com/css2?family=Speedee&display=swap');
+
+        .green-text::before {
+    content: '\2713'; /* Unicode character for checkmark */
+    margin-right: 5px; /* Adjust as needed */
+}
+.red-text::before {
+    content: 'X';
+    margin-right: 5px; /* Adjust as needed */
+}
+
+    </style>
+</head>
+
+<body>
+
+    <header>
+        <div style="display: flex; align-items: center;">
+            <img src="{% static 'app_management/images/mcdonalds-clip-art-png-31.png' %}" alt="Logo" style="margin-left: 100px;">
+            <img src="{% static 'app_management/images/logo.jpeg' %}" alt="Logo" style="margin-top: 21px;">
+            
+        </div>
+        <a class="btn" style="text-align: center; background-color: #FFD200; font-family: 'Speedee', sans-serif;" href="#Home">Landing Page</a>
+        <a class="btn" style="text-align: center; background-color: #FFD200; font-family: 'Speedee', sans-serif;width:5%" href="#visuals">Store</a>
+        
+    </header>
+       
+   <nav>
+        <a href="{% url 'logout' %}">Logout</a>
+    </nav>
+    <div id="Home" class="container  active" style="max-width: 500%;">
+        <h1 style="font-size: 30px;font-family: 'Speedee', sans-serif;">Retail Audit Reporting Landing Page</h1>
+        <hr>
+        <div class="row">
+            <div class="col-sm-3">
+                <label for="filter1" style="font-family: 'Speedee', sans-serif;">Select Province:</label>
+                <select id="filter1" class="form-control drop-down-list">
+                    <option value="all">All</option>
+                    {% for province in provinces %}
+                        <option value="{{ province.name }}">{{ province.name }}</option>
+                    {% endfor %}
+                </select>
+            </div>
+        </div>
+        <hr>
+        <div class="row">
+            <div class="col-lg-6">
+                <div class="card-body shadow-lg" style="height: 100%;">
+                    <div class="card-header py-2" style="text-align: center; background-color:#FFD200;font-weight: bold;font-family: 'Speedee', sans-serif;">
+                        McDonald\'s Stores in South Africa
+                    </div>
+                    <div id="container" style="width: 100%;height: 90%;"></div>
+                </div>
+            </div>
+            <div class="col-lg-3">
+                <div class="card-body shadow-lg">
+                    <div class="card-header py-2" style="text-align: center; background-color:#FFD200;font-weight: bold;font-family: 'Speedee', sans-serif;">
+                        Upon Entrance(outside)
+                    </div>
+                    <div id="gauge-container" style="width: 263px; height: 200px;margin: auto;"></div>
+                </div>
+                <div class="card-body shadow-lg">
+                    <div class="card-header py-2" style="text-align: center; background-color:#FFD200;font-weight: bold;font-family: 'Speedee', sans-serif;">
+                        Main Digital Menu board and Pricing
+                    </div>
+                    <div id="gauge-container-new2" style="width: 263px; height: 200px;margin: auto;"></div>
+                </div>
+                <div class="card-body shadow-lg">
+                    <div class="card-header py-2" style="text-align: center; background-color:#FFD200;font-weight: bold;font-family: 'Speedee', sans-serif;">
+                        McCafé Main Menu
+                    </div>
+                    <div id="gauge-container-new4" style="width: 263px; height: 200px;margin: auto;"></div>
+                </div>
+            </div>
+            <div class="col-lg-3">
+                <div class="card-body shadow-lg">
+                    <div class="card-header py-2" style="text-align: center; background-color:#FFD200;font-weight: bold;font-family: 'Speedee', sans-serif;">
+                        Upon Entrance(In-store)
+                    </div>
+                    <div id="gauge-container-inside" style="width: 263px; height: 200px;margin: auto;"></div>
+                </div>
+                <div class="card-body shadow-lg">
+                    <div class="card-header py-2" style="text-align: center; background-color:#FFD200;font-weight: bold;font-family: 'Speedee', sans-serif;">
+                        Drive-thru
+                    </div>
+                    <div id="gauge-container-new1" style="width: 263px; height: 200px;margin: auto;"></div>
+                </div>
+                <div class="card-body shadow-lg">
+                    <div class="card-header py-2" style="text-align: center; background-color:#FFD200;font-weight: bold;font-family: 'Speedee', sans-serif;">
+                        Delivery
+                    </div>
+                    <div id="gauge-container-new3" style="width: 263px; height: 200px;margin: auto;"></div>
+                </div>
+            </div>
+        </div>
+        
+    </div>
+
+    <div id="visuals" class="container" style="max-width: 300%;">
+        <h1 style="font-size: 30px;font-family: 'Speedee', sans-serif;">Retail Audit Reporting Visualisations</h1>
+        <hr>
+        <div class="row">
+            <div class="col-sm-3">
+                <label for="filter1">Select Province:</label>
+                <select id="filterprovincestore" class="form-control drop-down-list">
+                    <option value="all">All</option>
+                    {% for province in region_name %}
+                        <option value="{{ province.region__name }}">{{ province.region__name }}</option>
+                    {% endfor %}
+                </select>
+            </div>
+           <div class="col-sm-4">
+                <label for="filter2">Own/Franchise:</label>
+                <select id="filterownerfranchise" class="form-control drop-down-list">
+                    <option value="all">All</option>
+                    {% for own_franchise in franchise_mcopco %}
+                        <option value="{{ own_franchise.franchise_mcopco }}">{{ own_franchise.franchise_mcopco }}</option>
+                    {% endfor %} 
+                </select>
+            </div>
+            <div class="col-sm-4">
+                <label for="filter2">Store:</label>
+                <select id="filterstore" class="form-control drop-down-list">
+                    {% for store in restaurant %}
+                        <option value="{{ store.restaurant }}">{{ store.restaurant }}</option>
+                    {% endfor %} 
+                </select>
+            </div>
+            <div class="col-sm-3">
+                <label for="filter1">From:</label>
+                <input type="text" id="fromDate" class="form-control datepicker">
+            </div>
+            <div class="col-sm-3">
+                <label for="filter1">To:</label>
+                <input type="text" id="toDate" class="form-control datepicker">
+            </div>
+            
+            <button id="filterbutton" class="btn mcdonalds-yellow" style="height: 40px; margin-top: 30px;">Filter</button>
+        </div>
+        <hr>
+        <div class="row">
+           <!-- <div class="col-lg-12">
+                <div class="card-body shadow-lg">
+                    <div class="card-header py-2" style="text-align: center; background-color:#FFD200;font-weight: bold;font-family: 'Speedee', sans-serif;">
+                        
+                    </div>
+                    <div id="container-visualizations" style="width: 100%;height: 90%;"></div>
+                </div>
+            </div>-->
+        </div>
+        <hr>
+        <div class="row">
+            <div class="col-lg-2" >
+                <div class="card-body shadow-lg" style="height: 100%;">
+                    <div class="card-header py-2" style="text-align: center; background-color:#FFD200;font-weight: bold;font-family: 'Speedee', sans-serif;">
+                        Upon Entrance(outside)
+                    </div>
+                    <div id="gauge-container-outside-store-level" style="width: 263px; height: 200px;margin: auto;"></div>
+
+                    <div id="textContainer">
+                        <p id="displayText"></p>
+                        <hr>
+                        <p id="displayText2"></p>
+                        <hr>
+                        <p id="displayText3"></p>
+                        <hr>
+                        <p id="displayText5"></p>
+                        <p id="displayText7"></p>
+                        <p id="displayText6"></p>
+                        <hr>
+                        <p id="displayText4"></p>
+                    </div>
+
+                    
+                </div>
+            </div>
+            <div class="col-lg-2">
+                <div class="card-body shadow-lg" style="height: 100%;">
+                    <div class="card-header py-2" style="text-align: center; background-color:#FFD200;font-weight: bold;font-family: 'Speedee', sans-serif;">
+                        Upon Entrance(In-store)
+                    </div>
+                    <div id="gauge-container-inside-store-level" style="width: 263px; height: 200px;margin: auto;"></div>
+                    <div id="textContainer">
+                        <p id="displayTextinside"></p>
+                        <hr>
+                        <p id="displayTextinside2"></p>
+                        <hr>
+                        <p id="displayTextinside3"></p>
+                        <p id="displayTextinside6"></p>
+                        <hr>
+                        <p id="displayTextinside4"></p>
+                        <p id="displayTextinside9"></p>
+                        <p id="displayTextinside8"></p>
+                        <hr>
+                        <p id="displayTextinside5"></p>
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-2">
+                <div class="card-body shadow-lg" style="height: 100%;">
+                    <div class="card-header py-2" style="text-align: center; background-color:#FFD200;font-weight: bold;font-family: 'Speedee', sans-serif;">
+                        Main Digital Menu board and Pricing
+                    </div>
+                    <div id="gauge-container-menu-store-level" style="width: 263px; height: 200px;margin: auto;"></div>
+                    <div id="textContainer">
+                        <p id="displayTextmenu"></p>
+                        <hr>
+
+                        <p id="displayTextmenu1"></p>
+                        <p id="displayTextmenu2"></p>
+                        <p id="displayTextmenu3"></p>
+                        <hr>
+                        <p id="displayTextmenu4"></p>
+                        <p id="displayTextmenu6"></p>
+                        <p id="displayTextmenu5"></p>
+                        <hr>
+                        <p id="displayTextmenu7"></p>
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-2">
+                <div class="card-body shadow-lg" style="height: 100%;">
+                    <div class="card-header py-2" style="text-align: center; background-color:#FFD200;font-weight: bold;font-family: 'Speedee', sans-serif;">
+                        McCafé Main Menu
+                    </div>
+                    <div id="gauge-container-mccafe-store-level" style="width: 263px; height: 200px;margin: auto;"></div>
+                    <div id="textContainermenu">
+                        <p id="displayTextmccafe"></p>
+                        <hr>
+                        <p id="displayTextmccafe1"></p>
+                        <p id="displayTextmccafe3"></p>
+                        <p id="displayTextmccafe2"></p>
+                        <hr>
+                        <p id="displayTextmccafe4"></p>
+                    </div>
+                    
+                </div>
+            </div>
+            <div class="col-lg-2">
+                <div class="card-body shadow-lg" style="height: 100%;">
+                    <div id="driveThruHeader" class="card-header py-2" style="text-align: center; background-color:#FFD200;font-weight: bold;font-family: 'Speedee', sans-serif;">
+                        Drive-thru
+                    </div>
+                    <div id="gauge-container-drivethru-store-level" style="width: 263px; height: 200px;margin: auto;"></div>
+                    <div id="textContainermenu">
+                        <p id="displayTextdrivethru"></p>
+                        <hr>
+                        <p id="displayTextdrivethru5"></p>
+                        <hr>
+                        <p id="displayTextdrivethru1"></p>
+                        <p id="displayTextdrivethru4"></p>
+                        <p id="displayTextdrivethru2"></p>
+                        <p id="displayTextdrivethru3"></p>
+                    </div>
+                    
+                </div>
+            </div>
+            <div class="col-lg-2">
+                <div class="card-body shadow-lg" style="height: 100%;">
+                    <div class="card-header py-2" style="text-align: center; background-color:#FFD200;font-weight: bold;font-family: 'Speedee', sans-serif;">
+                        Delivery
+                    </div>
+                    <div id="gauge-container-delivery-store-level" style="width: 263px; height: 200px;margin: auto;"></div>
+                    <div id="textContainermenu">
+                        <p id="displayTextdelivery"></p>
+                        <hr>
+                        <p id="displayTextdelivery1"></p>
+                        <hr>
+                        <p id="displayTextdelivery2"></p>
+                    </div>
+                    
+                </div>
+            </div>
+        </div>
+        
+    </div>
+    
+    
+    <footer style="background-color: #FFD200; text-align: center; padding: 10px; position: fixed; bottom: 0; width: 100%;font-family: 'Speedee', sans-serif;">
+        <p style="color: black; margin: 0;">&copy; 2023 Flowing Visual Patterns. All rights reserved.</p>
+    </footer>
+</body>
+
+</html>
+<!-- Include Highcharts library -->
+
+<script src="https://code.highcharts.com/highcharts.js"></script>
+<script src="https://code.highcharts.com/maps/modules/map.js"></script>
+<script src="https://code.highcharts.com/mapdata/countries/za/za-all.geo.json"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/proj4js/2.3.6/proj4.js"></script>
+<script src="https://code.highcharts.com/maps/highmaps.js"></script>
+<!-- Include Highcharts library and solid-gauge module -->
+<script src="https://code.highcharts.com/highcharts.js"></script>
+<script src="https://code.highcharts.com/highcharts-more.js"></script>
+<script src="https://code.highcharts.com/modules/solid-gauge.js"></script>
+
+<script>
+
+$(document).ready(function(){
+    $('.datepicker').datepicker({
+        format: 'yyyy-mm-dd',  // Choose the date format you want
+        autoclose: true,
+        todayHighlight: true,
+        startDate: '2023-12-26' // Set the start date
+    });
+
+    var defaultFromDate = new Date(2023, 11, 26); // Month is zero-based, so 11 represents December
+    var defaultToDate = new Date(); // Use the current date as the default "To" date
+
+    // Initialize date pickers
+    $('#fromDate').datepicker({
+        format: 'yyyy-mm-dd',
+        autoclose: true,
+        todayHighlight: true,
+        startDate: defaultFromDate, // Set the default "From" date
+    }).datepicker('setDate', defaultFromDate); // Set the initial date
+
+    $('#toDate').datepicker({
+        format: 'yyyy-mm-dd',
+        autoclose: true,
+        todayHighlight: true,
+        startDate: defaultToDate, // Set the default "To" date
+    }).datepicker('setDate', defaultToDate); // Set the initial date
+});
+
+(async () => {
+    // Load the map data for South Africa
+     // Load the map data for South Africa
+     const topology = await fetch(
+        'https://code.highcharts.com/mapdata/countries/za/za-all.topo.json'
+    ).then(response => response.json());
+
+    const mapData = await fetch(
+    'https://code.highcharts.com/mapdata/countries/za/za-all.topo.json'
+).then(response => response.json());
+//const storeData = await fetch('/get_map_data/').then(response => response.json());
+//console.log('data')
+//console.log(storeData)
+/*const createMapStore = (data) => {
+console.log(data)
+const convertedStoreData = data.map(point => ({
+    ...point,
+    lat: parseFloat(point.latitude.replace(',', '.')),
+    lon: parseFloat(point.longitude.replace(',', '.')),
+}));
+
+const chart = Highcharts.mapChart('container-visualizations', {
+
+    title: {
+        text: '',
+    },
+
+    legend: {
+        align: 'left',
+        layout: 'vertical',
+        floating: true
+    },
+
+    accessibility: {
+        point: {
+            valueDescriptionFormat: '{xDescription}.'
+        }
+    },
+
+    mapNavigation: {
+        enabled: true
+    },
+    credits: {
+                enabled: false
+            },
+    tooltip: {
+            headerFormat: '',
+            pointFormat: `
+                <b>{point.site_name}</b><br>
+                Physical Address: {point.physical_address}<br>
+                Phone Number: {point.tel_no}<br>
+                Province: {point.region__name}
+            `,
+            footerFormat: '',
+            xDateFormat: '%Y-%m-%d %H:%M:%S'
+    },
+    plotOptions: {
+        series: {
+            marker: {
+                fillColor: '#FFFFFF',
+                lineWidth: 2,
+                lineColor: Highcharts.getOptions().colors[1]
+            }
+        }
+    },
+
+    series: [{
+        mapData,
+        name: 'South Africa',
+        borderColor: '#707070',
+        nullColor: 'rgba(200, 200, 200, 0.3)',
+        showInLegend: false
+    }, {
+        type: 'mappoint',
+        name: 'Stores',
+        dataLabels: {
+            format: '{point.site_name}'  
+        },
+        data: convertedStoreData  
+    }]
+});
+
+};*/
+
+    // Function to fetch store data based on the selected province
+    const fetchStoresByProvince = async (province) => {
+        const response = await fetch(`/get_store_data/?province=${province}`);
+        return await response.json();
+    };
+    const fetchStores = async (province_store, owner_franchise, store,from_date,to_date) => {
+        const response = await fetch(`/get_map_data/?province_store=${province_store}&owner_franchise=${owner_franchise}&store=${store}&from_date=${from_date}&to_date=${to_date}`);
+        return await response.json();
+    };
+    const fetchStoresScores = async (province_store, owner_franchise, store,from_date,to_date) => {
+        const response = await fetch(`/get_store_data_store_level/?province_store=${province_store}&owner_franchise=${owner_franchise}&store=${store}&from_date=${from_date}&to_date=${to_date}`);
+        return await response.json();
+    };
+
+
+    // Function to create the Highcharts map chart
+    const createMapChart = (data) => {
+        // Define colors for provinces
+        const provinceColors = {
+            'Western Cape': '#FF0000', // Red
+            'Gauteng': '#00FF00', // Green
+            'Limpopo': '#0000FF', // Blue
+            // ... Add more provinces and colors as needed
+        };
+
+        // Log information about McDonald's stores
+        console.log('McDonald\'s stores:', data);
+        
+
+        // Create the Highcharts map chart
+        Highcharts.mapChart('container', {
+            chart: {
+                map: topology
+            },
+            credits: {
+                enabled: false
+            },
+            title: {
+                text: ''
+            },
+            mapNavigation: {
+                enabled: true
+            },
+            legend: {
+                enabled: false
+            },
+            plotOptions: {
+                mappoint: {
+                    dataLabels: {
+                        align: 'left',
+                        x: -12,
+                        y: -5,
+                        enabled: true,
+                        shape: 'callout',
+                        backgroundColor: '#FF0000',
+                        borderRadius: 5,
+                        style: {
+                            color: '#FFC72C'
+                        },
+                        formatter: function () {
+                            return this.point.province;
+                        }
+                    },
+                    marker: {
+                        symbol: 'circle',
+                        radius: 8,
+                        states: {
+                            hover: {
+                                enabled: false
+                            }
+                        }
+                    },
+                    tooltip: {
+                        headerFormat: '',
+                        pointFormat: `<b>{point.province}</b><br>Target: {point.target}<br>Achieved: {point.achieved}`
+                    }
+                }
+            },
+            series: [{
+                name: 'Basemap',
+                borderColor: 'black',
+                nullColor: '#FFC72C'
+            }, {
+                type: 'mappoint',
+                name: 'McDonald\'s Stores',
+                color: function () {
+                    return provinceColors[this.point.province];
+                },
+                data: data,  // Use the filtered data here
+                events: {
+                    click: function (event) {
+                        const provinceName = event.point.province;
+                        // Replace the alert with your custom popup dialogue logic
+                        alert(`Clicked on ${provinceName}`);
+                    }
+                }
+            }]
+        });
+
+    };
+    const creategaugeChart = (data) => {
+        // Extract the summary data from the last object in the array
+        const summaryData = data[data.length - 1];
+
+        Highcharts.chart('gauge-container', {
+            chart: {
+                type: 'solidgauge',
+            },
+            title: {
+                text: '',
+            },
+            credits: {
+                enabled: false
+            },
+            pane: {
+                center: ['50%', '85%'],
+                size: '140%',
+                startAngle: -90,
+                endAngle: 90,
+                background: {
+                    backgroundColor: Highcharts.defaultOptions.legend.backgroundColor || '#EEE',
+                    innerRadius: '60%',
+                    outerRadius: '100%',
+                    shape: 'arc',
+                },
+            },
+            yAxis: {
+                min: 0,
+                max: summaryData.target,
+                title: {
+                    text: summaryData.selected_province,
+                    y: -70,
+                },
+                stops: [
+                    [0.1, '#DF5353'], 
+                    [0.5, '#DDDF0D'], 
+                    [0.9, '#55BF3B'], 
+                ],
+                lineWidth: 0,
+                tickWidth: 0,
+                minorTickInterval: null,
+                tickAmount: 2,
+                labels: {
+                    y: 16,
+                },
+            },
+            series: [{
+                name: 'Achieved',
+                data: [summaryData.target_output],
+                tooltip: {
+                    valueSuffix: ' units',
+                },
+            }],
+        });
+
+        
+    };
+    const creategaugeChartoutsidestorelevel = (data) => {
+        // Extract the summary data from the last object in the array
+        const summaryData = data[data.length - 1];
+
+        // Assuming summaryData.total_score_outside and summaryData.target_outside are both numeric values
+        const achievedPercentage = (summaryData.total_score_outside / summaryData.target_outside) * 100;
+        let color;
+        if (achievedPercentage >= 0 && achievedPercentage < 20) {
+            color = 'red';
+        } else if (achievedPercentage >= 20 && achievedPercentage < 65) {
+            color = 'orange';
+        } else {
+            color = 'green';
+        }
+        Highcharts.chart('gauge-container-outside-store-level', {
+            chart: {
+                type: 'solidgauge',
+            },
+            title: {
+                text: '',
+            },
+            credits: {
+                enabled: false
+            },
+            pane: {
+                center: ['50%', '85%'],
+                size: '140%',
+                startAngle: -90,
+                endAngle: 90,
+                background: {
+                    backgroundColor: Highcharts.defaultOptions.legend.backgroundColor || '#EEE',
+                    innerRadius: '60%',
+                    outerRadius: '100%',
+                    shape: 'arc',
+                },
+            },
+            yAxis: {
+                min: 0,
+                max: 100, // Assuming total_score_outside is a percentage (adjust as needed)
+                title: {
+                    text: summaryData.selected_store,
+                    y: -70,
+                },
+                stops: [
+                    [0.1, 'red'],    // Red for 0% - 20%
+                    [0.5, 'orange'], // Orange for 20% - 65%
+                    [0.9, 'green'],  // Green for 65% - 100%
+                ],
+                lineWidth: 0,
+                tickWidth: 0,
+                minorTickInterval: null,
+                tickAmount: 2,
+                labels: {
+                    y: 16,
+                },
+            },
+            series: [{
+                name: 'Achieved',
+                data: [achievedPercentage],
+                dataLabels: {
+                    format: '{y}%',
+                    borderWidth: 0,
+                    y: 10,
+                    style: {
+                        fontSize: '40px', // Adjust the font size as needed
+                        color: color,   // Set the color to green
+                    },
+                },
+                tooltip: {
+                    valueSuffix: '%',
+                },
+            }],
+        });
+
+
+
+        var displayTextElement = document.getElementById('displayText');
+        var displayTextElement2 = document.getElementById('displayText2');
+        var displayTextElement3 = document.getElementById('displayText3');
+        var displayTextElement4 = document.getElementById('displayText4');
+        var displayTextElement5 = document.getElementById('displayText5');
+        var displayTextElement6 = document.getElementById('displayText6');
+        var displayTextElement7 = document.getElementById('displayText7');
+
+            // Change the text content
+            if (summaryData.out_branding_condition) {
+                displayTextElement.innerHTML = '<span style="color: black;">1.Branding features in good condition?</span><br>-' + summaryData.out_branding_condition;
+                displayTextElement.style.color = 'green';
+                displayTextElement.style.fontWeight = 'bold';
+                displayTextElement.classList.add('green-text');
+            } else {
+                displayTextElement.innerHTML = '<span style="color: black;">1.Branding features in good condition?</span><br>- ' + summaryData.out_branding_condition;
+                displayTextElement.style.color = 'red';
+                displayTextElement.style.fontWeight = 'bold';
+                displayTextElement.classList.add('red-text');
+            }
+            if (summaryData.out_signage_condition) {
+                displayTextElement2.innerHTML = '<span style="color: black;">2.Was there external disclaimer signage?</span><br>- ' + summaryData.out_signage_condition;
+                displayTextElement2.style.color = 'green';
+                displayTextElement2.style.fontWeight = 'bold';
+                displayTextElement2.classList.add('green-text');
+            } else {
+                displayTextElement2.innerHTML = '<span style="color: black;">2.Was there external disclaimer signage?</span><br>- ' + summaryData.out_signage_condition;
+                displayTextElement2.style.color = 'red';
+                displayTextElement2.style.fontWeight = 'bold';
+                displayTextElement2.classList.add('red-text');
+            }
+            if (summaryData.out_campaign) {
+                displayTextElement3.innerHTML = '<span style="color: black;">3. Notice any campaigns as you entered?</span><br>- ' + summaryData.out_campaign;
+                displayTextElement3.style.color = 'green';
+                displayTextElement3.style.fontWeight = 'bold';
+                displayTextElement3.classList.add('green-text');
+                displayTextElement5.textContent =  ' If yes, Which campaigns did you notice as you entered the store? ';
+                //displayTextElement7.innerHTML = '-Hero Double Quarter Pounder with Cheese'+'<br>'+'-McFlurry Strawberry Shortcake '+'<br>'+'- 4 Piece Chicken Tenders'+'<br>'+'-McFizz Lemon Litchi';
+               // displayTextElement7.style.fontWeight = 'bold';
+                //displayTextElement7.style.backgroundColor = '#FFD700';
+                displayTextElement5.style.fontWeight = 'bold';
+                let promoCampaigns = summaryData.out_campaigns;
+
+                // Split the string into an array using comma as a delimiter
+                let campaignsArray = promoCampaigns.split(',');
+
+                // Format and display the campaigns
+                let formattedCampaigns = campaignsArray.map(campaign => `👍 ${campaign.trim()}.`).join('<br>');
+                // Now, formattedCampaigns contains the desired output
+                console.log(formattedCampaigns);
+                displayTextElement6.innerHTML = '<br>'+  formattedCampaigns;
+                displayTextElement6.style.fontWeight = 'bold';
+                displayTextElement6.style.color = 'green';
+            } else {
+                displayTextElement3.innerHTML = '<span style="color: black;">3.Notice any campaigns as you entered?</span><br>- ' + summaryData.out_campaign;
+                displayTextElement3.style.color = 'red';
+                displayTextElement3.style.fontWeight = 'bold';
+                displayTextElement3.classList.add('red-text');
+            }
+            displayTextElement4.innerHTML= '<span style="color: black;">4.Give a brief description of anything that was did not sit right/was not in good condition?</span><br>-' + summaryData.out_description_outside;
+            displayTextElement4.style.fontWeight = 'bold';
+            displayTextElement4.style.color = 'green';
+
+    };
+
+    const creategaugeChartinsidestorelevel = (data) => {
+        // Extract the summary data from the last object in the array
+        const summaryData = data[data.length - 1];
+        const achievedPercentage = (summaryData.total_score_inside / summaryData.target_inside) * 100;
+        let color;
+        if (achievedPercentage >= 0 && achievedPercentage < 20) {
+            color = 'red';
+        } else if (achievedPercentage >= 20 && achievedPercentage < 65) {
+            color = 'orange';
+        } else {
+            color = 'green';
+        }
+        Highcharts.chart('gauge-container-inside-store-level', {
+            chart: {
+                type: 'solidgauge',
+            },
+            title: {
+                text: '',
+            },
+            credits: {
+                enabled: false
+            },
+            pane: {
+                center: ['50%', '85%'],
+                size: '140%',
+                startAngle: -90,
+                endAngle: 90,
+                background: {
+                    backgroundColor: Highcharts.defaultOptions.legend.backgroundColor || '#EEE',
+                    innerRadius: '60%',
+                    outerRadius: '100%',
+                    shape: 'arc',
+                },
+            },
+            yAxis: {
+                min: 0,
+                max: 100, // Assuming total_score_outside is a percentage (adjust as needed)
+                title: {
+                    text: summaryData.selected_store,
+                    y: -70,
+                },
+                stops: [
+                    [0.1, 'red'],    // Red for 0% - 20%
+                    [0.5, 'orange'], // Orange for 20% - 65%
+                    [0.9, 'green'],  // Green for 65% - 100%
+                ],
+                lineWidth: 0,
+                tickWidth: 0,
+                minorTickInterval: null,
+                tickAmount: 2,
+                labels: {
+                    y: 16,
+                },
+            },
+            series: [{
+                name: 'Achieved',
+                data: [achievedPercentage],
+                dataLabels: {
+                    format: '{y}%',
+                    borderWidth: 0,
+                    y: 10,
+                    style: {
+                        fontSize: '40px', // Adjust the font size as needed
+                        color: color,   // Set the color to green
+                    },
+                },
+                tooltip: {
+                    valueSuffix: '%',
+                },
+            }],
+        });
+
+        var displayTextElementinside = document.getElementById('displayTextinside');
+        var displayTextElement2inside = document.getElementById('displayTextinside2');
+        var displayTextElement3inside = document.getElementById('displayTextinside3');
+        var displayTextElement4inside = document.getElementById('displayTextinside4');
+        var displayTextElement5inside = document.getElementById('displayTextinside5');
+        var displayTextElement6inside = document.getElementById('displayTextinside6');
+        //var displayTextElement7inside = document.getElementById('displayTextinside7');
+        var displayTextElement8inside = document.getElementById('displayTextinside8');
+        var displayTextElement9inside = document.getElementById('displayTextinside9');
+
+            // Change the text content
+            if (summaryData.out_point_of_sale) {
+                displayTextElementinside.innerHTML = '<span style="color: black;">1.Was the window POP (Point of Purchase) as per our layout?</span><br>- ' + summaryData.out_point_of_sale;
+                displayTextElementinside.style.color = 'green';
+                displayTextElementinside.style.fontWeight = 'bold';
+                displayTextElementinside.classList.add('green-text');
+
+            } else {
+                displayTextElementinside.innerHTML = '<span style="color: black;">1.Was the window POP (Point of Purchase) as per our layout?</span><br>- ' + summaryData.out_point_of_sale;
+                displayTextElementinside.style.color = 'red';
+                displayTextElementinside.style.fontWeight = 'bold';
+                displayTextElementinside.classList.add('red-text');
+            }
+
+            if (summaryData.out_self_order_kiosk) {
+                displayTextElement2inside.innerHTML = '<span style="color: black;">2.Was the SOKs (Self Ording Kiosks) fully functioning with all promotional items displaying?</span><br>- ' + summaryData.out_self_order_kiosk;
+                displayTextElement2inside.style.color = 'green';
+                displayTextElement2inside.style.fontWeight = 'bold';
+                displayTextElement2inside.classList.add('green-text');
+                displayTextElement3inside.textContent = 'Did you see the following promotions displayed on the SOK (Self Ordering Kiosk)?';
+                //displayTextElement7inside.innerHTML = '- Hero Double Quarter Pounder with Cheese'+'<br>'+'- McFlurry Strawberry Shortcake'+'<br>'+'- 4 Piece Chicken Tenders'+'<br>'+'- McFizz Lemon Litchi'+'<br>'+'- Nazo'+'<br>'+'- Chillie Cheese McFlavour Fries (newly launched)'+'<br>'+'-Beef/Chicken Hamburger(McSaver Menu)'+'<br>'+'-Small coke-no sugar(McSaver Menu)'+'<br>'+'-Small Fries(McSaver Menu)'+'<br>'+'-Plain Sundae ice cream(McSaver Menu)';
+                //displayTextElement7inside.style.fontWeight = 'bold';
+                //displayTextElement7inside.style.backgroundColor = '#FFD700';
+
+
+                // Assuming summaryData.out_promo_sok_campaigns is a string
+                let promoCampaigns = summaryData.out_promo_sok_campaigns;
+
+                // Split the string into an array using comma as a delimiter
+                let campaignsArray = promoCampaigns.split(',');
+
+                // Format and display the campaigns
+                let formattedCampaigns = campaignsArray.map(campaign => `👍 ${campaign.trim()}.`).join('<br>');
+                // Now, formattedCampaigns contains the desired output
+                console.log(formattedCampaigns);
+                displayTextElement6inside.innerHTML = '<br>'+ formattedCampaigns;
+                displayTextElement3inside.style.fontWeight = 'bold';
+                displayTextElement6inside.style.color = 'green';
+                displayTextElement6inside.style.fontWeight = 'bold';
+            } else {
+                displayTextElement2inside.innerHTML = '<span style="color: black;">2.Was the SOKs (Self Ording Kiosks) fully functioning with all promotional items displaying?</span><br>- ' + summaryData.out_self_order_kiosk;
+                displayTextElement2inside.style.color = 'red';
+                displayTextElement2inside.style.fontWeight = 'bold';
+                displayTextElement2inside.classList.add('red-text');
+            }
+            displayTextElement4inside.textContent =  ' Which Happy Meal campaign is currently displaying in stores?: ';
+            displayTextElement4inside.style.fontWeight = 'bold';
+            //displayTextElement9inside.innerHTML = '-Happy meal with Pokémon toy'+'<br>'+'-Happy meal with ‘Roblox adopt me’ toy';
+            //displayTextElement9inside.style.fontWeight = 'bold';
+           // displayTextElement9inside.style.backgroundColor = '#FFD700';
+            let promoCampaigns = summaryData.out_happy_m_campaign;
+
+                // Split the string into an array using comma as a delimiter
+            let campaignsArray = promoCampaigns.split(',');
+
+                // Format and display the campaigns
+            let formattedCampaigns = campaignsArray.map(campaign => `👍 ${campaign.trim()}.`).join('<br>');
+            // Now, formattedCampaigns contains the desired output
+            console.log(formattedCampaigns);
+            displayTextElement8inside.innerHTML = '<br>'+ formattedCampaigns;
+            displayTextElement8inside.style.fontWeight = 'bold';
+            displayTextElement8inside.style.color  = 'green';
+
+            displayTextElement5inside.innerHTML =  '<span style="color: black;">Give a brief description of anything that was did not sit right/was not in good condition?</span><br>-' + summaryData.out_description_inside;
+            displayTextElement5inside.style.fontWeight = 'bold';
+            displayTextElement5inside.style.color  = 'green';
+    };
+    const creategaugeChartmenustorelevel = (data) => {
+        // Extract the summary data from the last object in the array
+        const summaryData = data[data.length - 1];
+        const achievedPercentage = (summaryData.total_score_Main / summaryData.target_menu) * 100;
+        let color;
+        if (achievedPercentage >= 0 && achievedPercentage < 20) {
+            color = 'red';
+        } else if (achievedPercentage >= 20 && achievedPercentage < 65) {
+            color = 'orange';
+        } else {
+            color = 'green';
+        }
+        Highcharts.chart('gauge-container-menu-store-level', {
+            chart: {
+                type: 'solidgauge',
+            },
+            title: {
+                text: '',
+            },
+            credits: {
+                enabled: false
+            },
+            pane: {
+                center: ['50%', '85%'],
+                size: '140%',
+                startAngle: -90,
+                endAngle: 90,
+                background: {
+                    backgroundColor: Highcharts.defaultOptions.legend.backgroundColor || '#EEE',
+                    innerRadius: '60%',
+                    outerRadius: '100%',
+                    shape: 'arc',
+                },
+            },
+            yAxis: {
+                min: 0,
+                max: 100, // Assuming total_score_outside is a percentage (adjust as needed)
+                title: {
+                    text: summaryData.selected_store,
+                    y: -70,
+                },
+                stops: [
+                    [0.1, 'red'],    // Red for 0% - 20%
+                    [0.5, 'orange'], // Orange for 20% - 65%
+                    [0.9, 'green'],  // Green for 65% - 100%
+                ],
+                lineWidth: 0,
+                tickWidth: 0,
+                minorTickInterval: null,
+                tickAmount: 2,
+                labels: {
+                    y: 16,
+                },
+            },
+            series: [{
+                name: 'Achieved',
+                data: [achievedPercentage],
+                dataLabels: {
+                    format: '{y}%',
+                    borderWidth: 0,
+                    y: 10,
+                    style: {
+                        fontSize: '40px', // Adjust the font size as needed
+                        color: color,   // Set the color to green
+                    },
+                },
+                tooltip: {
+                    valueSuffix: '%',
+                },
+            }],
+        });
+
+        var displayTextElementmenu = document.getElementById('displayTextmenu');
+        var displayTextElementmenu1 = document.getElementById('displayTextmenu1');
+        var displayTextElementmenu2 = document.getElementById('displayTextmenu2');
+        var displayTextElementmenu3 = document.getElementById('displayTextmenu3');
+        var displayTextElementmenu4 = document.getElementById('displayTextmenu4');
+        var displayTextElementmenu5 = document.getElementById('displayTextmenu5');
+        var displayTextElementmenu6 = document.getElementById('displayTextmenu6');
+        var displayTextElementmenu7 = document.getElementById('displayTextmenu7');
+
+
+            // Change the text content
+            if (summaryData.menu_visibility) {
+                displayTextElementmenu.innerHTML = '✔1'+'<span style="color: black;">'+'.Digital menu board clearly displayed and fully functioning with all promotional items displaying?</span><br>- ' + summaryData.menu_visibility;
+                displayTextElementmenu.style.color = 'green';
+                displayTextElementmenu.style.fontWeight = 'bold';
+            } else {
+                displayTextElementmenu.innerHTML = 'x'+'<span style="color: black;">'+'1.Digital menu board clearly displayed and fully functioning with all promotional items displaying?</span><br>- '  + summaryData.menu_visibility;
+                displayTextElementmenu.style.color = 'red';
+                displayTextElementmenu.style.fontWeight = 'bold';
+            }
+            
+
+            if (summaryData.price_visibility!=0) {
+                let promoCampaigns1 = summaryData.price_visibility;
+
+                // Split the string into an array using comma as a delimiter
+                let campaignsArray = promoCampaigns1.split(',');
+
+                // Format and display the campaigns with the thumbs-up emoji (👍) on new lines
+                let formattedCampaigns = campaignsArray.map(campaign => `👍 ${campaign.trim()}.`).join('<br>');
+
+                // Now, formattedCampaigns contains the desired output
+                console.log(summaryData.price_visibility);
+                displayTextElementmenu1.innerHTML = 'Looking at price points, which pricing is being advertised to customers?';
+                displayTextElementmenu3.innerHTML = '<br>' +formattedCampaigns;
+                displayTextElementmenu1.style.fontWeight = 'bold';
+                displayTextElementmenu3.style.color  = 'green';
+            } else {
+                displayTextElementmenu1.innerHTML = 'Looking at price points, which pricing is being advertised to customers?<br>' +summaryData.price_visibility;
+
+                displayTextElementmenu1.style.fontWeight = 'bold';
+            }
+
+            //displayTextElementmenu2.innerHTML = '-Regular meals displayed'+'<br>'+'-Medium meals displayed'+'<br>'+'-Large meals displayed';
+            //displayTextElementmenu2.style.fontWeight = 'bold';
+           // displayTextElementmenu2.style.backgroundColor = '#FFD700';
+
+            if (summaryData.menu_promotion!=0) {
+                let promoCampaigns1 = summaryData.menu_promotion;
+
+                // Split the string into an array using comma as a delimiter
+                let campaignsArray = promoCampaigns1.split(',');
+
+                // Format and display the campaigns with the thumbs-up emoji (👍) on new lines
+                let formattedCampaigns = campaignsArray.map(campaign => `👍 ${campaign.trim()}.`).join('<br>');
+
+                // Now, formattedCampaigns contains the desired output
+                displayTextElementmenu4.innerHTML = 'Did you see the following promotions displayed on the digital Menu Board:';
+                displayTextElementmenu5.innerHTML = '<br>' +formattedCampaigns;
+                displayTextElementmenu4.style.fontWeight = 'bold';
+                displayTextElementmenu5.style.color  = 'green';
+            } else {
+                displayTextElementmenu4.innerHTML = 'Did you see the following promotions displayed on the digital Menu Board:' +summaryData.menu_promotion;
+
+                displayTextElementmenu4.style.fontWeight = 'bold';
+            }
+
+            //displayTextElementmenu6.innerHTML = '-Regular meals displayed'+'<br>'+'-Medium meals displayed'+'<br>'+'-Large meals displayed';
+           // displayTextElementmenu6.style.fontWeight = 'bold';
+            //displayTextElementmenu6.style.backgroundColor = '#FFD700';
+
+            displayTextElementmenu7.innerHTML =  '<span style="color: black;">Give a brief description of anything that was did not sit right/was not in good condition on the menu?</span><br>-' + summaryData.description_menu;
+            displayTextElementmenu7.style.fontWeight = 'bold';
+            displayTextElementmenu7.style.color  = 'green';
+    };
+    const creategaugeChartmccafestorelevel = (data) => {
+        // Extract the summary data from the last object in the array
+        const summaryData = data[data.length - 1];
+        const achievedPercentage = (summaryData.total_score_Mccafe / summaryData.target_mccafe) * 100;
+        let color;
+        if (achievedPercentage >= 0 && achievedPercentage < 20) {
+            color = 'red';
+        } else if (achievedPercentage >= 20 && achievedPercentage < 65) {
+            color = 'orange';
+        } else {
+            color = 'green';
+        }
+        Highcharts.chart('gauge-container-mccafe-store-level', {
+            chart: {
+                type: 'solidgauge',
+            },
+            title: {
+                text: '',
+            },
+            credits: {
+                enabled: false
+            },
+            pane: {
+                center: ['50%', '85%'],
+                size: '140%',
+                startAngle: -90,
+                endAngle: 90,
+                background: {
+                    backgroundColor: Highcharts.defaultOptions.legend.backgroundColor || '#EEE',
+                    innerRadius: '60%',
+                    outerRadius: '100%',
+                    shape: 'arc',
+                },
+            },
+            yAxis: {
+                min: 0,
+                max: 100, // Assuming total_score_outside is a percentage (adjust as needed)
+                title: {
+                    text: summaryData.selected_store,
+                    y: -70,
+                },
+                stops: [
+                    [0.1, 'red'],    // Red for 0% - 20%
+                    [0.5, 'orange'], // Orange for 20% - 65%
+                    [0.9, 'green'],  // Green for 65% - 100%
+                ],
+                lineWidth: 0,
+                tickWidth: 0,
+                minorTickInterval: null,
+                tickAmount: 2,
+                labels: {
+                    y: 16,
+                },
+            },
+            series: [{
+                name: 'Achieved',
+                data: [achievedPercentage],
+                dataLabels: {
+                    format: '{y}%',
+                    borderWidth: 0,
+                    y: 10,
+                    style: {
+                        fontSize: '40px', // Adjust the font size as needed
+                        color: color,   // Set the color to green
+                    },
+                },
+                tooltip: {
+                    valueSuffix: '%',
+                },
+            }],
+        });
+
+        var displayTextElementmccafe = document.getElementById('displayTextmccafe');
+        var displayTextElementmccafe1 = document.getElementById('displayTextmccafe1');
+        var displayTextElementmccafe2 = document.getElementById('displayTextmccafe2');
+        var displayTextElementmccafe3 = document.getElementById('displayTextmccafe3');
+        var displayTextElementmccafe4 = document.getElementById('displayTextmccafe4');
+
+        // Change the text content
+        if (summaryData.mccafemenu_visibility) {
+                displayTextElementmccafe.innerHTML = '✔'+'<span style="color: black;">'+'1.Is the menu clearly displayed?</span><br>- ' + summaryData.mccafemenu_visibility;
+                displayTextElementmccafe.style.color = 'green';
+                displayTextElementmccafe.style.fontWeight = 'bold';
+            } else {
+                displayTextElementmccafe.innerHTML = 'x1'+'<span style="color: black;">'+'.Is the menu clearly displayed?</span><br>- '  + summaryData.mccafemenu_visibility;
+                displayTextElementmccafe.style.color = 'red';
+                displayTextElementmccafe.style.fontWeight = 'bold';
+            }
+
+            if (summaryData.menu_promo!=0) {
+                let promoCampaigns1 = summaryData.menu_promo;
+
+                // Split the string into an array using comma as a delimiter
+                let campaignsArray = promoCampaigns1.split(',');
+
+                // Format and display the campaigns with the thumbs-up emoji (👍) on new lines
+                let formattedCampaigns = campaignsArray.map(campaign => `👍 ${campaign.trim()}.`).join('<br>');
+
+                // Now, formattedCampaigns contains the desired output
+                displayTextElementmccafe1.innerHTML = 'Did you see the following promotions displayed on the digital Menu Board:';
+                displayTextElementmccafe2.innerHTML = '<br>' +formattedCampaigns;
+                displayTextElementmccafe1.style.fontWeight = 'bold';
+                displayTextElementmccafe2.style.color  = 'green';
+            } else {
+                displayTextElementmccafe1.innerHTML = 'Did you see the following promotions displayed on the digital Menu Board:' +summaryData.menu_promo;
+
+                displayTextElementmccafe1.style.fontWeight = 'bold';
+            }
+
+            //displayTextElementmccafe3.innerHTML = '-Iced Latte(R26.90)'+'<br>'+'-Iced Latte(Add Doughnut for R3.00)'+'<br>'+'-Iced Latte(Add Cream R8.00)'+'<br>'+'-Other (please specify)';
+            //displayTextElementmccafe3.style.fontWeight = 'bold';
+            //displayTextElementmccafe3.style.backgroundColor = '#FFD700';
+
+            displayTextElementmccafe4.innerHTML = '<span style="color: black;">Give a brief description of anything that did not sit right/was not in good condition at McCafé?</span>'+'<br>-'+summaryData.description_mccafe;
+            displayTextElementmccafe4.style.fontWeight = 'bold';
+            displayTextElementmccafe4.style.color  = 'green';
+    };
+
+    const creategaugeChartdrivethrustorelevel = (data) => {
+        // Extract the summary data from the last object in the array
+        const summaryData = data[data.length - 1];
+        const achievedPercentage = (summaryData.total_score_drivethru / summaryData.target_drivethru) * 100;
+        let color;
+        if (achievedPercentage >= 0 && achievedPercentage < 20) {
+            color = 'red';
+        } else if (achievedPercentage >= 20 && achievedPercentage < 65) {
+            color = 'orange';
+        } else {
+            color = 'green';
+        }
+        Highcharts.chart('gauge-container-drivethru-store-level', {
+            chart: {
+                type: 'solidgauge',
+            },
+            title: {
+                text: '',
+            },
+            credits: {
+                enabled: false
+            },
+            pane: {
+                center: ['50%', '85%'],
+                size: '140%',
+                startAngle: -90,
+                endAngle: 90,
+                background: {
+                    backgroundColor: Highcharts.defaultOptions.legend.backgroundColor || '#EEE',
+                    innerRadius: '60%',
+                    outerRadius: '100%',
+                    shape: 'arc',
+                },
+            },
+            yAxis: {
+                min: 0,
+                max: 100, // Assuming total_score_outside is a percentage (adjust as needed)
+                title: {
+                    text: summaryData.selected_store,
+                    y: -70,
+                },
+                stops: [
+                    [0.1, 'red'],    // Red for 0% - 20%
+                    [0.5, 'orange'], // Orange for 20% - 65%
+                    [0.9, 'green'],  // Green for 65% - 100%
+                ],
+                lineWidth: 0,
+                tickWidth: 0,
+                minorTickInterval: null,
+                tickAmount: 2,
+                labels: {
+                    y: 16,
+                },
+            },
+            series: [{
+                name: 'Achieved',
+                data: [achievedPercentage],
+                dataLabels: {
+                    format: '{y}%',
+                    borderWidth: 0,
+                    y: 10,
+                    style: {
+                        fontSize: '40px', // Adjust the font size as needed
+                        color: color,   // Set the color to green
+                    },
+                },
+                tooltip: {
+                    valueSuffix: '%',
+                },
+            }],
+        });
+        var displayTextElementdrivethru = document.getElementById('displayTextdrivethru');
+        var displayTextElementdrivethru1 = document.getElementById('displayTextdrivethru1');
+        var displayTextElementdrivethru2 = document.getElementById('displayTextdrivethru2');
+        var displayTextElementdrivethru3 = document.getElementById('displayTextdrivethru3');
+        var displayTextElementdrivethru4 = document.getElementById('displayTextdrivethru4');
+        var displayTextElementdrivethru5 = document.getElementById('displayTextdrivethru5');
+        if (summaryData.activation_on_promo) {
+                displayTextElementdrivethru.innerHTML = '✔'+'<span style="color: black;">'+'1.Is there any advertising/activations observed above related to any ongoing promotions?</span><br>- ' + summaryData.activation_on_promo;
+                displayTextElementdrivethru.style.color = 'green';
+                displayTextElementdrivethru.style.fontWeight = 'bold';
+                
+            } else {
+                displayTextElementdrivethru.innerHTML = 'x'+'<span style="color: black;">'+'1.Is there any advertising/activations observed above related to any ongoing promotions?</span><br>- '  + summaryData.activation_on_promo;
+                displayTextElementdrivethru.style.color = 'red';
+                displayTextElementdrivethru.style.fontWeight = 'bold';
+                displayTextElementdrivethru5.innerHTML = '<span style="color: black;">If no, please describe the advertising/activation?</span><br>-' +summaryData.activation_description;
+                displayTextElementdrivethru5.style.fontWeight = 'bold';
+                displayTextElementdrivethru5.style.color  = 'green';
+            }
+            
+            if (summaryData.drivethru_campaign!=0) {
+                let promoCampaigns1 = summaryData.drivethru_campaign;
+
+                // Split the string into an array using comma as a delimiter
+                let campaignsArray = promoCampaigns1.split(',');
+
+                // Format and display the campaigns with the thumbs-up emoji (👍) on new lines
+                let formattedCampaigns = campaignsArray.map(campaign => `👍 ${campaign.trim()}.`).join('<br>');
+
+                // Now, formattedCampaigns contains the desired output
+                displayTextElementdrivethru1.innerHTML = 'Which campaigns did you notice as you drove in?';
+                displayTextElementdrivethru2.innerHTML = '<br>' +formattedCampaigns;
+                displayTextElementdrivethru1.style.fontWeight = 'bold';
+                displayTextElementdrivethru2.style.color  = 'green';
+            } else {
+                displayTextElementdrivethru1.innerHTML = 'Which campaigns did you notice as you drove in?' +summaryData.drivethru_campaign;
+
+                displayTextElementdrivethru1.style.fontWeight = 'bold';
+            }
+
+            displayTextElementdrivethru3.innerHTML = '<span style="color: black;">What advertising is on the COD (Customer Order Display) as you approach the Speaker inthe drive-thru?</span><br>-' +summaryData.customer_order_display;
+
+            displayTextElementdrivethru3.style.fontWeight = 'bold';
+            displayTextElementdrivethru3.style.color  = 'green';
+
+            //displayTextElementdrivethru4.innerHTML = '-Hero Double Quarter Pounder with Cheese(R89.90 (Regular meal))'+'<br>'+'-McFlurry Strawberry Shortcake(R39.90)'+'<br>'+'-4 Piece Chicken Tenders(R39.90)'+'<br>'+'-McFizz Lemon Litchi(R27.00)'+'<br>'+'-Nazo(R49.90)'+'<br>'+'-Chillie cheese McFlavour Fries (newly launched)(TBC)'+'<br>'+'-Other (please specify)';
+            //displayTextElementdrivethru4.style.fontWeight = 'bold';
+            //displayTextElementdrivethru4.style.backgroundColor = '#FFD700';
+            let driveThruElement = document.getElementById('driveThruHeader');
+
+            // Check the conditions
+            if (
+            summaryData.drivethru_campaign === "Does Not Exist(Other (please specify))" &&
+            summaryData.customer_order_display === 'Does Not Exist' &&
+            summaryData.activation_description === 'Does Not Exist'
+            ) {
+            // If the conditions are true, add a red line in the middle of "Drive-thru"
+            driveThruElement.innerHTML = '<span style="position: relative;">Drive<span style="border-top: 2px solid red; display: inline-block; position: absolute; top: 50%; transform: translateY(-50%); margin: 0 2px;"></span>thru <span style="color: red;">x</span></span>';
+            } else {
+            // If the conditions are false, display "Drive-thru" without the red line
+            driveThruElement.innerHTML = 'Drive-thru';
+            }
+
+    };
+
+    const creategaugeChartdeliverystorelevel = (data) => {
+        // Extract the summary data from the last object in the array
+        const summaryData = data[data.length - 1];
+        const achievedPercentage = (summaryData.total_score_delivery/ summaryData.target_delivery) * 100;
+        let color;
+        if (achievedPercentage >= 0 && achievedPercentage < 20) {
+            color = 'red';
+        } else if (achievedPercentage >= 20 && achievedPercentage < 65) {
+            color = 'orange';
+        } else {
+            color = 'green';
+        }
+        Highcharts.chart('gauge-container-delivery-store-level', {
+            chart: {
+                type: 'solidgauge',
+            },
+            title: {
+                text: '',
+            },
+            credits: {
+                enabled: false
+            },
+            pane: {
+                center: ['50%', '85%'],
+                size: '140%',
+                startAngle: -90,
+                endAngle: 90,
+                background: {
+                    backgroundColor: Highcharts.defaultOptions.legend.backgroundColor || '#EEE',
+                    innerRadius: '60%',
+                    outerRadius: '100%',
+                    shape: 'arc',
+                },
+            },
+            yAxis: {
+                min: 0,
+                max: 100, // Assuming total_score_outside is a percentage (adjust as needed)
+                title: {
+                    text: summaryData.selected_store,
+                    y: -70,
+                },
+                stops: [
+                    [0.1, 'red'],    // Red for 0% - 20%
+                    [0.5, 'orange'], // Orange for 20% - 65%
+                    [0.9, 'green'],  // Green for 65% - 100%
+                ],
+                lineWidth: 0,
+                tickWidth: 0,
+                minorTickInterval: null,
+                tickAmount: 2,
+                labels: {
+                    y: 16,
+                },
+            },
+            series: [{
+                name: 'Achieved',
+                data: [achievedPercentage],
+                dataLabels: {
+                    format: '{y}%',
+                    borderWidth: 0,
+                    y: 10,
+                    style: {
+                        fontSize: '40px', // Adjust the font size as needed
+                        color: color,   // Set the color to green
+                    },
+                },
+                tooltip: {
+                    valueSuffix: '%',
+                },
+            }],
+        });
+        var displayTextElementdelivery = document.getElementById('displayTextdelivery');
+        var displayTextElementdelivery1 = document.getElementById('displayTextdelivery1');
+        var displayTextElementdelivery2 = document.getElementById('displayTextdelivery2');
+
+        if (summaryData.mc_delivery) {
+                displayTextElementdelivery.innerHTML = '✔'+'<span style="color: black;">'+'1.Is the McDelivery advertising visible?</span><br>- ' + summaryData.mc_delivery;
+                displayTextElementdelivery.style.color = 'green';
+                displayTextElementdelivery.style.fontWeight = 'bold';
+                
+            } else {
+                displayTextElementdelivery.innerHTML = 'x'+'<span style="color: black;">'+'1.Is the McDelivery advertising visible?</span><br>- '  + summaryData.mc_delivery;
+                displayTextElementdelivery.style.color = 'red';
+                displayTextElementdelivery.style.fontWeight = 'bold';
+            }
+            if (summaryData.third_party_del) {
+                displayTextElementdelivery1.innerHTML = '✔'+'<span style="color: black;">'+'2.Did you see Any Delivery advertising from 3 rd party (Uber eats or MrD)?</span><br>- ' + summaryData.third_party_del;
+                displayTextElementdelivery1.style.color = 'green';
+                displayTextElementdelivery1.style.fontWeight = 'bold';
+                
+            } else {
+                displayTextElementdelivery1.innerHTML = 'x'+'<span style="color: black;">'+'2.Did you see Any Delivery advertising from 3 rd party (Uber eats or MrD)?</span><br>- '  + summaryData.third_party_del;
+                displayTextElementdelivery1.style.color = 'red';
+                displayTextElementdelivery1.style.fontWeight = 'bold';
+            }
+
+            displayTextElementdelivery2.innerHTML = '<span style="color: black;">3.Give a brief description of what you have observed about the drive-through?</span><br>- '  + summaryData.description_delivery;
+            displayTextElementdelivery2.style.fontWeight = 'bold';
+            displayTextElementdelivery2.style.color  = 'green';
+
+    };
+    
+
+    const creategaugeChartinside = (data) => {
+        // Extract the summary data from the last object in the array
+        const summaryData = data[data.length - 1];
+
+        Highcharts.chart('gauge-container-inside', {
+            chart: {
+                type: 'solidgauge',
+            },
+            title: {
+                text: '',
+            },
+            credits: {
+                enabled: false
+            },
+            pane: {
+                center: ['50%', '85%'],
+                size: '140%',
+                startAngle: -90,
+                endAngle: 90,
+                background: {
+                    backgroundColor: Highcharts.defaultOptions.legend.backgroundColor || '#EEE',
+                    innerRadius: '60%',
+                    outerRadius: '100%',
+                    shape: 'arc',
+                },
+            },
+            yAxis: {
+                min: 0,
+                max: '',
+                title: {
+                    text: summaryData.selected_province,
+                    y: -70,
+                },
+                stops: [
+                    [0.1, '#DF5353'], 
+                    [0.5, '#DDDF0D'], 
+                    [0.9, '#55BF3B'],
+                ],
+                lineWidth: 0,
+                tickWidth: 0,
+                minorTickInterval: null,
+                tickAmount: 2,
+                labels: {
+                    y: 16,
+                },
+            },
+            series: [{
+                name: 'Achieved',
+                data: [''],
+                tooltip: {
+                    valueSuffix: ' units',
+                },
+            }],
+        });
+
+        
+    };
+    
+    const creategaugeChartMainDigitalMenu = (data) => {
+        // Extract the summary data from the last object in the array
+        const summaryData = data[data.length - 1];
+
+        Highcharts.chart('gauge-container-new2', {
+            chart: {
+                type: 'solidgauge',
+            },
+            title: {
+                text: '',
+            },
+            credits: {
+                enabled: false
+            },
+            pane: {
+                center: ['50%', '85%'],
+                size: '140%',
+                startAngle: -90,
+                endAngle: 90,
+                background: {
+                    backgroundColor: Highcharts.defaultOptions.legend.backgroundColor || '#EEE',
+                    innerRadius: '60%',
+                    outerRadius: '100%',
+                    shape: 'arc',
+                },
+            },
+            yAxis: {
+                min: 0,
+                max: '',
+                title: {
+                    text: summaryData.selected_province,
+                    y: -70,
+                },
+                stops: [
+                    [0.1, '#DF5353'], 
+                    [0.5, '#DDDF0D'], 
+                    [0.9, '#55BF3B'],
+                ],
+                lineWidth: 0,
+                tickWidth: 0,
+                minorTickInterval: null,
+                tickAmount: 2,
+                labels: {
+                    y: 16,
+                },
+            },
+            series: [{
+                name: 'Achieved',
+                data: [''],
+                tooltip: {
+                    valueSuffix: ' units',
+                },
+            }],
+        });
+
+        
+    };
+
+    const creategaugeChartDrivethru = (data) => {
+        // Extract the summary data from the last object in the array
+        const summaryData = data[data.length - 1];
+
+        Highcharts.chart('gauge-container-new1', {
+            chart: {
+                type: 'solidgauge',
+            },
+            title: {
+                text: '',
+            },
+            credits: {
+                enabled: false
+            },
+            pane: {
+                center: ['50%', '85%'],
+                size: '140%',
+                startAngle: -90,
+                endAngle: 90,
+                background: {
+                    backgroundColor: Highcharts.defaultOptions.legend.backgroundColor || '#EEE',
+                    innerRadius: '60%',
+                    outerRadius: '100%',
+                    shape: 'arc',
+                },
+            },
+            yAxis: {
+                min: 0,
+                max: '',
+                title: {
+                    text: summaryData.selected_province,
+                    y: -70,
+                },
+                stops: [
+                    [0.1, '#DF5353'], 
+                    [0.5, '#DDDF0D'], 
+                    [0.9, '#55BF3B'],
+                ],
+                lineWidth: 0,
+                tickWidth: 0,
+                minorTickInterval: null,
+                tickAmount: 2,
+                labels: {
+                    y: 16,
+                },
+            },
+            series: [{
+                name: 'Achieved',
+                data: [''],
+                tooltip: {
+                    valueSuffix: ' units',
+                },
+            }],
+        });
+
+        
+    };
+
+    const creategaugeChartMcCafMain = (data) => {
+        // Extract the summary data from the last object in the array
+        const summaryData = data[data.length - 1];
+
+        Highcharts.chart('gauge-container-new4', {
+            chart: {
+                type: 'solidgauge',
+            },
+            title: {
+                text: '',
+            },
+            credits: {
+                enabled: false
+            },
+            pane: {
+                center: ['50%', '85%'],
+                size: '140%',
+                startAngle: -90,
+                endAngle: 90,
+                background: {
+                    backgroundColor: Highcharts.defaultOptions.legend.backgroundColor || '#EEE',
+                    innerRadius: '60%',
+                    outerRadius: '100%',
+                    shape: 'arc',
+                },
+            },
+            yAxis: {
+                min: 0,
+                max: '',
+                title: {
+                    text: summaryData.selected_province,
+                    y: -70,
+                },
+                stops: [
+                    [0.1, '#DF5353'], 
+                    [0.5, '#DDDF0D'], 
+                    [0.9, '#55BF3B'],
+                ],
+                lineWidth: 0,
+                tickWidth: 0,
+                minorTickInterval: null,
+                tickAmount: 2,
+                labels: {
+                    y: 16,
+                },
+            },
+            series: [{
+                name: 'Achieved',
+                data: [''],
+                tooltip: {
+                    valueSuffix: ' units',
+                },
+            }],
+        });
+
+        
+    };
+
+    const creategaugeChartDelivery = (data) => {
+        // Extract the summary data from the last object in the array
+        const summaryData = data[data.length - 1];
+
+        Highcharts.chart('gauge-container-new3', {
+            chart: {
+                type: 'solidgauge',
+            },
+            title: {
+                text: '',
+            },
+            credits: {
+                enabled: false
+            },
+            pane: {
+                center: ['50%', '85%'],
+                size: '140%',
+                startAngle: -90,
+                endAngle: 90,
+                background: {
+                    backgroundColor: Highcharts.defaultOptions.legend.backgroundColor || '#EEE',
+                    innerRadius: '60%',
+                    outerRadius: '100%',
+                    shape: 'arc',
+                },
+            },
+            yAxis: {
+                min: 0,
+                max: '',
+                title: {
+                    text: summaryData.selected_province,
+                    y: -70,
+                },
+                stops: [
+                    [0.1, '#DF5353'], 
+                    [0.5, '#DDDF0D'], 
+                    [0.9, '#55BF3B'],
+                ],
+                lineWidth: 0,
+                tickWidth: 0,
+                minorTickInterval: null,
+                tickAmount: 2,
+                labels: {
+                    y: 16,
+                },
+            },
+            series: [{
+                name: 'Achieved',
+                data: [''],
+                tooltip: {
+                    valueSuffix: ' units',
+                },
+            }],
+        });
+
+        
+    };
+    
+    // Initial rendering of the map with all stores
+    const allStoresResponse = await fetchStoresByProvince('all');
+    var currentDate = new Date();
+    // Get the current date
+    var day = currentDate.getDate();
+    var month = currentDate.getMonth() + 1; // Month is zero-based, so add 1
+    var year = currentDate.getFullYear();
+
+    // Format the date as needed
+    var formattedDate = year + '-' + (month < 10 ? '0' : '') + month + '-' + (day < 10 ? '0' : '') + day;
+    console.log('Date:')
+    console.log(formattedDate)
+    const allStoresByStore=await fetchStores('all','all','ALEX MALL','2023-12-26',formattedDate);
+
+    const allStoresByStorescore=await fetchStoresScores('all','all','ALEX MALL','2023-12-26',formattedDate);
+    const allStoresbyscore = await allStoresByStorescore;
+    creategaugeChartoutsidestorelevel(allStoresbyscore);
+    creategaugeChartinsidestorelevel(allStoresbyscore);
+    creategaugeChartmenustorelevel(allStoresbyscore);
+    creategaugeChartmccafestorelevel(allStoresbyscore);
+    creategaugeChartdrivethrustorelevel(allStoresbyscore)
+    creategaugeChartdeliverystorelevel(allStoresbyscore)
+    const allStoresby = await allStoresByStore;
+
+    const allStores = await allStoresResponse;
+    //createMapStore(allStoresby);
+    createMapChart(allStores);
+    creategaugeChart(allStores);
+    creategaugeChartinside(allStores);
+    creategaugeChartMainDigitalMenu(allStores);
+    creategaugeChartDrivethru(allStores);
+    creategaugeChartMcCafMain(allStores);
+    creategaugeChartDelivery(allStores);
+
+    // Listen for changes in the dropdown selection
+    const filterDropdown = document.getElementById('filter1');
+    filterDropdown.addEventListener('change', async () => {
+        const selectedProvince = filterDropdown.value;
+        const filteredStoresResponse = await fetchStoresByProvince(selectedProvince);
+        const filteredStores = await filteredStoresResponse;
+        createMapChart(filteredStores);
+        creategaugeChart(filteredStores);
+        creategaugeChartinside(filteredStores);
+        creategaugeChartMainDigitalMenu(filteredStores);
+        creategaugeChartDrivethru(filteredStores);
+        creategaugeChartMcCafMain(filteredStores);
+        creategaugeChartDelivery(filteredStores);
+
+    });
+
+    //Visualizations page 
+    const filterDropdownbyStoreProvince = document.getElementById('filterprovincestore');
+    const filterDropdownbyStoreOwnerFranchise = document.getElementById('filterownerfranchise');
+    const filterDropdownbyStoreStore = document.getElementById('filterstore');
+    const filterDropdownfrom= document.getElementById('fromDate');
+    const filterDropdownto= document.getElementById('toDate');
+    const filterButton = document.querySelector('.mcdonalds-yellow');
+
+    filterButton.addEventListener('click', async () => {
+        const selectedStoreProvince = filterDropdownbyStoreProvince.value;
+        const selectedOwnerFranchise = filterDropdownbyStoreOwnerFranchise.value;
+        const selectedStore = filterDropdownbyStoreStore.value;
+        const selectedfrom = filterDropdownfrom.value;
+        const selectedto = filterDropdownto.value;
+        
+        const filteredStoresResponseStore = await fetchStores(selectedStoreProvince, selectedOwnerFranchise, selectedStore,selectedfrom,selectedto);
+        const filteredStoresStore = await filteredStoresResponseStore;
+
+        const filteredStoresResponseStorelevel = await fetchStoresScores(selectedStoreProvince, selectedOwnerFranchise, selectedStore,selectedfrom,selectedto);
+        const filteredStoresStorelevel = await filteredStoresResponseStorelevel;
+        creategaugeChartoutsidestorelevel(filteredStoresStorelevel);
+        creategaugeChartinsidestorelevel(filteredStoresStorelevel);
+        creategaugeChartmenustorelevel(filteredStoresStorelevel);
+        creategaugeChartmccafestorelevel(filteredStoresStorelevel);
+        creategaugeChartdrivethrustorelevel(filteredStoresStorelevel)
+        creategaugeChartdeliverystorelevel(filteredStoresStorelevel)
+        //createMapStore(filteredStoresStore);
+    });
+    
+})();
+
+
+$(document).ready(function () {
+        // Handle navigation clicks
+        $("header a").click(function (e) {
+            e.preventDefault();
+            var target = $(this).attr("href");
+            $(".container").removeClass("active");
+            $(target).addClass("active");
+        });
+    });
+
+ </script>

@@ -1,0 +1,234 @@
+.card-header{
+
+    background-color:#4985B8;
+    color:#fff;
+    }
+    .highcharts-figure,
+    .highcharts-data-table table {
+        min-width: 320px;
+        max-width: 800px;
+        margin: 1em auto;
+    }
+    
+    .highcharts-data-table table {
+        font-family: Verdana, sans-serif;
+        border-collapse: collapse;
+        border: 1px solid #ebebeb;
+        margin: 10px auto;
+        text-align: center;
+        width: 100%;
+        max-width: 500px;
+    }
+    
+    .highcharts-data-table caption {
+        padding: 1em 0;
+        font-size: 1.2em;
+        color: #555;
+    }
+    
+    .highcharts-data-table th {
+        font-weight: 600;
+        padding: 0.5em;
+    }
+    
+    .highcharts-data-table td,
+    .highcharts-data-table th,
+    .highcharts-data-table caption {
+        padding: 0.5em;
+    }
+    
+    .highcharts-data-table thead tr,
+    .highcharts-data-table tr:nth-child(even) {
+        background: #f8f8f8;
+    }
+    
+    .highcharts-data-table tr:hover {
+        background: #f1f7ff;
+    }
+    
+    input[type="number"] {
+        min-width: 50px;
+    }
+    
+    
+    label[for="dropdown1"] {
+                font-family: Arial, sans-serif;
+                font-size: 12pt;
+            }
+            label[for="dropdown1swp"] {
+                font-family: Arial, sans-serif;
+                font-size: 12pt;
+            }
+            label[for="selectTabDropdown"] {
+                font-family: Arial, sans-serif;
+                font-size: 12pt;
+            }
+            
+        .filter-section label {
+          margin-right: 10px;
+        }
+        .filter-section input {
+          padding: 5px;
+          border: 1px solid #ccc;
+          border-radius: 5px;
+        }
+        
+        .filter-section button {
+          padding: 8px 15px;
+          background-color: #007bff;
+          color: #fff;
+          border: none;
+          border-radius: 5px;
+          cursor: pointer;
+        }
+        
+        .filter-section button:hover {
+          background-color: #0056b3;
+        }
+        h1 {
+                    text-align: center;
+                    font-family: Arial;
+                    font-size: 18pt;
+                    font-weight: bold;
+                }
+                h2 {
+                    font-size: 18pt;
+                    font-family: Arial;
+                }
+                
+                .statistic {
+                    display: flex;
+                    justify-content: center;
+                    align-items: center;
+                    flex-direction: row;
+                    height: 80vh; /* Adjust the height as needed */
+                }
+        
+                #barChartContainer {
+                    width: 80%;
+                }
+                #barChartContainerout {
+                    width: 80%;
+                }
+                #ChartContainer {
+                    width: 80%;
+                }
+            .donutChartDiv {
+            display: inline-block; /* Display horizontally */
+            margin-right: 20px; /* Add spacing between donut charts */
+        }
+        
+        
+        .donut-container {
+            width: 2000px; /* Adjust width as needed */
+            height: 200px; /* Adjust height as needed */
+            display: flex;
+            flex-direction: row; /* Display the donut charts horizontally */
+            justify-content: space-around; /* Space out the donut charts */
+        }
+        .chart-heading {
+            font-weight: bold;
+            margin: 0 auto;
+            font-size: 15px;
+        }
+        .center-title {
+            text-align: center;
+        }
+        .chart-container {
+            width: 600px; /* Adjust to your desired width */
+            height: 400px; /* Adjust to your desired height */
+            margin: 0 auto; /* Center the chart container horizontally */
+        }
+        
+        
+        .table-container {
+            padding: 20px; /* Add some padding for content spacing */
+            text-align: center; /* Center the content horizontally */
+            margin: 0 auto; 
+        }
+        
+        .table-container-table {
+            max-height: 300px; /* Adjust the height as needed */
+            overflow-y: auto; /* Add a vertical scrollbar when needed */
+            padding: 20px; /* Add some padding for content spacing */
+            text-align: center; /* Center the content horizontally */
+            margin: 0 auto; 
+        }
+        
+        #barChartContainer {
+            width: 100%; /* Ensure the container fills its parent */
+        }
+        
+        
+        /* Highlighting style */
+        .highlightable {
+          border: 2px solid #007bff; /* Blue border */
+          padding: 10px; /* Add some padding for spacing */
+        }
+        /* Remove the highlighting style by default */
+        .highlightable:not(.highlighted) {
+          border: none;
+        }
+        
+        .tab-content {
+                display: none;
+        }
+        
+        .btn-primary-to {
+        margin-top: 1px; /* Adjust the value to move it up by your desired amount */
+    }
+    /* Style for the dropdown sections */
+    .dropdown-section {
+        display: inline-block;
+        margin-right: 20px; /* Optional: adds space between dropdown sections */
+    }
+    
+    /* Style for the dropdown sections */
+    .dropdown-section {
+        display: inline-block;
+        margin-bottom: 20px; /* Adds space between dropdown sections */
+    }
+    
+    .left-section {
+        float: left;
+    }
+    
+    .right-section {
+        float: right;
+    }
+    
+    /* Optional: Style for the labels */
+    .dropdown-section label {
+        display: block; /* Ensures labels are on top of the dropdowns */
+        margin-bottom: 5px; /* Adds space between label and dropdown */
+    }
+    
+    .progress {
+        height: 20px;
+        margin-top: 20px;
+    }
+    
+    .progress-bar {
+        width: 0; /* Initially set to 0% width */
+        height: 20px; /* Adjust height as needed */
+        background-color: #3498db; /* Green background color */
+    }
+    .custom-table-container {
+            width: 98%; /* Set the desired width in percentage or specify the width in pixels like 800px */
+            margin: 0 auto; /* Center the table container horizontally */
+        }
+        .dt-button-collection.dropdown-menu button {
+        padding: 5px 10px; /* Adjust the padding as needed */
+        font-size: 12px; /* Adjust the font size as needed */
+    }
+    
+    /* Hide the down arrow */
+    .dt-down-arrow{
+        display: none;
+    }
+    /* Align dropdown options to the left of the hamburger icon */
+    .dt-button-collection {
+        left: -158px !important;
+    }
+    
+    
