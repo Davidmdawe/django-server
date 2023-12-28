@@ -69,7 +69,7 @@ def get_store_data(request):
 
     # Combine store and performance data
     total_score_outside = 0  # Initialize total_score_outside outside the loop
-    target_outside = 3*3
+    target_outside = 3*2
     out_branding_condition = 0  # Initialize out_branding_condition
     out_signage_condition = 0  # Initialize out_signage_condition
     out_campaign = 0  # Initialize out_campaign
