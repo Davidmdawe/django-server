@@ -165,9 +165,11 @@ select {
         </div>
         <a class="btn" style="text-align: center; background-color: #FFD200; font-family: 'Speedee', sans-serif;" href="#Home">Landing Page</a>
         <a class="btn" style="text-align: center; background-color: #FFD200; font-family: 'Speedee', sans-serif;" href="#visuals">Store</a>
-        <a class="btn" style="text-align: center; background-color: #FFD200; font-family: 'Speedee', sans-serif;" href="{% url 'logout' %}">Logout</a>
         
     </header>
+    <nav>
+        <a class="btn" style="text-align: center; background-color: #FFD200; font-family: 'Speedee', sans-serif;" href="{% url 'logout' %}">Logout</a>
+    </nav>
     <div id="Home" class="container  active"   style="max-width: 100%; padding: 0; margin: 0;">
         <h1 style="font-size: 30px;font-family: 'Speedee', sans-serif;">Retail Audit Reporting Landing Page</h1>
         <hr>
@@ -1526,7 +1528,7 @@ const chart = Highcharts.mapChart('container-visualizations', {
             },
             yAxis: {
                 min: 0,
-                max: '',
+                max: summaryData.target_score_inside,
                 title: {
                     text: summaryData.selected_province,
                     y: -70,
@@ -1546,7 +1548,7 @@ const chart = Highcharts.mapChart('container-visualizations', {
             },
             series: [{
                 name: 'Achieved',
-                data: [''],
+                data: [summaryData.total_score_inside],
                 tooltip: {
                     valueSuffix: ' units',
                 },
@@ -1584,7 +1586,7 @@ const chart = Highcharts.mapChart('container-visualizations', {
             },
             yAxis: {
                 min: 0,
-                max: '',
+                max: summaryData.target_score_Main,
                 title: {
                     text: summaryData.selected_province,
                     y: -70,
@@ -1604,7 +1606,7 @@ const chart = Highcharts.mapChart('container-visualizations', {
             },
             series: [{
                 name: 'Achieved',
-                data: [''],
+                data: [summaryData.total_score_Main],
                 tooltip: {
                     valueSuffix: ' units',
                 },
@@ -1642,7 +1644,7 @@ const chart = Highcharts.mapChart('container-visualizations', {
             },
             yAxis: {
                 min: 0,
-                max: '',
+                max: summaryData.target_score_drivethru,
                 title: {
                     text: summaryData.selected_province,
                     y: -70,
@@ -1662,7 +1664,7 @@ const chart = Highcharts.mapChart('container-visualizations', {
             },
             series: [{
                 name: 'Achieved',
-                data: [''],
+                data: [ summaryData.total_score_drivethru],
                 tooltip: {
                     valueSuffix: ' units',
                 },
@@ -1700,7 +1702,7 @@ const chart = Highcharts.mapChart('container-visualizations', {
             },
             yAxis: {
                 min: 0,
-                max: '',
+                max: summaryData.target_score_Mccafe,
                 title: {
                     text: summaryData.selected_province,
                     y: -70,
@@ -1720,7 +1722,7 @@ const chart = Highcharts.mapChart('container-visualizations', {
             },
             series: [{
                 name: 'Achieved',
-                data: [''],
+                data: [summaryData.total_score_Mccafe],
                 tooltip: {
                     valueSuffix: ' units',
                 },
@@ -1758,7 +1760,7 @@ const chart = Highcharts.mapChart('container-visualizations', {
             },
             yAxis: {
                 min: 0,
-                max: '',
+                max: summaryData.target_score_delivery,
                 title: {
                     text: summaryData.selected_province,
                     y: -70,
@@ -1778,7 +1780,7 @@ const chart = Highcharts.mapChart('container-visualizations', {
             },
             series: [{
                 name: 'Achieved',
-                data: [''],
+                data: [summaryData.total_score_delivery],
                 tooltip: {
                     valueSuffix: ' units',
                 },
