@@ -1804,9 +1804,9 @@ const chart = Highcharts.mapChart('container-visualizations', {
     var formattedDate = year + '-' + (month < 10 ? '0' : '') + month + '-' + (day < 10 ? '0' : '') + day;
     console.log('Date:')
     console.log(formattedDate)
-    const allStoresByStore=await fetchStores('all','all','ALEX MALL','2023-12-26',formattedDate);
+    const allStoresByStore=await fetchStores('all','all','SAMMY MARKS','2023-12-26',formattedDate);
 
-    const allStoresByStorescore=await fetchStoresScores('all','all','ALEX MALL','2023-12-26',formattedDate);
+    const allStoresByStorescore=await fetchStoresScores('all','all','SAMMY MARKS','2023-12-26',formattedDate);
     const allStoresbyscore = await allStoresByStorescore;
     creategaugeChartoutsidestorelevel(allStoresbyscore);
     creategaugeChartinsidestorelevel(allStoresbyscore);
