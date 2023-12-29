@@ -75,11 +75,11 @@ def get_store_data(request):
     # Combine store and performance data
     total_score_outside = 0  # Initialize total_score_outside outside the loop
     target_score_inside=2*Inside.objects.count()
-    target_score_Mccafe=1*6
-    target_score_delivery=2*6
-    target_score_drivethru=1*6
-    target_outside = 3*5
-    target_score_Main=1*5
+    target_score_Mccafe=1*McCafe.objects.count()
+    target_score_delivery=2*Delivery.objects.count()
+    target_score_drivethru=1*Drivethru.objects.count()
+    target_outside = 3*Outside.objects.count()
+    target_score_Main=1*Menu.objects.count()
     out_branding_condition = 0  # Initialize out_branding_condition
     out_signage_condition = 0  # Initialize out_signage_condition
     out_campaign = 0  # Initialize out_campaign
