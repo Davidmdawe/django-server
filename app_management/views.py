@@ -74,10 +74,10 @@ def get_store_data(request):
 
     # Combine store and performance data
     total_score_outside = 0  # Initialize total_score_outside outside the loop
-    target_score_inside=2*5
-    target_score_Mccafe=1*5
-    target_score_delivery=2*5
-    target_score_drivethru=1*5
+    target_score_inside=2*6
+    target_score_Mccafe=1*6
+    target_score_delivery=2*6
+    target_score_drivethru=1*6
     target_outside = 3*5
     target_score_Main=1*5
     out_branding_condition = 0  # Initialize out_branding_condition
