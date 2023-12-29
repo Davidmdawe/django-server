@@ -1384,9 +1384,9 @@ const chart = Highcharts.mapChart('container-visualizations', {
 
             // Check the conditions
             if (
-            summaryData.drivethru_campaign === "Does Not Exist(Other (please specify))" &&
-            summaryData.customer_order_display === 'Does Not Exist' &&
-            summaryData.activation_description === 'Does Not Exist'
+            summaryData.drivethru_campaign === "N/A" &&
+            summaryData.customer_order_display === 'N/A' &&
+            summaryData.activation_description === 'N/A'
             ) {
             // If the conditions are true, add a red line in the middle of "Drive-thru"
             driveThruElement.innerHTML = '<span style="position: relative;">Drive<span style="border-top: 2px solid red; display: inline-block; position: absolute; top: 50%; transform: translateY(-50%); margin: 0 2px;"></span>thru <span style="color: red;">x</span></span>';
