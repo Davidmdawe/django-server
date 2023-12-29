@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html >
 {% load static %}
 <head>
     <meta charset="UTF-8">
@@ -51,16 +51,16 @@
         header {
             background-color: white;
             color: #0a0606;
-            padding: 15px;
+            padding: 1%;
             text-align: center;
             position: relative;
         }
 
         header img {
             position: absolute;
-            top: 10px;
-            left: 10px;
-            max-width: 100px; /* Adjust the size as needed */
+            top: 1%;
+            left: 1%;
+            max-width: 5%; /* Adjust the size as needed */
             height: auto;
         }
 
@@ -69,10 +69,10 @@
             color: black;
             text-decoration: none;
             position: fixed;
-            top: 20px; /* Adjust the top margin */
+            top: 1%; /* Adjust the top margin */
             right: 0;
-            margin: 0 15px;
-            padding: 10px 20px; /* Adjust padding to control button size */
+            margin: 0 2%; /* Adjust the percentage margin */
+            padding: 1% 2%; /* Adjust the percentage padding to control button size */
             background-color: #FFC72C; /* McDonald's red color */
             font-family: 'Speedee', sans-serif;
             border-radius: 5px;
@@ -124,9 +124,9 @@ select {
     color: black; /* Text color */
     /* Add any additional styles as needed */
 }
-.container {
-    width: calc(100% - 600px); /* Adjust the width based on your needs */
-        }
+/*.container {
+    width: calc(100% - 600px); 
+        }*/
 
 
         h1 {
@@ -134,10 +134,6 @@ select {
     margin: 0 auto; /* Center horizontally */
     text-align: center; /* Center text inside the element */
 }
-
-.username {
-            margin-left: 2011px;  /* Adjust the margin to create space between username and logout */
-        }
 
         .container {
             display: none;
@@ -163,8 +159,8 @@ select {
 
     <header>
         <div style="display: flex; align-items: center;">
-            <img src="{% static 'app_management/images/mcdonalds-clip-art-png-31.png' %}" alt="Logo" style="margin-left: 100px;">
-            <img src="{% static 'app_management/images/logo.jpeg' %}" alt="Logo" style="margin-top: 21px;">
+            <img src="{% static 'app_management/images/mcdonalds-clip-art-png-31.png' %}" alt="Logo" style="margin-left: 5%;">
+            <img src="{% static 'app_management/images/logo.jpeg' %}" alt="Logo" style="margin-top: 1%;">
             
         </div>
         <a class="btn" style="text-align: center; background-color: #FFD200; font-family: 'Speedee', sans-serif;" href="#Home">Landing Page</a>
@@ -173,9 +169,10 @@ select {
     </header>
        
    <nav>
-        <a href="{% url 'logout' %}">Logout</a>
+        
+    <a class="btn" style="text-align: center; background-color: #FFD200; font-family: 'Speedee', sans-serif; width: 5%;" href="{% url 'logout' %}">Logout</a>
     </nav>
-    <div id="Home" class="container  active" style="max-width: 500%;">
+    <div id="Home" class="container  active"   style="max-width: 100%; padding: 0; margin: 0;">
         <h1 style="font-size: 30px;font-family: 'Speedee', sans-serif;">Retail Audit Reporting Landing Page</h1>
         <hr>
         <div class="row">
@@ -196,7 +193,7 @@ select {
                     <div class="card-header py-2" style="text-align: center; background-color:#FFD200;font-weight: bold;font-family: 'Speedee', sans-serif;">
                         McDonald\'s Stores in South Africa
                     </div>
-                    <div id="container" style="width: 100%;height: 90%;"></div>
+                    <div id="container"  style="width: 100%; height: 90%; "></div>
                 </div>
             </div>
             <div class="col-lg-3">
@@ -204,19 +201,19 @@ select {
                     <div class="card-header py-2" style="text-align: center; background-color:#FFD200;font-weight: bold;font-family: 'Speedee', sans-serif;">
                         Upon Entrance(outside)
                     </div>
-                    <div id="gauge-container" style="width: 263px; height: 200px;margin: auto;"></div>
+                    <div id="gauge-container" style="width: 50%; height: 50%; margin: auto;"></div>
                 </div>
                 <div class="card-body shadow-lg">
                     <div class="card-header py-2" style="text-align: center; background-color:#FFD200;font-weight: bold;font-family: 'Speedee', sans-serif;">
                         Main Digital Menu board and Pricing
                     </div>
-                    <div id="gauge-container-new2" style="width: 263px; height: 200px;margin: auto;"></div>
+                    <div id="gauge-container-new2" style="width: 50%; height: 50%; margin: auto;"></div>
                 </div>
                 <div class="card-body shadow-lg">
                     <div class="card-header py-2" style="text-align: center; background-color:#FFD200;font-weight: bold;font-family: 'Speedee', sans-serif;">
                         McCafé Main Menu
                     </div>
-                    <div id="gauge-container-new4" style="width: 263px; height: 200px;margin: auto;"></div>
+                    <div id="gauge-container-new4" style="width: 50%; height: 50%; margin: auto;"></div>
                 </div>
             </div>
             <div class="col-lg-3">
@@ -224,26 +221,26 @@ select {
                     <div class="card-header py-2" style="text-align: center; background-color:#FFD200;font-weight: bold;font-family: 'Speedee', sans-serif;">
                         Upon Entrance(In-store)
                     </div>
-                    <div id="gauge-container-inside" style="width: 263px; height: 200px;margin: auto;"></div>
+                    <div id="gauge-container-inside" style="width: 50%; height: 50%; margin: auto;"></div>
                 </div>
                 <div class="card-body shadow-lg">
                     <div class="card-header py-2" style="text-align: center; background-color:#FFD200;font-weight: bold;font-family: 'Speedee', sans-serif;">
                         Drive-thru
                     </div>
-                    <div id="gauge-container-new1" style="width: 263px; height: 200px;margin: auto;"></div>
+                    <div id="gauge-container-new1" style="width: 50%; height: 50%; margin: auto;"></div>
                 </div>
                 <div class="card-body shadow-lg">
                     <div class="card-header py-2" style="text-align: center; background-color:#FFD200;font-weight: bold;font-family: 'Speedee', sans-serif;">
                         Delivery
                     </div>
-                    <div id="gauge-container-new3" style="width: 263px; height: 200px;margin: auto;"></div>
+                    <div id="gauge-container-new3" style="width: 50%; height: 50%; margin: auto;"></div>
                 </div>
             </div>
         </div>
         
     </div>
 
-    <div id="visuals" class="container" style="max-width: 300%;">
+    <div id="visuals" class="container" style="max-width: 100%; padding: 0; margin: 0;">
         <h1 style="font-size: 30px;font-family: 'Speedee', sans-serif;">Retail Audit Reporting Visualisations</h1>
         <hr>
         <div class="row">
@@ -302,7 +299,7 @@ select {
                     <div class="card-header py-2" style="text-align: center; background-color:#FFD200;font-weight: bold;font-family: 'Speedee', sans-serif;">
                         Upon Entrance(outside)
                     </div>
-                    <div id="gauge-container-outside-store-level" style="width: 60%; height: 30%;margin: auto;"></div>
+                    <div id="gauge-container-outside-store-level" style="width: 100%; height: 11%;margin: auto;"></div>
 
                     <div id="textContainer">
                         <p id="displayText"></p>
@@ -326,7 +323,7 @@ select {
                     <div class="card-header py-2" style="text-align: center; background-color:#FFD200;font-weight: bold;font-family: 'Speedee', sans-serif;">
                         Upon Entrance(In-store)
                     </div>
-                    <div id="gauge-container-inside-store-level" style="width: 263px; height: 200px;margin: auto;"></div>
+                    <div id="gauge-container-inside-store-level" style="width: 100%; height: 11%;margin: auto;"></div>
                     <div id="textContainer">
                         <p id="displayTextinside"></p>
                         <hr>
@@ -348,7 +345,7 @@ select {
                     <div class="card-header py-2" style="text-align: center; background-color:#FFD200;font-weight: bold;font-family: 'Speedee', sans-serif;">
                         Main Digital Menu board and Pricing
                     </div>
-                    <div id="gauge-container-menu-store-level" style="width: 263px; height: 200px;margin: auto;"></div>
+                    <div id="gauge-container-menu-store-level" style="width: 100%; height: 11%;margin: auto;"></div>
                     <div id="textContainer">
                         <p id="displayTextmenu"></p>
                         <hr>
@@ -370,7 +367,7 @@ select {
                     <div class="card-header py-2" style="text-align: center; background-color:#FFD200;font-weight: bold;font-family: 'Speedee', sans-serif;">
                         McCafé Main Menu
                     </div>
-                    <div id="gauge-container-mccafe-store-level" style="width: 263px; height: 200px;margin: auto;"></div>
+                    <div id="gauge-container-mccafe-store-level" style="width: 100%; height: 11%;margin: auto;"></div>
                     <div id="textContainermenu">
                         <p id="displayTextmccafe"></p>
                         <hr>
@@ -388,7 +385,7 @@ select {
                     <div id="driveThruHeader" class="card-header py-2" style="text-align: center; background-color:#FFD200;font-weight: bold;font-family: 'Speedee', sans-serif;">
                         Drive-thru
                     </div>
-                    <div id="gauge-container-drivethru-store-level" style="width: 263px; height: 200px;margin: auto;"></div>
+                    <div id="gauge-container-drivethru-store-level" style="width: 100%; height: 11%;margin: auto;"></div>
                     <div id="textContainermenu">
                         <p id="displayTextdrivethru"></p>
                         <hr>
@@ -407,7 +404,7 @@ select {
                     <div class="card-header py-2" style="text-align: center; background-color:#FFD200;font-weight: bold;font-family: 'Speedee', sans-serif;">
                         Delivery
                     </div>
-                    <div id="gauge-container-delivery-store-level" style="width: 263px; height: 200px;margin: auto;"></div>
+                    <div id="gauge-container-delivery-store-level" style="width: 100%; height: 11%;margin: auto;"></div>
                     <div id="textContainermenu">
                         <p id="displayTextdelivery"></p>
                         <hr>
@@ -1328,7 +1325,7 @@ const chart = Highcharts.mapChart('container-visualizations', {
                     borderWidth: 0,
                     y: 10,
                     style: {
-                        fontSize: '40px', // Adjust the font size as needed
+                        fontSize: '190%', // Adjust the font size as needed
                         color: color,   // Set the color to green
                     },
                 },
@@ -1464,7 +1461,7 @@ const chart = Highcharts.mapChart('container-visualizations', {
                     borderWidth: 0,
                     y: 10,
                     style: {
-                        fontSize: '40px', // Adjust the font size as needed
+                        fontSize: '190%', // Adjust the font size as needed
                         color: color,   // Set the color to green
                     },
                 },
@@ -1807,9 +1804,9 @@ const chart = Highcharts.mapChart('container-visualizations', {
     var formattedDate = year + '-' + (month < 10 ? '0' : '') + month + '-' + (day < 10 ? '0' : '') + day;
     console.log('Date:')
     console.log(formattedDate)
-    const allStoresByStore=await fetchStores('all','all','HATFIELD SQUARE','2023-12-26',formattedDate);
+    const allStoresByStore=await fetchStores('all','all','ALEX MALL','2023-12-26',formattedDate);
 
-    const allStoresByStorescore=await fetchStoresScores('all','all','HATFIELD SQUARE','2023-12-26',formattedDate);
+    const allStoresByStorescore=await fetchStoresScores('all','all','ALEX MALL','2023-12-26',formattedDate);
     const allStoresbyscore = await allStoresByStorescore;
     creategaugeChartoutsidestorelevel(allStoresbyscore);
     creategaugeChartinsidestorelevel(allStoresbyscore);
