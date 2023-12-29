@@ -97,7 +97,7 @@ class Inside(models.Model):
     point_of_sale = models.BooleanField()
     pop_description = models.CharField(max_length=255,blank=True)
     self_order_kiosk = models.BooleanField()
-    promo_sok_campaigns = models.TextField(blank=True, null=True, default=None)
+    promo_sok_campaigns = models.CharField(max_length=2000, blank=True, null=True, default=None)
     promotion_image_url = models.CharField(max_length=255,blank=True)
     happy_m_campaign = models.CharField(max_length=255)
     description_inside = models.CharField(max_length=255)
