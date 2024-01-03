@@ -1505,7 +1505,7 @@ const chart = Highcharts.mapChart('container-visualizations', {
                         type: 'solidgauge',
                     },
                     title: {
-                        text: '',
+                        text: summaryData.selected_store,
                     },
                     credits: {
                         enabled: false
@@ -1526,7 +1526,7 @@ const chart = Highcharts.mapChart('container-visualizations', {
                         min: 0,
                         max: 100, // Assuming total_score_outside is a percentage (adjust as needed)
                         title: {
-                            text: summaryData.selected_store,
+                            text: '',
                             y: -70,
                         },
                         stops: [
@@ -1591,7 +1591,7 @@ const chart = Highcharts.mapChart('container-visualizations', {
             type: 'column'
         },
         title: {
-            text: ''
+            text: summaryData.selected_store
         },
         xAxis: {
             categories: Object.keys(data2)
