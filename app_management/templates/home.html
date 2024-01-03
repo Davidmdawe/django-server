@@ -347,8 +347,10 @@ select {
                     <div id="textContainer">
                         <p id="displayinside"></p>
                         <p id="displayinsidename"></p>
+                        
                         <hr>
                         <p id="displayTextinside"></p>
+                        <p id="displayTextinside10"></p>
                         <hr>
                         <p id="displayTextinside2"></p>
                         <hr>
@@ -978,6 +980,7 @@ const chart = Highcharts.mapChart('container-visualizations', {
         //var displayTextElement7inside = document.getElementById('displayTextinside7');
         var displayTextElement8inside = document.getElementById('displayTextinside8');
         var displayTextElement9inside = document.getElementById('displayTextinside9');
+        var displayTextElementinside10 = document.getElementById('displayTextinside10');
         displayinside.innerHTML = '<span style="color: black;font-Weight:bold;font-size:110%">'+'Date: </span>' + summaryData.out_description_inside_date;
         displayinside.style.color = 'black';
         displayinsidename.innerHTML = '<span style="color: black;font-Weight:bold;font-size:110%">'+'Store: </span>' + summaryData.out_store_site_name;
@@ -988,7 +991,6 @@ const chart = Highcharts.mapChart('container-visualizations', {
                 displayTextElementinside.style.color = 'green';
                 displayTextElementinside.style.fontWeight = 'bold';
                 displayTextElementinside.classList.add('green-text');
-
             } else {
                 displayTextElementinside.innerHTML = '<span style="color: black;font-size:110%"><b>1.Was the window POP (Point of Purchase) as per our layout?</b></span><br>Answer: ' + summaryData.out_point_of_sale;
                 displayTextElementinside.style.color = 'red';
@@ -996,6 +998,13 @@ const chart = Highcharts.mapChart('container-visualizations', {
                 displayTextElementinside.classList.add('red-text');
             }
 
+            if (summaryData.out_point_of_sale !== true) {
+                displayTextElementinside10.innerHTML = '<span style="color: black;font-Weight:bold;font-size:110%">' + 'If no, give a brief description of the condition. </span>' + summaryData.out_pop_description_inside;
+                displayTextElementinside10.style.color = 'black';
+            } else {
+                // Handle the case where summaryData.out_campaigns is not defined
+                console.error('summaryData.out_campaigns is not defined.');
+            }
             if (summaryData.out_self_order_kiosk) {
                 displayTextElement2inside.innerHTML = '<span style="color:black;font-size:110%"><b>2.Was the SOKs (Self Ording Kiosks) fully functioning with all promotional items displaying?</b></span><br>Answer: ' + summaryData.out_self_order_kiosk;
                 displayTextElement2inside.style.color = 'green';
