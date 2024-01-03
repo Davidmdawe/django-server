@@ -858,34 +858,37 @@ const chart = Highcharts.mapChart('container-visualizations', {
                 displayTextElement2.style.fontWeight = 'bold';
                 displayTextElement2.classList.add('red-text');
             }
+            console.log(summaryData.out_campaign)
             if (summaryData.out_campaign) {
                 displayTextElement3.innerHTML = '<span style="color: black;font-size:110%"><b>3. Notice any campaigns as you entered?</b></span><br>Answer: ' + summaryData.out_campaign;
                 displayTextElement3.style.color = 'green';
                 displayTextElement3.style.fontWeight = 'bold';
                 displayTextElement3.classList.add('green-text');
-                displayTextElement5.textContent =  ' If yes, Which campaigns did you notice as you entered the store? ';
-                //displayTextElement7.innerHTML = '-Hero Double Quarter Pounder with Cheese'+'<br>'+'-McFlurry Strawberry Shortcake '+'<br>'+'- 4 Piece Chicken Tenders'+'<br>'+'-McFizz Lemon Litchi';
-               // displayTextElement7.style.fontWeight = 'bold';
-                //displayTextElement7.style.backgroundColor = '#FFD700';
-                displayTextElement5.style.fontWeight = 'bold';
-                let promoCampaigns = summaryData.out_campaigns;
-
-                // Split the string into an array using comma as a delimiter
-                let campaignsArray = promoCampaigns.split(',');
-
-                // Format and display the campaigns
-                let formattedCampaigns = campaignsArray.map(campaign => `👍 ${campaign.trim()}.`).join('<br>');
-                // Now, formattedCampaigns contains the desired output
-                console.log(formattedCampaigns);
-                displayTextElement6.innerHTML = '<br>'+  formattedCampaigns;
-                displayTextElement6.style.fontWeight = 'bold';
-                displayTextElement6.style.color = 'green';
             } else {
                 displayTextElement3.innerHTML = '<span style="color: black;font-size:110%"><b>3.Notice any campaigns as you entered?</b></span><br>Answer: ' + summaryData.out_campaign;
                 displayTextElement3.style.color = 'red';
                 displayTextElement3.style.fontWeight = 'bold';
                 displayTextElement3.classList.add('red-text');
             }
+            
+                
+            if (summaryData.out_campaign!="false") {
+                        displayTextElement5.textContent =  ' If yes, Which campaigns did you notice as you entered the stoe? ';
+                        displayTextElement5.style.fontWeight = 'bold';
+                        let promoCampaigns = summaryData.out_campaigns;
+
+                        // Split the string into an array using a comma as a delimiter
+                        let campaignsArray = promoCampaigns.split(',');
+
+                        // Format and display the campaigns
+                        let formattedCampaigns = campaignsArray.map(campaign => `👍 ${campaign.trim()}.`).join('<br>');
+                        displayTextElement6.innerHTML = '<br>' + formattedCampaigns;
+                        displayTextElement6.style.fontWeight = 'bold';
+                        displayTextElement6.style.color = 'green';
+                    } else {
+                        // Handle the case where summaryData.out_campaigns is not defined
+                        console.error('summaryData.out_campaigns is not defined.');
+                    }
             displayTextElement4.innerHTML= '<span style="color:black;font-size:110%"><b>4.Give a brief description of anything that was did not sit right/was not in good condition?</b></span><br>Answer:' + summaryData.out_description_outside;
             displayTextElement4.style.fontWeight = 'bold';
             displayTextElement4.style.color = 'green';
@@ -998,6 +1001,15 @@ const chart = Highcharts.mapChart('container-visualizations', {
                 displayTextElement2inside.style.color = 'green';
                 displayTextElement2inside.style.fontWeight = 'bold';
                 displayTextElement2inside.classList.add('green-text');
+                
+            } else {
+                displayTextElement2inside.innerHTML = '<span style="color: black;font-size:110%"><b>2.Was the SOKs (Self Ording Kiosks) fully functioning with all promotional items displaying?</b></span><br>Answer:' + summaryData.out_self_order_kiosk;
+                displayTextElement2inside.style.color = 'red';
+                displayTextElement2inside.style.fontWeight = 'bold';
+                displayTextElement2inside.classList.add('red-text');
+            }
+
+            if(summaryData.out_self_order_kiosk!="false"){
                 displayTextElement3inside.textContent = 'Did you see the following promotions displayed on the SOK (Self Ordering Kiosk)?';
                 //displayTextElement7inside.innerHTML = '- Hero Double Quarter Pounder with Cheese'+'<br>'+'- McFlurry Strawberry Shortcake'+'<br>'+'- 4 Piece Chicken Tenders'+'<br>'+'- McFizz Lemon Litchi'+'<br>'+'- Nazo'+'<br>'+'- Chillie Cheese McFlavour Fries (newly launched)'+'<br>'+'-Beef/Chicken Hamburger(McSaver Menu)'+'<br>'+'-Small coke-no sugar(McSaver Menu)'+'<br>'+'-Small Fries(McSaver Menu)'+'<br>'+'-Plain Sundae ice cream(McSaver Menu)';
                 //displayTextElement7inside.style.fontWeight = 'bold';
@@ -1019,11 +1031,6 @@ const chart = Highcharts.mapChart('container-visualizations', {
                 displayTextElement3inside.style.fontWeight = 'bold';
                 displayTextElement6inside.style.color = 'green';
                 displayTextElement6inside.style.fontWeight = 'bold';
-            } else {
-                displayTextElement2inside.innerHTML = '<span style="color: black;font-size:110%"><b>2.Was the SOKs (Self Ording Kiosks) fully functioning with all promotional items displaying?</b></span><br>Answer:' + summaryData.out_self_order_kiosk;
-                displayTextElement2inside.style.color = 'red';
-                displayTextElement2inside.style.fontWeight = 'bold';
-                displayTextElement2inside.classList.add('red-text');
             }
             displayTextElement4inside.textContent = ' Which Happy Meal campaign is currently displaying in stores?';
             displayTextElement4inside.style.fontWeight = 'bold';
