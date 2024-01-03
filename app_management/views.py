@@ -362,7 +362,7 @@ def get_store_data_store_level(request):
 
         data.append({'description_delivery':description_delivery,'target_delivery':target_delivery,'third_party_del':third_party_del,'mc_delivery':mc_delivery,'total_score_delivery':total_score_delivery,'activation_description':activation_description,'customer_order_display':customer_order_display,'drivethru_campaign':drivethru_campaign,'target_drivethru':target_drivethru,'activation_on_promo':activation_on_promo,'total_score_drivethru':total_score_drivethru,'description_mccafe':description_mccafe,'menu_promo':menu_promo,'mccafemenu_visibility':mccafemenu_visibility,'target_mccafe':target_mccafe,'total_score_Mccafe':total_score_Mccafe,'description_menu':description_menu,'menu_promotion':menu_promotion,'price_visibility':price_visibility,'out_description_inside':out_description_inside,'out_happy_m_campaign':out_happy_m_campaign,'out_promo_sok_campaigns':out_promo_sok_campaigns,'out_description_outside':out_description_outside,'out_campaigns':out_campaigns,'total_score_Main': total_score_Main,'menu_visibility':menu_visibility,'target_menu':target_menu,'total_score_inside': total_score_inside,'out_point_of_sale':out_point_of_sale,'out_self_order_kiosk':out_self_order_kiosk,'target_inside':target_inside,'total_score_outside': total_score_outside,'out_campaign':out_campaign, 'target_outside': target_outside, 'selected_store': selected_store,'out_branding_condition':out_branding_condition,'out_signage_condition':out_signage_condition})
     else:
-        Outqueryset1 = Outside.objects.select_related('store').values('employee_no', 'store__site_name', 'branding_condition', 'signage_condition', 'campaign','campaigns','description_outside')
+        Outqueryset1 = Outside.objects.select_related('store').values('employee_no','outside_date' ,'store__site_name', 'branding_condition', 'signage_condition', 'campaign','campaigns','description_outside')
         Outqueryset = Outqueryset1.filter(store__site_name=selected_store, outside_date__range=[from_date, to_date])
         for item in Outqueryset:
             branding_condition_score = 1 if item['branding_condition'] else 0
@@ -374,9 +374,11 @@ def get_store_data_store_level(request):
             out_campaigns=item['campaigns']
             out_description_outside=item['description_outside']
             out_campaign=item['campaign']
+            out_campaign_outside_date=item['outside_date']
+            out_campaign_outside_store_site_name=item['store__site_name']
             total_score_outside += branding_condition_score + signage_condition_score + campaign_score
 
-        Inqueryset = Inside.objects.select_related('store').values('employee_no', 'store__site_name', 'point_of_sale','self_order_kiosk','promo_sok_campaigns','happy_m_campaign','description_inside')
+        Inqueryset = Inside.objects.select_related('store').values('employee_no','inside_date','store__site_name', 'point_of_sale','self_order_kiosk','promo_sok_campaigns','happy_m_campaign','description_inside')
         Inqueryset = Inqueryset.filter(store__site_name=selected_store,inside_date__range=[from_date, to_date])
         for item in Inqueryset:
             point_of_sale_score = 1 if item['point_of_sale'] else 0
@@ -387,10 +389,11 @@ def get_store_data_store_level(request):
             out_promo_sok_campaigns=item['promo_sok_campaigns']
             out_happy_m_campaign=item['happy_m_campaign']
             out_description_inside=item['description_inside']
+            out_description_inside_date=item['inside_date']
+            out_store_site_name=item['store__site_name']
             total_score_inside += point_of_sale_score + self_order_kiosk_score
-        print('total_score_inside:')
-        print(Inqueryset)
-        Mainqueryset = Menu.objects.select_related('store').values('employee_no', 'store__site_name', 'menu_visibility','price_visibility','menu_promotion','description_menu')
+
+        Mainqueryset = Menu.objects.select_related('store').values('employee_no', 'store__site_name', 'menu_visibility','price_visibility','menu_promotion','description_menu','menu_date')
         Mainqueryset = Mainqueryset.filter(store__site_name=selected_store,menu_date__range=[from_date, to_date])
         for item in Mainqueryset:
             menu_visibility_score = 1 if item['menu_visibility'] else 0
@@ -399,9 +402,11 @@ def get_store_data_store_level(request):
             price_visibility=item['price_visibility']
             menu_promotion=item['menu_promotion']
             description_menu=item['description_menu']
+            description_menu_date=item['menu_date']
+            description_menu_store_site_name=item['store__site_name']
             total_score_Main += menu_visibility_score
 
-        Mccafequeryset = McCafe.objects.select_related('store').values('employee_no', 'store__site_name', 'menu_visibility','menu_promo','description_mccafe')
+        Mccafequeryset = McCafe.objects.select_related('store').values('employee_no', 'store__site_name', 'menu_visibility','menu_promo','description_mccafe','mccafe_date')
         Mccafequeryset = Mccafequeryset.filter(store__site_name=selected_store,mccafe_date__range=[from_date, to_date])
         for item in Mccafequeryset:
             mccafemenu_visibility_score = 1 if item['menu_visibility'] else 0
@@ -409,9 +414,11 @@ def get_store_data_store_level(request):
             mccafemenu_visibility=item['menu_visibility']
             menu_promo=item['menu_promo']
             description_mccafe=item['description_mccafe']
+            mccafe_date=item['mccafe_date']
+            mccafe_store_site_name=item['store__site_name']
             total_score_Mccafe += mccafemenu_visibility_score
 
-        drivethruqueryset = Drivethru.objects.select_related('store').values('employee_no', 'store__site_name', 'activation_on_promo','drivethru_campaign','customer_order_display','activation_description')
+        drivethruqueryset = Drivethru.objects.select_related('store').values('employee_no', 'store__site_name', 'activation_on_promo','drivethru_campaign','customer_order_display','activation_description','drivethru_date')
         drivethruqueryset = drivethruqueryset.filter(store__site_name=selected_store,drivethru_date__range=[from_date, to_date])
         for item in drivethruqueryset:
             activation_on_promo_score = 1 if item['activation_on_promo'] else 0
@@ -420,9 +427,11 @@ def get_store_data_store_level(request):
             drivethru_campaign=item['drivethru_campaign']
             customer_order_display=item['customer_order_display']
             activation_description=item['activation_description']
+            drivethru_date=item['drivethru_date']
+            drive_store_site_name=item['store__site_name']
             total_score_drivethru += activation_on_promo_score
 
-        deliveryqueryset = Delivery.objects.select_related('store').values('employee_no', 'store__site_name','mc_delivery','third_party_del','description_delivery')
+        deliveryqueryset = Delivery.objects.select_related('store').values('employee_no','mc_delivery','third_party_del','description_delivery','delivery_date','store__site_name')
         deliveryqueryset = deliveryqueryset.filter(store__site_name=selected_store,delivery_date__range=[from_date, to_date])
         for item in deliveryqueryset:
             mc_delivery_score = 1 if item['mc_delivery'] else 0
@@ -431,9 +440,11 @@ def get_store_data_store_level(request):
             mc_delivery=item['mc_delivery']
             third_party_del=item['third_party_del']
             description_delivery=item['description_delivery']
+            delivery_date=item['delivery_date']
+            store_site_name=item['store__site_name']
             total_score_delivery += mc_delivery_score+third_party_del_score
         
 
 
-        data.append({'description_delivery':description_delivery,'target_delivery':target_delivery,'third_party_del':third_party_del,'mc_delivery':mc_delivery,'total_score_delivery':total_score_delivery,'activation_description':activation_description,'customer_order_display':customer_order_display,'drivethru_campaign':drivethru_campaign,'target_drivethru':target_drivethru,'activation_on_promo':activation_on_promo,'total_score_drivethru':total_score_drivethru,'description_mccafe':description_mccafe,'menu_promo':menu_promo,'mccafemenu_visibility':mccafemenu_visibility,'target_mccafe':target_mccafe,'total_score_Mccafe':total_score_Mccafe,'description_menu':description_menu,'menu_promotion':menu_promotion,'price_visibility':price_visibility,'out_description_inside':out_description_inside,'out_happy_m_campaign':out_happy_m_campaign,'out_promo_sok_campaigns':out_promo_sok_campaigns,'out_description_outside':out_description_outside,'out_campaigns':out_campaigns,'total_score_Main': total_score_Main,'menu_visibility':menu_visibility,'target_menu':target_menu,'total_score_inside': total_score_inside,'out_point_of_sale':out_point_of_sale,'out_self_order_kiosk':out_self_order_kiosk,'target_inside':target_inside,'total_score_outside': total_score_outside,'out_campaign':out_campaign, 'target_outside': target_outside, 'selected_store': selected_store,'out_branding_condition':out_branding_condition,'out_signage_condition':out_signage_condition})
+        data.append({'out_campaign_outside_store_site_name':out_campaign_outside_store_site_name,'out_campaign_outside_date':out_campaign_outside_date,'out_store_site_name':out_store_site_name,'out_description_inside_date':out_description_inside_date,'description_menu_store_site_name':description_menu_store_site_name,'description_menu_date':description_menu_date,'mccafe_store_site_name':mccafe_store_site_name,'mccafe_date':mccafe_date,'drive_store_site_name':drive_store_site_name,'drivethru_date':drivethru_date,'store_site_name':store_site_name,'delivery_date':delivery_date,'description_delivery':description_delivery,'target_delivery':target_delivery,'third_party_del':third_party_del,'mc_delivery':mc_delivery,'total_score_delivery':total_score_delivery,'activation_description':activation_description,'customer_order_display':customer_order_display,'drivethru_campaign':drivethru_campaign,'target_drivethru':target_drivethru,'activation_on_promo':activation_on_promo,'total_score_drivethru':total_score_drivethru,'description_mccafe':description_mccafe,'menu_promo':menu_promo,'mccafemenu_visibility':mccafemenu_visibility,'target_mccafe':target_mccafe,'total_score_Mccafe':total_score_Mccafe,'description_menu':description_menu,'menu_promotion':menu_promotion,'price_visibility':price_visibility,'out_description_inside':out_description_inside,'out_happy_m_campaign':out_happy_m_campaign,'out_promo_sok_campaigns':out_promo_sok_campaigns,'out_description_outside':out_description_outside,'out_campaigns':out_campaigns,'total_score_Main': total_score_Main,'menu_visibility':menu_visibility,'target_menu':target_menu,'total_score_inside': total_score_inside,'out_point_of_sale':out_point_of_sale,'out_self_order_kiosk':out_self_order_kiosk,'target_inside':target_inside,'total_score_outside': total_score_outside,'out_campaign':out_campaign, 'target_outside': target_outside, 'selected_store': selected_store,'out_branding_condition':out_branding_condition,'out_signage_condition':out_signage_condition})
     return JsonResponse(data, safe=False)
