@@ -13,11 +13,13 @@
     <link rel="stylesheet" type="text/css" href="{% static 'css/controls.css' %}">    
 
     <link rel="shortcut icon"
-        href="" />
+        href="{% static 'app_management/images/mcdonalds-clip-art-png-31.png' %}"+href="{% static 'app_management/images/logo.jpeg' %}"
+        type="image/png" />
+
 
     {% if user.is_authenticated %}
-    <title>Review App</title>
+    <title>|Retail Audit Reporting </title>
     {% else %}
-    <title>Review App</title>
+    <title>|Retail Audit Reporting </title>
     {% endif %}
 </head>
