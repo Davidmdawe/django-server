@@ -165,7 +165,7 @@ select {
         </div>
       <!-- <a class="btn" style="text-align: center; background-color: #FFD200; font-family: 'Speedee', sans-serif;" href="#Home">Landing Page</a>
         <a class="btn" style="text-align: center; background-color: #FFD200; font-family: 'Speedee', sans-serif;" href="#visuals">Store</a>-->
-        
+        <h1 style="font-weight: bold;font-size: 200%;font-family: 'Speedee', sans-serif;">Retail Audit Reporting Visualisations</h1>
     </header>
     <nav>
         <a class="btn" style="text-align: center; background-color: #FFD200; font-family: 'Speedee', sans-serif;" href="{% url 'logout' %}">Logout</a>
@@ -239,7 +239,7 @@ select {
     </div>
 
     <div id="visuals" class="container active" style="max-width: 100%; padding: 0; margin: 0;">
-        <h1 style="font-weight: bold;font-size: 200%;font-family: 'Speedee', sans-serif;">Retail Audit Reporting Visualisations</h1>
+       
         <hr>
         <div class="row">
             <div class="col-sm-2">
@@ -2012,6 +2012,8 @@ const chart = Highcharts.mapChart('container-visualizations', {
     
     // Initial rendering of the map with all stores
     const allStoresResponse = await fetchStoresByProvince('all');
+    const filterDropdownbyStoreStorestarts = document.getElementById('filterstore');
+    const selectedStorestart = filterDropdownbyStoreStorestarts.value;
     var currentDate = new Date();
     // Get the current date
     var day = currentDate.getDate();
@@ -2022,9 +2024,9 @@ const chart = Highcharts.mapChart('container-visualizations', {
     var formattedDate = year + '-' + (month < 10 ? '0' : '') + month + '-' + (day < 10 ? '0' : '') + day;
     console.log('Date:')
     console.log(formattedDate)
-    const allStoresByStore=await fetchStores('all','all','SAMMY MARKS','2023-12-26',formattedDate);
+    const allStoresByStore=await fetchStores('all','all',selectedStorestart,'2023-12-26',formattedDate);
 
-    const allStoresByStorescore=await fetchStoresScores('all','all','SAMMY MARKS','2023-12-26',formattedDate);
+    const allStoresByStorescore=await fetchStoresScores('all','all',selectedStorestart,'2023-12-26',formattedDate);
     const allStoresbyscore = await allStoresByStorescore;
     creategaugeChartoutsidestorelevel(allStoresbyscore);
     creategaugeChartinsidestorelevel(allStoresbyscore);
