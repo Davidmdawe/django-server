@@ -999,8 +999,8 @@ const chart = Highcharts.mapChart('container-visualizations', {
             }
 
             if (summaryData.out_point_of_sale !== true) {
-                displayTextElementinside10.innerHTML = '<span style="color: black;font-Weight:bold;font-size:110%">' + 'If no, give a brief description of the condition. </span>' + summaryData.out_pop_description_inside;
-                displayTextElementinside10.style.color = 'black';
+                displayTextElementinside10.innerHTML = '<span style="color: black;font-Weight:bold;font-size:110%"><b>' + 'If no, give a brief description of the condition? </b></span><br>Answer:' + summaryData.out_pop_description_inside;
+                displayTextElementinside10.style.color = 'green';
             } else {
                 // Handle the case where summaryData.out_campaigns is not defined
                 console.error('summaryData.out_campaigns is not defined.');
@@ -1153,11 +1153,11 @@ const chart = Highcharts.mapChart('container-visualizations', {
         displaymenuname.style.color = 'black';
             // Change the text content
             if (summaryData.menu_visibility) {
-                displayTextElementmenu.innerHTML = '✔1'+'<span style="color: black;font-size:110%"><b>'+'.Digital menu board clearly displayed and fully functioning with all promotional items displaying?</b></span><br>- ' + summaryData.menu_visibility;
+                displayTextElementmenu.innerHTML = '✔1'+'<span style="color: black;font-size:110%"><b>'+'.Digital menu board clearly displayed and fully functioning with all promotional items displaying?</b></span><br>Answer: ' + summaryData.menu_visibility;
                 displayTextElementmenu.style.color = 'green';
                 displayTextElementmenu.style.fontWeight = 'bold';
             } else {
-                displayTextElementmenu.innerHTML = 'x'+'<span style="color:black;font-size:110%"><b>'+'1.Digital menu board clearly displayed and fully functioning with all promotional items displaying?</b></span><br>- '  + summaryData.menu_visibility;
+                displayTextElementmenu.innerHTML = 'x'+'<span style="color:black;font-size:110%"><b>'+'1.Digital menu board clearly displayed and fully functioning with all promotional items displaying?</b></span><br>Answer: '  + summaryData.menu_visibility;
                 displayTextElementmenu.style.color = 'red';
                 displayTextElementmenu.style.fontWeight = 'bold';
             }
@@ -1216,7 +1216,7 @@ const chart = Highcharts.mapChart('container-visualizations', {
            // displayTextElementmenu6.style.fontWeight = 'bold';
             //displayTextElementmenu6.style.backgroundColor = '#FFD700';
 
-            displayTextElementmenu7.innerHTML =  '<span style="color:black;font-size:110%"><b>Give a brief description of anything that was did not sit right/was not in good condition on the menu?</b></span><br>-' + summaryData.description_menu;
+            displayTextElementmenu7.innerHTML =  '<span style="color:black;font-size:110%"><b>Give a brief description of anything that was did not sit right/was not in good condition on the menu?</b></span><br>Answer:' + summaryData.description_menu;
             displayTextElementmenu7.style.fontWeight = 'bold';
             displayTextElementmenu7.style.color  = 'green';
     };
