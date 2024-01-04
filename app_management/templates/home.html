@@ -264,7 +264,7 @@ select {
                 </select>
             </div>
            <div class="col-sm-3">
-                <label for="filter2" style="font-weight: bold;font-family: 'Speedee', sans-serif;">Own/Franchise:</label>
+                <label for="filter2" style="font-weight: bold;font-family: 'Speedee', sans-serif;">Select Own/Franchise:</label>
                 <select id="filterownerfranchise" class="form-control drop-down-list">
                   <!--  <option value="all">All</option>-->
                     {% for own_franchise in franchise_mcopco %}
@@ -273,7 +273,7 @@ select {
                 </select>
             </div>
             <div class="col-sm-2">
-                <label for="filter2" style="font-weight: bold;font-family: 'Speedee', sans-serif;">Store:</label>
+                <label for="filter2" style="font-weight: bold;font-family: 'Speedee', sans-serif;">Select Store:</label>
                 <select id="filterstore" class="form-control drop-down-list">
                     {% for store in restaurant %}
                         <option value="{{ store.restaurant }}">{{ store.restaurant }}</option>
