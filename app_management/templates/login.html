@@ -1,12 +1,12 @@
+
 {% extends 'base.html' %}
 {% load static %}
 
 {% block head %}
 <link rel="stylesheet" type="text/css" href="{% static 'app_management/css/login_logout.css' %}">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-
 {% endblock head %}
 <style>
+    
 #userManagementWrapper {
     width: 50%;
     margin: auto;
@@ -133,7 +133,7 @@ p.subNote {
 
     <div id="userManagementOuter" class="login">
         <a class="logoWrapper" href="{% url 'login' %}" style="display: flex; align-items: center;">
-            <img src="{% static 'app_management/images/logo.jpeg' %}" class="logo" alt="Logo" style="margin-left: -60%;">
+            <img src="{% static 'app_management/images/logo.jpeg' %}" class="logo" alt="Logo" style="margin-left: 0%;">
             <img src="{% static 'app_management/images/mcdonalds-clip-art-png-31.png' %}" class="logo" alt="Company Logo">
             
         </a>
@@ -160,7 +160,7 @@ p.subNote {
     </div>
 </div>
 <footer style="background-color: #FFD200;text-align: center; padding: 10px; position: fixed; bottom: 0; width: 100%;font-family: 'Speedee', sans-serif;">
-    <p style="color: black; margin: 0;">&copy; 2023 Flowing Visual Patterns. All rights reserved.</p>
+    <p style="color: black; margin: 0;">&copy; {% now "Y" %} Flowing Visual Patterns. All rights reserved.</p>
 </footer>
 {% endblock body %}
 
