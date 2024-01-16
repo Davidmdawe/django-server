@@ -1,5 +1,3 @@
-
-
 <!DOCTYPE html>
 <html >
 {% load static %}
@@ -247,13 +245,21 @@ select {
        
         <hr>
         <div class="row">
-            <div class="col-sm-2">
+            <!--<div class="col-sm-2">
                 <label for="filter1" style="font-weight: bold;font-family: 'Speedee', sans-serif;">From:</label>
                 <input type="text" id="fromDate" class="form-control datepicker">
             </div>
             <div class="col-sm-2">
                 <label for="filter1" style="font-weight: bold;font-family: 'Speedee', sans-serif;">To:</label>
                 <input type="text" id="toDate" class="form-control datepicker">
+            </div>-->
+            <div class="col-sm-2">
+                <label for="filter1" style="font-weight: bold;font-family: 'Speedee', sans-serif;">Select Month:</label>
+                <select id="month" class="form-control drop-down-list">
+                    <!--  <option value="all">All</option>-->
+                    <option value="December_2023">December 2023</option>
+                   <!-- <option value="January_2024">January 2024</option>-->
+                </select>
             </div>
             <div class="col-sm-2">
                 <label for="filter1" style="font-weight: bold;font-family: 'Speedee', sans-serif;">Select Province:</label>
@@ -477,17 +483,16 @@ select {
 <script src="https://code.highcharts.com/modules/solid-gauge.js"></script>
 
 <script>
+   
+$(document).ready(function () {
+    // Get the current date
+    var currentDate = new Date();
 
-$(document).ready(function(){
-    $('.datepicker').datepicker({
-        format: 'yyyy-mm-dd',  // Choose the date format you want
-        autoclose: true,
-        todayHighlight: true,
-        startDate: '2023-12-26' // Set the start date
-    });
+    // Set the default "From" date to the first day of the current month
+    var defaultFromDate = new Date(currentDate.getFullYear(), currentDate.getMonth(), 1);
 
-    var defaultFromDate = new Date(2023, 11, 26); // Month is zero-based, so 11 represents December
-    var defaultToDate = new Date(); // Use the current date as the default "To" date
+    // Use the current date as the default "To" date
+    var defaultToDate = new Date();
 
     // Initialize date pickers
     $('#fromDate').datepicker({
@@ -495,13 +500,22 @@ $(document).ready(function(){
         autoclose: true,
         todayHighlight: true,
         startDate: defaultFromDate, // Set the default "From" date
-    }).datepicker('setDate', defaultFromDate); // Set the initial date
+    }).datepicker('setDate', defaultFromDate) // Set the initial date
+    .on('changeDate', function (selected) {
+        // Update the startDate of the "To" datepicker dynamically based on the selected date in "From" datepicker
+        $('#toDate').datepicker('setStartDate', selected.date);
+    });
 
     $('#toDate').datepicker({
         format: 'yyyy-mm-dd',
         autoclose: true,
         todayHighlight: true,
         startDate: defaultToDate, // Set the default "To" date
+        beforeShowDay: function (date) {
+            // Disable all dates after the month selected in the "fromDate" datepicker
+            var fromDate = $('#fromDate').datepicker('getDate');
+            return date >= fromDate && date <= defaultToDate ;
+        }
     }).datepicker('setDate', defaultToDate); // Set the initial date
 });
 
@@ -597,12 +611,12 @@ const chart = Highcharts.mapChart('container-visualizations', {
         const response = await fetch(`/get_store_data/?province=${province}`);
         return await response.json();
     };
-    const fetchStores = async (province_store, owner_franchise, store,from_date,to_date) => {
-        const response = await fetch(`/get_map_data/?province_store=${province_store}&owner_franchise=${owner_franchise}&store=${store}&from_date=${from_date}&to_date=${to_date}`);
+    const fetchStores = async (province_store, owner_franchise, store,month) => {
+        const response = await fetch(`/get_map_data/?province_store=${province_store}&owner_franchise=${owner_franchise}&store=${store}&month=${month}`);
         return await response.json();
     };
-    const fetchStoresScores = async (province_store, owner_franchise, store,from_date,to_date) => {
-        const response = await fetch(`/get_store_data_store_level/?province_store=${province_store}&owner_franchise=${owner_franchise}&store=${store}&from_date=${from_date}&to_date=${to_date}`);
+    const fetchStoresScores = async (province_store, owner_franchise, store,month) => {
+        const response = await fetch(`/get_store_data_store_level/?province_store=${province_store}&owner_franchise=${owner_franchise}&store=${store}&month=${month}`);
         return await response.json();
     };
 
@@ -2089,9 +2103,9 @@ const chart = Highcharts.mapChart('container-visualizations', {
     var formattedDate = year + '-' + (month < 10 ? '0' : '') + month + '-' + (day < 10 ? '0' : '') + day;
     console.log('Date:')
     console.log(formattedDate)
-    const allStoresByStore=await fetchStores('all','all',selectedStorestart,'2023-12-26',formattedDate);
+    const allStoresByStore=await fetchStores('all','all',selectedStorestart,'December_2023');
 
-    const allStoresByStorescore=await fetchStoresScores('all','all',selectedStorestart,'2023-12-26',formattedDate);
+    const allStoresByStorescore=await fetchStoresScores('all','all',selectedStorestart,'December_2023');
     const allStoresbyscore = await allStoresByStorescore;
     creategaugeChartoutsidestorelevel(allStoresbyscore);
     creategaugeChartinsidestorelevel(allStoresbyscore);
@@ -2131,20 +2145,22 @@ const chart = Highcharts.mapChart('container-visualizations', {
     const filterDropdownbyStoreProvince = document.getElementById('filterprovincestore');
     const filterDropdownbyStoreOwnerFranchise = document.getElementById('filterownerfranchise');
     const filterDropdownbyStoreStore = document.getElementById('filterstore');
-    const filterDropdownfrom= document.getElementById('fromDate');
-    const filterDropdownto= document.getElementById('toDate');
+    //const filterDropdownfrom= document.getElementById('fromDate');
+    //const filterDropdownto= document.getElementById('toDate');
+    const filterDropdownmonth= document.getElementById('month');
     const filterButton = document.getElementById('filterstore');
     filterButton.addEventListener('change', async () => {
         const selectedStoreProvince = filterDropdownbyStoreProvince.value;
         const selectedOwnerFranchise = filterDropdownbyStoreOwnerFranchise.value;
         const selectedStore = filterDropdownbyStoreStore.value;
-        const selectedfrom = filterDropdownfrom.value;
-        const selectedto = filterDropdownto.value;
+        //const selectedfrom = filterDropdownfrom.value;
+        //const selectedto = filterDropdownto.value;
+        const selectedmonth=filterDropdownmonth.value;
         
-        const filteredStoresResponseStore = await fetchStores(selectedStoreProvince, selectedOwnerFranchise, selectedStore,selectedfrom,selectedto);
+        const filteredStoresResponseStore = await fetchStores(selectedStoreProvince, selectedOwnerFranchise, selectedStore,selectedmonth);
         const filteredStoresStore = await filteredStoresResponseStore;
 
-        const filteredStoresResponseStorelevel = await fetchStoresScores(selectedStoreProvince, selectedOwnerFranchise, selectedStore,selectedfrom,selectedto);
+        const filteredStoresResponseStorelevel = await fetchStoresScores(selectedStoreProvince, selectedOwnerFranchise, selectedStore,selectedmonth);
         const filteredStoresStorelevel = await filteredStoresResponseStorelevel;
         creategaugeChartoutsidestorelevel(filteredStoresStorelevel);
         creategaugeChartinsidestorelevel(filteredStoresStorelevel);
