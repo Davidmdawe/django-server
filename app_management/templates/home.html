@@ -166,43 +166,75 @@ select {
             <img src="{% static 'app_management/images/logo.jpeg' %}" alt="Logo" style="margin-top: 1%;">
             
         </div>
-   <!--  <a class="btn" style="text-align: center; background-color: #FFD200; font-family: 'Speedee', sans-serif;" href="#Home">Landing Page</a>-->
+        <a class="btn" style="text-align: center; background-color: #FFD200; font-family: 'Speedee', sans-serif;" href="#Home">Landing Page</a>
         <a class="btn" style="text-align: center; background-color: #FFD200; font-family: 'Speedee', sans-serif;" href="#visuals">Store</a>
         
     </header>
     <nav>
         <a class="btn" style="text-align: center; background-color: #FFD200; font-family: 'Speedee', sans-serif;" href="{% url 'logout' %}">Logout</a>
     </nav>
-    <div id="Home" class="container"   style="max-width: 100%; padding: 0; margin: 0;">
+    <div id="Home" class="container active"   style="max-width: 100%; padding: 0; margin: 0;">
         <h1 style="font-weight: bold;font-size: 200%;font-family: 'Speedee', sans-serif;">Retail Audit Reporting Landing Page</h1>
         <hr>
         <div class="row">
             <div class="col-sm-3">
+                <label for="filter_main" style="font-weight: bold;font-family: 'Speedee', sans-serif;">Select Month:</label>
+                <select id="month_main" class="form-control drop-down-list">
+                    <!--  <option value="all">All</option>-->
+                    <!-- <option value="December_2023">December 2023</option>-->
+                    <option value="January_2024">January 2024</option>
+                </select>
+            </div>
+            <div class="col-sm-3">
                 <label for="filter1" style="font-family: 'Speedee', sans-serif;">Select Province:</label>
                         <select id="filter1" class="form-control drop-down-list">
                             <option value="all">All</option>
-                            <option value="Eastern Cape">Eastern Cape</option>
-                            <option value="Free State">Free State</option>
-                            <option value="Gauteng">Gauteng</option>
-                            <option value="KwaZulu-Natal">KwaZulu-Natal</option>
-                            <option value="Limpopo">Limpopo</option>
-                            <option value="Mpumalanga">Mpumalanga</option>
-                            <option value="North West">North West</option>
-                            <option value="Northern Cape">Northern Cape</option>
-                            <option value="Western Cap">Western Cape</option>
+                            <option value="EASTERN CAPE">Eastern Cape</option>
+                            <option value="FREE STATE">Free State</option>
+                            <option value="GAUTENG">Gauteng</option>
+                            <option value="KWAZULU-NATAL">KwaZulu-Natal</option>
+                            <option value="LIMPOPO">Limpopo</option>
+                            <option value="MPUMALANGA">Mpumalanga</option>
+                            <option value="NORTH WEST">North West</option>
+                            <option value="NORTHERN CAPE">Northern Cape</option>
+                            <option value="WESTERN CAPE">Western Cape</option>
+                            
                         </select>
             </div>
         </div>
         <hr>
         <div class="row">
+
+            <div class="col-lg-6">
+                <div class="card-body shadow-lg" style="height: 100%;">
+                    <div class="card-header py-2" style="text-align: center; background-color:#FFD200;font-weight: bold;font-family: 'Speedee', sans-serif;">
+                        Store Distribution by Region
+                    </div>
+                    <div id="container-pie-main"></div>
+                </div>
+            </div>
+            <div class="col-lg-6">
+                <div class="card-body shadow-lg" style="height: 100%;">
+                    <div class="card-header py-2" style="text-align: center; background-color:#FFD200; font-weight: bold; font-family: 'Speedee', sans-serif;">
+                        Total Audited Stores
+                    </div>
+                    <div id="total" class="total-text" style="text-align: center; color: #FFD200; font-weight: bold; margin-top: 50px; font-size: 200px;">
+                    </div>
+                </div>
+            </div>
+            
+            
             <div class="col-lg-12">
                 <div class="card-body shadow-lg" style="height: 100%;">
                     <div class="card-header py-2" style="text-align: center; background-color:#FFD200;font-weight: bold;font-family: 'Speedee', sans-serif;">
-                        McDonald\'s Stores in South Africa
+                        Store Distribution by Region Map
                     </div>
                     <div id="container"></div>
                 </div>
             </div>
+
+
+            
           <!--  <div class="col-lg-3">
                 <div class="card-body shadow-lg">
                     <div class="card-header py-2" style="text-align: center; background-color:#FFD200;font-weight: bold;font-family: 'Speedee', sans-serif;">
@@ -247,7 +279,7 @@ select {
         
     </div>
 
-    <div id="visuals" class="container active" style="max-width: 100%; padding: 0; margin: 0;">
+    <div id="visuals" class="container" style="max-width: 100%; padding: 0; margin: 0;">
         <h1 style="font-weight: bold;font-size: 200%;font-family: 'Speedee', sans-serif;">Retail Audit Reporting Visualisations</h1>
         <hr>
         <div class="row">
@@ -679,6 +711,7 @@ const chart = Highcharts.mapChart('container-visualizations', {
         console.log('McDonald\'s stores:', data);
         
         console.log('McDonald\'s stores:', data);
+        
         const convertedStoreData = data.map(point => {
         const lat = parseFloat(point.latitude.replace(',', '.')) || 0;
         const lon = parseFloat(point.longitude.replace(',', '.')) || 0;
@@ -694,68 +727,204 @@ const chart = Highcharts.mapChart('container-visualizations', {
         // Create the Highcharts map chart
         // Create the Highcharts map chart
         Highcharts.mapChart('container', {
-            
             title: {
                 text: '',
             },
-
             legend: {
                 align: 'left',
                 layout: 'vertical',
                 floating: true
             },
-
             accessibility: {
                 point: {
                     valueDescriptionFormat: '{xDescription}.'
                 }
             },
-
             mapNavigation: {
                 enabled: true
             },
             credits: {
-                        enabled: false
-                    },
+                enabled: false
+            },
             tooltip: {
-                    headerFormat: '',
-                    pointFormat: `
-                        <b></b><br>
-                        Physical Address: <br>
-                        Phone Number: }<br>
-                        Province: 
-                    `,
-                    footerFormat: '',
-                    xDateFormat: '%Y-%m-%d %H:%M:%S'
+                headerFormat: '',
+                pointFormat: `
+                    <b></b><br>
+                    Audiited:{point.total}  <br>
+                `,
+                footerFormat: '',
+                xDateFormat: '%Y-%m-%d %H:%M:%S'
             },
             plotOptions: {
                 series: {
                     marker: {
-                        fillColor: '#FFFFFF',
+                        fillColor: '#FFD100', // McDonald's yellow color for markers
                         lineWidth: 2,
-                        lineColor: Highcharts.getOptions().colors[1]
+                        lineColor: '#FFD100', // McDonald's yellow color for border
                     }
                 }
             },
             series: [{
-            mapData,  // Ensure that mapData is defined
-            name: 'South Africa',
-            borderColor: '#707070',
-            nullColor: 'rgba(200, 200, 200, 0.3)',
-            showInLegend: false
+                mapData,  // Ensure that mapData is defined
+                name: 'South Africa',
+                borderColor: '#FFD100', // McDonald's yellow color for the map border
+                color: '#FFD100', // McDonald's yellow color for the map
+                showInLegend: false
             }, {
                 type: 'mappoint',
                 name: 'Stores',
                 dataLabels: {
-                    format: '{point.site_name}'  
+                    format: '{point.site_name}'
                 },
-                data: convertedStoreData  
+                data: convertedStoreData
             }]
         });
 
 
+
+        // Extracting data for the pie chart
+        const pieChartData = data.map(store => ({
+            name: store.site_name,
+            y: parseInt(store.total),  // Assuming 'total' is a number
+            region: store.region,
+        }));
+
+        // Custom colors aligned with McDonald's branding
+        const mcdonaldsColors = {
+            'Eastern Cape': '#FFD100',        // McDonald's yellow
+            'Free State': '#FF0000',          // McDonald's red
+            'Gauteng': '#FFD100',     // McDonald's yellow
+            'KwaZulu-Natal': '#FF0000',       // McDonald's red
+            'Limpopo': '#FFD100',              // McDonald's yellow
+            'Mpumalanga': '#FF0000',           // McDonald's red
+            'North West': '#FFD100',           // McDonald's yellow
+            'Northern Cape': '#FF0000',        // McDonald's red
+            'Western Cape': '#FFD100',         // McDonald's yellow
+        };
+
+        // Map the colors to the pieChartData
+        pieChartData.forEach(dataPoint => {
+            dataPoint.color = mcdonaldsColors[dataPoint.region];
+        });
+
+        // Highcharts Pie Chart Configuration
+        Highcharts.chart('container-pie-main', {
+            chart: {
+                type: 'pie'
+            },
+            title: {
+                text: ''
+            },
+            credits: {
+                enabled: false
+            },
+            tooltip: {
+                pointFormat: '<b>{point.name}</b>: {point.y} stores'
+            },
+            plotOptions: {
+                pie: {
+                    colors: pieChartData.map(dataPoint => dataPoint.color)
+                }
+            },
+            series: [{
+                name: 'Region',
+                colorByPoint: true,
+                data: pieChartData
+            }]
+        });
+
     };
-    
+        const filterDropdownpro1 = document.getElementById('filter1');
+        const filterDropdown1 = document.getElementById('filter1');
+        filterDropdown1.addEventListener('change', async () => {
+        const filterDropdownpro3 = filterDropdownpro1.value; // Move this line inside the event listener
+        console.log('Provinces')
+        console.log(filterDropdownpro3)
+        
+        if (filterDropdownpro3=="all")
+        {
+            const responseData = [
+                // ... other store objects
+                // Add central coordinates for provinces
+                { "site_name": "Eastern Cape", "latitude": "-32.2968", "longitude": "26.4194", "region": "Eastern Cape","total":  "{{ num_EASTERN_CAPE_stores}}" },
+                { "site_name": "Free State", "latitude": "-29.1211", "longitude": "26.2140", "region": "Free State","total":  "{{num_FREE_STATE_stores}}" },
+                { "site_name": "Gauteng", "latitude": "-26.2708", "longitude": "28.1123", "region": "Gauteng","total":  "{{ num_gauteng_stores}}"},
+                { "site_name": "KwaZulu-Natal", "latitude": "-29.8499", "longitude": "30.9668", "region": "KwaZulu-Natal","total":  "{{ num_KWAZULU_NATAL_stores}}" },
+                { "site_name": "Limpopo", "latitude": "-23.4015", "longitude": "29.4185", "region": "Limpopo","total":  "{{ num_LIMPOPO_stores}}" },
+                { "site_name": "Mpumalanga", "latitude": "-25.5653", "longitude": "30.5279", "region": "Mpumalanga","total":  "{{ num_MPUMALANGA_stores}}" },
+                { "site_name": "North West", "latitude": "-25.6765", "longitude": "26.1182", "region": "North West","total":  "{{ num_NORTH_WEST_stores}}" },
+                { "site_name": "Northern Cape", "latitude": "-29.0468", "longitude": "21.8569", "region": "Northern Cape","total":  "{{num_NORTHERN_CAPE_stores}}" },
+                { "site_name": "Western Cape", "latitude": "-33.9180", "longitude": "18.4233", "region": "Western Cape","total":  "{{ num_WESTERN_CAPE_stores}}" }
+            ];
+            createMapChart(responseData);
+            const divElement = document.getElementById("total");
+            divElement.innerHTML = "{{total_stores}}"
+        }else if(filterDropdownpro3=='EASTERN CAPE'){
+            const responseData = [
+              { "site_name": "Eastern Cape", "latitude": "-32.2968", "longitude": "26.4194", "region": "Eastern Cape","total":  "{{ num_EASTERN_CAPE_stores}}" },
+            ];
+            createMapChart(responseData);
+            const divElement = document.getElementById("total");
+            divElement.innerHTML = "{{ num_EASTERN_CAPE_stores}}"
+        }else if(filterDropdownpro3=='FREE STATE'){
+            const responseData = [
+              { "site_name": "Free State", "latitude": "-29.1211", "longitude": "26.2140", "region": "Free State","total":  "{{num_FREE_STATE_stores}}" },
+            ];
+            createMapChart(responseData);
+            const divElement = document.getElementById("total");
+            divElement.innerHTML = "{{num_FREE_STATE_stores}}"
+        }else if(filterDropdownpro3=='GAUTENG'){
+            const responseData = [
+            { "site_name": "Gauteng", "latitude": "-26.2708", "longitude": "28.1123", "region": "Gauteng","total":  "{{ num_gauteng_stores}}" },
+            ];
+            createMapChart(responseData);
+            const divElement = document.getElementById("total");
+            divElement.innerHTML = "{{ num_gauteng_stores}}"
+        }else if(filterDropdownpro3=='KWAZULU-NATAL'){
+            const responseData = [
+            { "site_name": "KwaZulu-Natal", "latitude": "-29.8499", "longitude": "30.9668", "region": "KwaZulu-Natal","total":  "{{ num_KWAZULU_NATAL_stores}}" },
+            ];
+            createMapChart(responseData);
+            const divElement = document.getElementById("total");
+            divElement.innerHTML = "{{ num_KWAZULU_NATAL_stores}}"
+        }else if(filterDropdownpro3=='LIMPOPO'){
+            const responseData = [
+            { "site_name": "Limpopo", "latitude": "-23.4015", "longitude": "29.4185", "region": "Limpopo","total":  "{{num_LIMPOPO_stores}}" },
+            ];
+            createMapChart(responseData);
+            const divElement = document.getElementById("total");
+            divElement.innerHTML = "{{num_LIMPOPO_stores}}"
+        }else if(filterDropdownpro3=='MPUMALANGA'){
+            const responseData = [
+            { "site_name": "Mpumalanga Central", "latitude": "-25.5653", "longitude": "30.5279", "region": "Mpumalanga","total":  "{{ num_MPUMALANGA_stores}}" },
+            ];
+            createMapChart(responseData);
+            const divElement = document.getElementById("total");
+            divElement.innerHTML = "{{ num_MPUMALANGA_stores}}"
+        }else if(filterDropdownpro3=='NORTH WEST'){
+            const responseData = [
+            { "site_name": "North West", "latitude": "-25.6765", "longitude": "26.1182", "region": "North West","total":  "{{ num_NORTH_WEST_stores}}" },
+            ];
+            createMapChart(responseData);
+            const divElement = document.getElementById("total");
+            divElement.innerHTML ="{{ num_NORTH_WEST_stores}}"
+        }else if(filterDropdownpro3=='NORTHERN CAPE'){
+            const responseData = [
+            { "site_name": "Northern Cape Central", "latitude": "-29.0468", "longitude": "21.8569", "region": "Northern Cape","total":  "{{ num_NORTHERN_CAPE_stores}}" },
+            ];
+            createMapChart(responseData);
+            const divElement = document.getElementById("total");
+            divElement.innerHTML ="{{ num_NORTHERN_CAPE_stores}}"
+        }else if(filterDropdownpro3=='WESTERN CAPE'){
+            const responseData = [
+            { "site_name": "Western Cape", "latitude": "-33.9180", "longitude": "18.4233", "region": "Western Cape","total":  "{{ num_WESTERN_CAPE_stores}}" }
+            ];
+            createMapChart(responseData);
+            const divElement = document.getElementById("total");
+            divElement.innerHTML ="{{ num_WESTERN_CAPE_stores}}"
+        }
+        
+    });
     const creategaugeChart = (data) => {
         // Extract the summary data from the last object in the array
         const summaryData = data[data.length - 1];
@@ -2272,7 +2441,24 @@ const chart = Highcharts.mapChart('container-visualizations', {
     const allStores = await allStoresResponse;
     //const allStores ='';
     //createMapStore(allStoresby);
-    createMapChart(allStores);
+    
+    const responseData2 = [
+                // ... other store objects
+                // Add central coordinates for provinces
+                { "site_name": "Eastern Cape", "latitude": "-32.2968", "longitude": "26.4194", "region": "Eastern Cape","total":  "{{ num_EASTERN_CAPE_stores}}" },
+                { "site_name": "Free State", "latitude": "-29.1211", "longitude": "26.2140", "region": "Free State","total":  "{{num_FREE_STATE_stores}}" },
+                { "site_name": "Gauteng", "latitude": "-26.2708", "longitude": "28.1123", "region": "Gauteng","total":  "{{ num_gauteng_stores}}"},
+                { "site_name": "KwaZulu-Natal", "latitude": "-29.8499", "longitude": "30.9668", "region": "KwaZulu-Natal","total":  "{{ num_KWAZULU_NATAL_stores}}" },
+                { "site_name": "Limpopo", "latitude": "-23.4015", "longitude": "29.4185", "region": "Limpopo","total":  "{{ num_LIMPOPO_stores}}" },
+                { "site_name": "Mpumalanga", "latitude": "-25.5653", "longitude": "30.5279", "region": "Mpumalanga","total":  "{{ num_MPUMALANGA_stores}}" },
+                { "site_name": "North West", "latitude": "-25.6765", "longitude": "26.1182", "region": "North West","total":  "{{ num_NORTH_WEST_stores}}" },
+                { "site_name": "Northern Cape", "latitude": "-29.0468", "longitude": "21.8569", "region": "Northern Cape","total":  "{{ num_NORTHERN_CAPE_stores}}" },
+                { "site_name": "Western Cape", "latitude": "-33.9180", "longitude": "18.4233", "region": "Western Cape","total":  "{{ num_WESTERN_CAPE_stores}}" },
+                
+    ];
+    const divElement = document.getElementById("total");
+    divElement.innerHTML = "{{total_stores}}"
+    createMapChart(responseData2);
     creategaugeChart(allStores);
     creategaugeChartinside(allStores);
     creategaugeChartMainDigitalMenu(allStores);
