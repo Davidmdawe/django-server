@@ -41,7 +41,56 @@ def home_view(request):
     restaurant= Store_level.objects.filter(store_id__in=ids).values('site_name','store_id')
     print('store_ids')
     print(restaurant)
-    context = {'provinces': provinces,'username':username,'franchise_mcopco':franchise_mcopco,'restaurant':restaurant,'region_name':region_name}
+
+    # Get all store IDs from Menu model
+    all_store_ids = Menu.objects.values_list('store_id', flat=True).distinct()
+
+    # Filter store details from Shops model where the region is Gauteng
+    gauteng_stores = Store_level.objects.filter(store_id__in=all_store_ids, region='GAUTENG')
+
+    # Count the number of stores in Gauteng
+    num_gauteng_stores = gauteng_stores.count()
+
+    # Filter store details from Shops model where the region is Gauteng
+    FREE_STATE_stores = Store_level.objects.filter(store_id__in=all_store_ids, region='FREE STATE')
+
+    # Count the number of stores in Gauteng
+    num_FREE_STATE_stores = FREE_STATE_stores.count()
+
+    EASTERN_CAPE_stores = Store_level.objects.filter(store_id__in=all_store_ids, region='EASTERN CAPE')
+
+    # Count the number of stores in Gauteng
+    num_EASTERN_CAPE_stores = EASTERN_CAPE_stores.count()
+
+    KWAZULU_NATAL_stores = Store_level.objects.filter(store_id__in=all_store_ids, region='KWAZULU-NATAL')
+
+    # Count the number of stores in Gauteng
+    num_KWAZULU_NATAL_stores = KWAZULU_NATAL_stores.count()
+    LIMPOPO_stores = Store_level.objects.filter(store_id__in=all_store_ids, region='LIMPOPO')
+
+    # Count the number of stores in Gauteng
+    num_LIMPOPO_stores = LIMPOPO_stores.count()
+    MPUMALANGA_stores = Store_level.objects.filter(store_id__in=all_store_ids, region='MPUMALANGA')
+
+    # Count the number of stores in Gauteng
+    num_MPUMALANGA_stores = MPUMALANGA_stores.count()
+    NORTH_WEST_stores = Store_level.objects.filter(store_id__in=all_store_ids, region='NORTH WEST')
+
+    # Count the number of stores in Gauteng
+    num_NORTH_WEST_stores = NORTH_WEST_stores.count()
+
+    NORTHERN_CAPE_stores = Store_level.objects.filter(store_id__in=all_store_ids, region='NORTHERN CAPE')
+
+    # Count the number of stores in Gauteng
+    num_NORTHERN_CAPE_stores =NORTHERN_CAPE_stores.count()
+    WESTERN_CAPE_stores = Store_level.objects.filter(store_id__in=all_store_ids, region='WESTERN CAPE')
+
+    # Count the number of stores in Gauteng
+    num_WESTERN_CAPE_stores =WESTERN_CAPE_stores.count()
+
+    total_stores=num_WESTERN_CAPE_stores+num_NORTHERN_CAPE_stores+num_NORTH_WEST_stores +num_LIMPOPO_stores+num_KWAZULU_NATAL_stores+num_EASTERN_CAPE_stores+num_FREE_STATE_stores+num_gauteng_stores
+    print(f'Number of stores in Gauteng: {num_gauteng_stores}')
+    context = {'provinces': provinces,'total_stores':total_stores,'num_NORTHERN_CAPE_stores':num_NORTHERN_CAPE_stores,'num_WESTERN_CAPE_stores':num_WESTERN_CAPE_stores,'num_NORTH_WEST_stores':num_NORTH_WEST_stores,'num_MPUMALANGA_stores':num_MPUMALANGA_stores,'num_LIMPOPO_stores':num_LIMPOPO_stores,'num_KWAZULU_NATAL_stores':num_KWAZULU_NATAL_stores,'num_EASTERN_CAPE_stores':num_EASTERN_CAPE_stores,'num_FREE_STATE_stores':num_FREE_STATE_stores,'num_gauteng_stores':num_gauteng_stores,'username':username,'franchise_mcopco':franchise_mcopco,'restaurant':restaurant,'region_name':region_name}
     return render(request, 'home.html', context)
 
 @login_required()
@@ -57,8 +106,9 @@ def get_store_data(request):
         data = []  # Initialize the data list
         if selected_province == 'all':
             stores = Store_level.objects.values('site_name', 'latitude', 'longitude', 'region')
+
         else:
-            stores = Store_level.objects.filter(province=selected_province).values('site_name', 'latitude', 'longitude', 'region')
+            stores = Store_level.objects.filter(region=selected_province).values('site_name', 'latitude', 'longitude', 'region')
 
         # Convert QuerySet to a list of dictionaries
         stores_list = list(stores)
@@ -70,7 +120,7 @@ def get_store_data(request):
                 'region': store['region'],
                 'selected_province': selected_province
             })
-
+        
         return JsonResponse(data, safe=False)
     except Exception as e:
         # Log the error and handle it appropriately
@@ -187,7 +237,8 @@ def get_store_data_store_level(request):
         'campaigns',
         'campaigns_list',
         'description_outside',
-        'signage_condition'
+        'signage_condition',
+        'mystorecamp_img_url'
     ).last()
     print('OutSide')
     print(Outqueryset)
@@ -203,6 +254,7 @@ def get_store_data_store_level(request):
         out_branding_condition = item['signage_condition']
         out_signage_condition = item['disclaimer']
         out_campaigns = item['campaigns_list']
+        mystorecamp_img_url = item['mystorecamp_img_url']
         outsidemystorecamp=item['outsidemystorecamp']
         out_description_outside = item['description_outside']
         out_campaign = item['campaigns']
@@ -218,7 +270,7 @@ def get_store_data_store_level(request):
         print("No records found within the specified date range.")
 
 
-    Inqueryset = Inside.objects.filter(store_id=selected_store,inside_date__gte=start_date,inside_date__lte=end_date).values('insidemystorecamp','store_id','pop_description','employee_no','inside_date', 'point_of_purchase','self_order_kiosk','promo_sok_campaigns_list','happy_m_campaign','description_inside').last()
+    Inqueryset = Inside.objects.filter(store_id=selected_store,inside_date__gte=start_date,inside_date__lte=end_date).values('mystorecamp_image_url','insidemystorecamp','store_id','pop_description','employee_no','inside_date', 'point_of_purchase','self_order_kiosk','promo_sok_campaigns_list','happy_m_campaign','description_inside').last()
     print('Inside')
     print(Inqueryset)
     if Inqueryset:
@@ -319,6 +371,6 @@ def get_store_data_store_level(request):
         store_site_name=selected_store_name_store
         total_score_delivery += mc_delivery_score+third_party_del_score
                     
-    data.append({'out_pop_description_inside':out_pop_description_inside,'digital_menu_mc':digital_menu_mc,'insidemystorecamp':insidemystorecamp,'outsidemystorecamp':outsidemystorecamp,'digital_menu':digital_menu,'out_campaign_outside_store_site_name':out_campaign_outside_store_site_name,'out_campaign_outside_date':out_campaign_outside_date,'out_store_site_name':out_store_site_name,'out_description_inside_date':out_description_inside_date,'description_menu_store_site_name':description_menu_store_site_name,'description_menu_date':description_menu_date,'mccafe_store_site_name':mccafe_store_site_name,'mccafe_date':mccafe_date,'drive_store_site_name':drive_store_site_name,'drivethru_date':drivethru_date,'store_site_name':store_site_name,'delivery_date':delivery_date,'description_delivery':description_delivery,'target_delivery':target_delivery,'third_party_del':third_party_del,'mc_delivery':mc_delivery,'total_score_delivery':total_score_delivery,'activation_description':activation_description,'customer_order_display':customer_order_display,'drivethru_campaign':drivethru_campaign,'target_drivethru':target_drivethru,'activation_on_promo':activation_on_promo,'total_score_drivethru':total_score_drivethru,'description_mccafe':description_mccafe,'menu_promo':menu_promo,'mccafemenu_visibility':mccafemenu_visibility,'target_mccafe':target_mccafe,'total_score_Mccafe':total_score_Mccafe,'description_menu':description_menu,'menu_promotion':menu_promotion,'price_visibility':price_visibility,'out_description_inside':out_description_inside,'out_happy_m_campaign':out_happy_m_campaign,'out_promo_sok_campaigns':out_promo_sok_campaigns,'out_description_outside':out_description_outside,'out_campaigns':out_campaigns,'total_score_Main': total_score_Main,'menu_visibility':menu_visibility,'target_menu':target_menu,'total_score_inside': total_score_inside,'out_point_of_sale':out_point_of_sale,'out_self_order_kiosk':out_self_order_kiosk,'target_inside':target_inside,'total_score_outside': total_score_outside,'out_campaign':out_campaign, 'target_outside': target_outside, 'selected_store': selected_store,'out_branding_condition':out_branding_condition,'out_signage_condition':out_signage_condition})
+    data.append({'out_pop_description_inside':out_pop_description_inside,'mystorecamp_img_url':mystorecamp_img_url,'digital_menu_mc':digital_menu_mc,'insidemystorecamp':insidemystorecamp,'outsidemystorecamp':outsidemystorecamp,'digital_menu':digital_menu,'out_campaign_outside_store_site_name':out_campaign_outside_store_site_name,'out_campaign_outside_date':out_campaign_outside_date,'out_store_site_name':out_store_site_name,'out_description_inside_date':out_description_inside_date,'description_menu_store_site_name':description_menu_store_site_name,'description_menu_date':description_menu_date,'mccafe_store_site_name':mccafe_store_site_name,'mccafe_date':mccafe_date,'drive_store_site_name':drive_store_site_name,'drivethru_date':drivethru_date,'store_site_name':store_site_name,'delivery_date':delivery_date,'description_delivery':description_delivery,'target_delivery':target_delivery,'third_party_del':third_party_del,'mc_delivery':mc_delivery,'total_score_delivery':total_score_delivery,'activation_description':activation_description,'customer_order_display':customer_order_display,'drivethru_campaign':drivethru_campaign,'target_drivethru':target_drivethru,'activation_on_promo':activation_on_promo,'total_score_drivethru':total_score_drivethru,'description_mccafe':description_mccafe,'menu_promo':menu_promo,'mccafemenu_visibility':mccafemenu_visibility,'target_mccafe':target_mccafe,'total_score_Mccafe':total_score_Mccafe,'description_menu':description_menu,'menu_promotion':menu_promotion,'price_visibility':price_visibility,'out_description_inside':out_description_inside,'out_happy_m_campaign':out_happy_m_campaign,'out_promo_sok_campaigns':out_promo_sok_campaigns,'out_description_outside':out_description_outside,'out_campaigns':out_campaigns,'total_score_Main': total_score_Main,'menu_visibility':menu_visibility,'target_menu':target_menu,'total_score_inside': total_score_inside,'out_point_of_sale':out_point_of_sale,'out_self_order_kiosk':out_self_order_kiosk,'target_inside':target_inside,'total_score_outside': total_score_outside,'out_campaign':out_campaign, 'target_outside': target_outside, 'selected_store': selected_store,'out_branding_condition':out_branding_condition,'out_signage_condition':out_signage_condition})
     print(data)
     return JsonResponse(data, safe=False)
