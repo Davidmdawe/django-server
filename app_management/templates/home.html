@@ -166,38 +166,44 @@ select {
             <img src="{% static 'app_management/images/logo.jpeg' %}" alt="Logo" style="margin-top: 1%;">
             
         </div>
-      <!-- <a class="btn" style="text-align: center; background-color: #FFD200; font-family: 'Speedee', sans-serif;" href="#Home">Landing Page</a>
-        <a class="btn" style="text-align: center; background-color: #FFD200; font-family: 'Speedee', sans-serif;" href="#visuals">Store</a>-->
-        <h1 style="font-weight: bold;font-size: 200%;font-family: 'Speedee', sans-serif;">Retail Audit Reporting Visualisations</h1>
+   <!--  <a class="btn" style="text-align: center; background-color: #FFD200; font-family: 'Speedee', sans-serif;" href="#Home">Landing Page</a>-->
+        <a class="btn" style="text-align: center; background-color: #FFD200; font-family: 'Speedee', sans-serif;" href="#visuals">Store</a>
+        
     </header>
     <nav>
         <a class="btn" style="text-align: center; background-color: #FFD200; font-family: 'Speedee', sans-serif;" href="{% url 'logout' %}">Logout</a>
     </nav>
     <div id="Home" class="container"   style="max-width: 100%; padding: 0; margin: 0;">
-        <h1 style="font-size: 30px;font-family: 'Speedee', sans-serif;">Retail Audit Reporting Landing Page</h1>
+        <h1 style="font-weight: bold;font-size: 200%;font-family: 'Speedee', sans-serif;">Retail Audit Reporting Landing Page</h1>
         <hr>
         <div class="row">
             <div class="col-sm-3">
                 <label for="filter1" style="font-family: 'Speedee', sans-serif;">Select Province:</label>
-                <select id="filter1" class="form-control drop-down-list">
-                    <option value="all">All</option>
-                    {% for province in provinces %}
-                        <option value="{{ province.name }}">{{ province.name }}</option>
-                    {% endfor %}
-                </select>
+                        <select id="filter1" class="form-control drop-down-list">
+                            <option value="all">All</option>
+                            <option value="Eastern Cape">Eastern Cape</option>
+                            <option value="Free State">Free State</option>
+                            <option value="Gauteng">Gauteng</option>
+                            <option value="KwaZulu-Natal">KwaZulu-Natal</option>
+                            <option value="Limpopo">Limpopo</option>
+                            <option value="Mpumalanga">Mpumalanga</option>
+                            <option value="North West">North West</option>
+                            <option value="Northern Cape">Northern Cape</option>
+                            <option value="Western Cap">Western Cape</option>
+                        </select>
             </div>
         </div>
         <hr>
         <div class="row">
-            <div class="col-lg-6">
+            <div class="col-lg-12">
                 <div class="card-body shadow-lg" style="height: 100%;">
                     <div class="card-header py-2" style="text-align: center; background-color:#FFD200;font-weight: bold;font-family: 'Speedee', sans-serif;">
                         McDonald\'s Stores in South Africa
                     </div>
-                    <div id="container"  style="width: 100%; height: 90%;margin: auto;"></div>
+                    <div id="container"></div>
                 </div>
             </div>
-            <div class="col-lg-3">
+          <!--  <div class="col-lg-3">
                 <div class="card-body shadow-lg">
                     <div class="card-header py-2" style="text-align: center; background-color:#FFD200;font-weight: bold;font-family: 'Speedee', sans-serif;">
                         Upon Entrance(outside)
@@ -236,13 +242,13 @@ select {
                     </div>
                     <div id="gauge-container-new3" style="width: 50%; height: 50%; margin: auto;"></div>
                 </div>
-            </div>
+            </div>-->
         </div>
         
     </div>
 
     <div id="visuals" class="container active" style="max-width: 100%; padding: 0; margin: 0;">
-       
+        <h1 style="font-weight: bold;font-size: 200%;font-family: 'Speedee', sans-serif;">Retail Audit Reporting Visualisations</h1>
         <hr>
         <div class="row">
             <!--<div class="col-sm-2">
@@ -257,33 +263,33 @@ select {
                 <label for="filter1" style="font-weight: bold;font-family: 'Speedee', sans-serif;">Select Month:</label>
                 <select id="month" class="form-control drop-down-list">
                     <!--  <option value="all">All</option>-->
-                    <option value="December_2023">December 2023</option>
-                   <!-- <option value="January_2024">January 2024</option>-->
+                    <!-- <option value="December_2023">December 2023</option>-->
+                    <option value="January_2024">January 2024</option>
                 </select>
             </div>
-            <div class="col-sm-3">
+          <!-- <div class="col-sm-3">
                 <label for="filter1" style="font-weight: bold;font-family: 'Speedee', sans-serif;">Select Province:</label>
                 <select id="filterprovincestore" class="form-control drop-down-list">
-                    <!--  <option value="all">All</option>-->
+                     <option value="all">All</option>
                     {% for province in region_name %}
-                        <option value="{{ province.region__name }}">{{ province.region__name }}</option>
-                    {% endfor %}
+                    <option value="{{ province.region}}">{{ province.region }}</option>
+                     {% endfor %}
                 </select>
-            </div>
-           <div class="col-sm-3">
+            </div>-->
+         <!--<div class="col-sm-3">
                 <label for="filter2" style="font-weight: bold;font-family: 'Speedee', sans-serif;">Select Own/Franchise:</label>
                 <select id="filterownerfranchise" class="form-control drop-down-list">
-                  <!--  <option value="all">All</option>-->
+                  <option value="all">All</option>
                     {% for own_franchise in franchise_mcopco %}
-                        <option value="{{ own_franchise.franchise_mcopco }}">{{ own_franchise.franchise_mcopco }}</option>
+                        <option value="{{ own_franchise.portfolio_type }}">{{ own_franchise.portfolio_type }}</option>
                     {% endfor %} 
                 </select>
-            </div>
+            </div>-->  
             <div class="col-sm-3">
                 <label for="filter2" style="font-weight: bold;font-family: 'Speedee', sans-serif;">Select Store:</label>
                 <select id="filterstore" class="form-control drop-down-list">
                     {% for store in restaurant %}
-                        <option value="{{ store.restaurant }}">{{ store.restaurant }}</option>
+                        <option value="{{ store.store_id}}">{{ store.site_name}}</option>
                     {% endfor %} 
                 </select>
             </div>
@@ -336,9 +342,13 @@ select {
                         <p id="displayText2"></p>
                         <hr>
                         <p id="displayText3"></p>
+                        <hr>
+                        <p id="displayText8"></p>
+                        <hr>
                         <p id="displayText5"></p>
                         <p id="displayText7"></p>
                         <p id="displayText6"></p>
+                       
                         <hr>
                         <p id="displayText4"></p>
                     </div>
@@ -355,12 +365,14 @@ select {
                     <div id="textContainer">
                         <p id="displayinside"></p>
                         <p id="displayinsidename"></p>
-                        
                         <hr>
                         <p id="displayTextinside"></p>
+                        <hr>
                         <p id="displayTextinside10"></p>
                         <hr>
                         <p id="displayTextinside2"></p>
+                        <hr>
+                        <p id="displayTextinside12"></p>
                         <hr>
                         <p id="displayTextinside3"></p>
                         <p id="displayTextinside6"></p>
@@ -368,6 +380,8 @@ select {
                         <p id="displayTextinside4"></p>
                         <p id="displayTextinside9"></p>
                         <p id="displayTextinside8"></p>
+                        <hr>
+                        <p id="displayTextinside11"></p>
                         <hr>
                         <p id="displayTextinside5"></p>
                     </div>
@@ -382,6 +396,8 @@ select {
                     <div id="textContainer">
                         <p id="displaymenu"></p>
                         <p id="displaymenuname"></p>
+                        <hr>
+                        <p id="displayTdigital"></p>
                         <hr>
                         <p id="displayTextmenu"></p>
                         <hr>
@@ -406,6 +422,8 @@ select {
                     <div id="textContainermenu">
                         <p id="displaymccafe"></p>
                         <p id="displaymccafename"></p>
+                        <hr>
+                        <p id="displayTextmccafe5"></p>
                         <hr>
                         <p id="displayTextmccafe"></p>
                         <hr>
@@ -609,19 +627,20 @@ const chart = Highcharts.mapChart('container-visualizations', {
     // Function to fetch store data based on the selected province
     const fetchStoresByProvince = async (province) => {
         const response = await fetch(`/get_store_data/?province=${province}`);
-        return await response.json();
+            return await response.json();
     };
-    const fetchStores = async (province_store, owner_franchise, store,month) => {
-        const response = await fetch(`/get_map_data/?province_store=${province_store}&owner_franchise=${owner_franchise}&store=${store}&month=${month}`);
-        return await response.json();
-    };
-    const fetchStoresScores = async (province_store, owner_franchise, store,month) => {
-        const response = await fetch(`/get_store_data_store_level/?province_store=${province_store}&owner_franchise=${owner_franchise}&store=${store}&month=${month}`);
+    //const fetchStores = async (province_store, store,month) => {
+    //    const response = await fetch(`/get_map_data/?province_store=${province_store}&store=${store}&month=${month}`);
+    //    return await response.json();
+    //};
+    const fetchStoresScores = async (province_store, store,month) => {
+        const response = await fetch(`/get_store_data_store_level/?province_store=${province_store}&store=${store}&month=${month}`);
         return await response.json();
     };
 
 
     // Function to create the Highcharts map chart
+    
     const createMapChart = (data) => {
         // Define colors for provinces
         const provinceColors = {
@@ -634,78 +653,84 @@ const chart = Highcharts.mapChart('container-visualizations', {
         // Log information about McDonald's stores
         console.log('McDonald\'s stores:', data);
         
+        console.log('McDonald\'s stores:', data);
+        const convertedStoreData = data.map(point => {
+        const lat = parseFloat(point.latitude.replace(',', '.')) || 0;
+        const lon = parseFloat(point.longitude.replace(',', '.')) || 0;
+
+            return {
+                ...point,
+                lat,
+                lon,
+            };
+        });
 
         // Create the Highcharts map chart
+        // Create the Highcharts map chart
+        // Create the Highcharts map chart
         Highcharts.mapChart('container', {
-            chart: {
-                map: topology
-            },
-            credits: {
-                enabled: false
-            },
+            
             title: {
-                text: ''
+                text: '',
             },
+
+            legend: {
+                align: 'left',
+                layout: 'vertical',
+                floating: true
+            },
+
+            accessibility: {
+                point: {
+                    valueDescriptionFormat: '{xDescription}.'
+                }
+            },
+
             mapNavigation: {
                 enabled: true
             },
-            legend: {
-                enabled: false
+            credits: {
+                        enabled: false
+                    },
+            tooltip: {
+                    headerFormat: '',
+                    pointFormat: `
+                        <b></b><br>
+                        Physical Address: <br>
+                        Phone Number: }<br>
+                        Province: 
+                    `,
+                    footerFormat: '',
+                    xDateFormat: '%Y-%m-%d %H:%M:%S'
             },
             plotOptions: {
-                mappoint: {
-                    dataLabels: {
-                        align: 'left',
-                        x: -12,
-                        y: -5,
-                        enabled: true,
-                        shape: 'callout',
-                        backgroundColor: '#FF0000',
-                        borderRadius: 5,
-                        style: {
-                            color: '#FFC72C'
-                        },
-                        formatter: function () {
-                            return this.point.province;
-                        }
-                    },
+                series: {
                     marker: {
-                        symbol: 'circle',
-                        radius: 8,
-                        states: {
-                            hover: {
-                                enabled: false
-                            }
-                        }
-                    },
-                    tooltip: {
-                        headerFormat: '',
-                        pointFormat: `<b>{point.province}</b><br>Target: {point.target}<br>Achieved: {point.achieved}`
+                        fillColor: '#FFFFFF',
+                        lineWidth: 2,
+                        lineColor: Highcharts.getOptions().colors[1]
                     }
                 }
             },
             series: [{
-                name: 'Basemap',
-                borderColor: 'black',
-                nullColor: '#FFC72C'
+            mapData,  // Ensure that mapData is defined
+            name: 'South Africa',
+            borderColor: '#707070',
+            nullColor: 'rgba(200, 200, 200, 0.3)',
+            showInLegend: false
             }, {
                 type: 'mappoint',
-                name: 'McDonald\'s Stores',
-                color: function () {
-                    return provinceColors[this.point.province];
+                name: 'Stores',
+                dataLabels: {
+                    format: '{point.site_name}'  
                 },
-                data: data,  // Use the filtered data here
-                events: {
-                    click: function (event) {
-                        const provinceName = event.point.province;
-                        // Replace the alert with your custom popup dialogue logic
-                        alert(`Clicked on ${provinceName}`);
-                    }
-                }
+                data: convertedStoreData  
             }]
         });
 
+
     };
+    
     const creategaugeChart = (data) => {
         // Extract the summary data from the last object in the array
         const summaryData = data[data.length - 1];
@@ -734,9 +759,9 @@ const chart = Highcharts.mapChart('container-visualizations', {
             },
             yAxis: {
                 min: 0,
-                max: summaryData.target,
+                max:'',
                 title: {
-                    text: summaryData.selected_province,
+                    text: '',
                     y: -70,
                 },
                 stops: [
@@ -754,7 +779,7 @@ const chart = Highcharts.mapChart('container-visualizations', {
             },
             series: [{
                 name: 'Achieved',
-                data: [summaryData.target_output],
+                data: [''],
                 tooltip: {
                     valueSuffix: ' units',
                 },
@@ -855,6 +880,8 @@ const chart = Highcharts.mapChart('container-visualizations', {
         var displayTextElement4 = document.getElementById('displayText4');
         var displayTextElement5 = document.getElementById('displayText5');
         var displayTextElement6 = document.getElementById('displayText6');
+        var displayTextElement8 = document.getElementById('displayText8');
+        
         var displayTextElement7 = document.getElementById('displayText7');
         displayT.innerHTML = '<span style="color: black;font-Weight:bold;font-size:110%">'+'Date: </span>' + summaryData.out_campaign_outside_date;
         displayT.style.color = 'black';
@@ -896,6 +923,18 @@ const chart = Highcharts.mapChart('container-visualizations', {
                 displayTextElement3.style.fontWeight = 'bold';
                 displayTextElement3.classList.add('red-text');
             }
+
+            if (summaryData.outsidemystorecamp) {
+                displayTextElement8.innerHTML = '<span style="color: black;font-size:110%"><b>4.Were there any MyStore marketing promotions/activations outside and as you entered the store?</b></span><br>Answer: ' + summaryData.outsidemystorecamp;
+                displayTextElement8.style.color = 'green';
+                displayTextElement8.style.fontWeight = 'bold';
+                displayTextElement8.classList.add('green-text');
+            } else {
+                displayTextElement8.innerHTML = '<span style="color: black;font-size:110%"><b>4.Were there any MyStore marketing promotions/activations outside and as you entered the store?</b></span><br>Answer: ' + summaryData.outsidemystorecamp;
+                displayTextElement8.style.color = 'red';
+                displayTextElement8.style.fontWeight = 'bold';
+                displayTextElement8.classList.add('red-text');
+            }
             
                 
             if (summaryData.out_campaign!="false") {
@@ -903,11 +942,15 @@ const chart = Highcharts.mapChart('container-visualizations', {
                         displayTextElement5.style.fontWeight = 'bold';
                         let promoCampaigns = summaryData.out_campaigns;
 
-                        // Split the string into an array using a comma as a delimiter
-                        let campaignsArray = promoCampaigns.split(',');
-
                         // Format and display the campaigns
-                        let formattedCampaigns = campaignsArray.map(campaign => `👍 ${campaign.trim()}.`).join('<br>');
+                        let formattedCampaigns = '';
+                        if (Array.isArray(promoCampaigns)) {
+                            // Format and display the campaigns
+                            formattedCampaigns = promoCampaigns.map(campaign => `👍 ${campaign.trim()}.`).join('<br>');
+                            // Now you can use formattedCampaigns as needed
+                        } else {
+                            console.error("promoCampaigns is not an array. Check the data structure.");
+                        }
                         displayTextElement6.innerHTML = '<br>' + formattedCampaigns;
                         displayTextElement6.style.fontWeight = 'bold';
                         displayTextElement6.style.color = 'green';
@@ -1004,6 +1047,8 @@ const chart = Highcharts.mapChart('container-visualizations', {
         var displayTextElementinside = document.getElementById('displayTextinside');
         var displayinside = document.getElementById('displayinside');
         var displayinsidename = document.getElementById('displayinsidename');
+        var displayTextElement12inside = document.getElementById('displayTextinside12');
+        
         var displayTextElement2inside = document.getElementById('displayTextinside2');
         var displayTextElement3inside = document.getElementById('displayTextinside3');
         var displayTextElement4inside = document.getElementById('displayTextinside4');
@@ -1011,12 +1056,16 @@ const chart = Highcharts.mapChart('container-visualizations', {
         var displayTextElement6inside = document.getElementById('displayTextinside6');
         //var displayTextElement7inside = document.getElementById('displayTextinside7');
         var displayTextElement8inside = document.getElementById('displayTextinside8');
+        
+        
+
         var displayTextElement9inside = document.getElementById('displayTextinside9');
         var displayTextElementinside10 = document.getElementById('displayTextinside10');
         displayinside.innerHTML = '<span style="color: black;font-Weight:bold;font-size:110%">'+'Date: </span>' + summaryData.out_description_inside_date;
         displayinside.style.color = 'black';
         displayinsidename.innerHTML = '<span style="color: black;font-Weight:bold;font-size:110%">'+'Store: </span>' + summaryData.out_store_site_name;
         displayinsidename.style.color = 'black';
+        
             // Change the text content
             if (summaryData.out_point_of_sale) {
                 displayTextElementinside.innerHTML = '<span style="color: black;font-size:110%"><b>1.Was the window POP (Point of Purchase) as per our layout?</b></span><br>Answer: ' + summaryData.out_point_of_sale;
@@ -1045,6 +1094,19 @@ const chart = Highcharts.mapChart('container-visualizations', {
                 displayTextElement2inside.classList.add('red-text');
             }
 
+            if (summaryData.insidemystorecamp) {
+                displayTextElement12inside.innerHTML = '<span style="color:black;font-size:110%"><b>3.Were there any MyStore marketing promotions/activations?</b></span><br>Answer: ' + summaryData.insidemystorecamp;
+                displayTextElement12inside.style.color = 'green';
+                displayTextElement12inside.style.fontWeight = 'bold';
+                displayTextElement12inside.classList.add('green-text');
+                
+            } else {
+                displayTextElement12inside.innerHTML = '<span style="color: black;font-size:110%"><b>3.Were there any MyStore marketing promotions/activations??</b></span><br>Answer:' + summaryData.insidemystorecamp;
+                displayTextElement12inside.style.color = 'red';
+                displayTextElement12inside.style.fontWeight = 'bold';
+                displayTextElement12inside.classList.add('red-text');
+            }
+
             if(summaryData.out_self_order_kiosk!="false"){
                 displayTextElement3inside.textContent = 'Did you see the following promotions displayed on the SOK (Self Ordering Kiosk)?';
                 //displayTextElement7inside.innerHTML = '- Hero Double Quarter Pounder with Cheese'+'<br>'+'- McFlurry Strawberry Shortcake'+'<br>'+'- 4 Piece Chicken Tenders'+'<br>'+'- McFizz Lemon Litchi'+'<br>'+'- Nazo'+'<br>'+'- Chillie Cheese McFlavour Fries (newly launched)'+'<br>'+'-Beef/Chicken Hamburger(McSaver Menu)'+'<br>'+'-Small coke-no sugar(McSaver Menu)'+'<br>'+'-Small Fries(McSaver Menu)'+'<br>'+'-Plain Sundae ice cream(McSaver Menu)';
@@ -1057,10 +1119,17 @@ const chart = Highcharts.mapChart('container-visualizations', {
                 let promoCampaigns = summaryData.out_promo_sok_campaigns;
 
                 // Split the string into an array using comma as a delimiter
-                let campaignsArray = promoCampaigns.split(',');
+                //let campaignsArray = promoCampaigns.split(',');
 
                 // Format and display the campaigns
-                let formattedCampaigns = campaignsArray.map(campaign => `👍 ${campaign.trim()}.`).join('<br>');
+                let formattedCampaigns = '';
+                if (Array.isArray(promoCampaigns)) {
+                        // Format and display the campaigns
+                        formattedCampaigns = promoCampaigns.map(campaign => `👍 ${campaign.trim()}.`).join('<br>');
+                        // Now you can use formattedCampaigns as needed
+                } else {
+                                console.error("promoCampaigns is not an array. Check the data structure.");
+                }
                 // Now, formattedCampaigns contains the desired output
                 console.log(formattedCampaigns);
                 displayTextElement6inside.innerHTML = '<br>'+ formattedCampaigns;
@@ -1074,16 +1143,18 @@ const chart = Highcharts.mapChart('container-visualizations', {
             //displayTextElement9inside.innerHTML = '-Happy meal with Pokémon toy'+'<br>'+'-Happy meal with ‘Roblox adopt me’ toy';
             //displayTextElement9inside.style.fontWeight = 'bold';
            // displayTextElement9inside.style.backgroundColor = '#FFD700';
-            let promoCampaigns = summaryData.out_happy_m_campaign;
+           let promoCampaigns = summaryData.out_campaigns;
 
-                // Split the string into an array using comma as a delimiter
-            let campaignsArray = promoCampaigns.split(',');
-
-                // Format and display the campaigns
-            let formattedCampaigns = campaignsArray.map(campaign => `👍 ${campaign.trim()}.`).join('<br>');
-            // Now, formattedCampaigns contains the desired output
-            console.log(formattedCampaigns);
-            displayTextElement8inside.innerHTML = '<br>'+ formattedCampaigns;
+            // Format and display the campaigns
+            let formattedCampaigns = '';
+            if (Array.isArray(promoCampaigns)) {
+                    // Format and display the campaigns
+                    formattedCampaigns = promoCampaigns.map(campaign => `👍 ${campaign.trim()}.`).join('<br>');
+                    // Now you can use formattedCampaigns as needed
+            } else {
+                            console.error("promoCampaigns is not an array. Check the data structure.");
+            }
+            displayTextElement8inside.innerHTML = '<br>' + formattedCampaigns;
             displayTextElement8inside.style.fontWeight = 'bold';
             displayTextElement8inside.style.color  = 'green';
 
@@ -1174,6 +1245,7 @@ const chart = Highcharts.mapChart('container-visualizations', {
         var displayTextElementmenu = document.getElementById('displayTextmenu');
         var displaymenu = document.getElementById('displaymenu');
         var displaymenuname = document.getElementById('displaymenuname');
+        var displayTdigital = document.getElementById('displayTdigital');
         var displayTextElementmenu1 = document.getElementById('displayTextmenu1');
         var displayTextElementmenu2 = document.getElementById('displayTextmenu2');
         var displayTextElementmenu3 = document.getElementById('displayTextmenu3');
@@ -1186,6 +1258,8 @@ const chart = Highcharts.mapChart('container-visualizations', {
         displaymenu.style.color = 'black';
         displaymenuname.innerHTML = '<span style="color: black;font-Weight:bold;font-size:110%"><b>'+'Store: </b></span>' + summaryData.description_menu_store_site_name;
         displaymenuname.style.color = 'black';
+        displayTdigital.innerHTML = '<span style="color: black;font-Weight:bold;font-size:110%">'+'Digital/Static: </span>' + summaryData.digital_menu;
+        displayTdigital.style.color = 'black';
             // Change the text content
             if (summaryData.menu_visibility) {
                 displayTextElementmenu.innerHTML = '✔1'+'<span style="color: black;font-size:110%"><b>'+'.Digital menu board clearly displayed and fully functioning with all promotional items displaying?</b></span><br>Answer: ' + summaryData.menu_visibility;
@@ -1199,13 +1273,18 @@ const chart = Highcharts.mapChart('container-visualizations', {
             
 
             if (summaryData.price_visibility!=0) {
+
                 let promoCampaigns1 = summaryData.price_visibility;
 
-                // Split the string into an array using comma as a delimiter
-                let campaignsArray = promoCampaigns1.split(',');
-
                 // Format and display the campaigns with the thumbs-up emoji (👍) on new lines
-                let formattedCampaigns = campaignsArray.map(campaign => `👍 ${campaign.trim()}.`).join('<br>');
+                let formattedCampaigns = '';
+                if (Array.isArray(promoCampaigns1)) {
+                        // Format and display the campaigns
+                        formattedCampaigns = promoCampaigns1.map(campaign => `👍 ${campaign.trim()}.`).join('<br>');
+                        // Now you can use formattedCampaigns as needed
+                } else {
+                                console.error("promoCampaigns is not an array. Check the data structure.");
+                }
 
                 // Now, formattedCampaigns contains the desired output
                 console.log(summaryData.price_visibility);
@@ -1228,12 +1307,15 @@ const chart = Highcharts.mapChart('container-visualizations', {
             if (summaryData.menu_promotion!=0) {
                 let promoCampaigns1 = summaryData.menu_promotion;
 
-                // Split the string into an array using comma as a delimiter
-                let campaignsArray = promoCampaigns1.split(',');
-
                 // Format and display the campaigns with the thumbs-up emoji (👍) on new lines
-                let formattedCampaigns = campaignsArray.map(campaign => `👍 ${campaign.trim()}.`).join('<br>');
-
+                let formattedCampaigns = '';
+                if (Array.isArray(promoCampaigns1)) {
+                        // Format and display the campaigns
+                        formattedCampaigns = promoCampaigns1.map(campaign => `👍 ${campaign.trim()}.`).join('<br>');
+                        // Now you can use formattedCampaigns as needed
+                } else {
+                                console.error("promoCampaigns is not an array. Check the data structure.");
+                }
                 // Now, formattedCampaigns contains the desired output
                 displayTextElementmenu4.innerHTML = 'Did you see the following promotions displayed on the digital Menu Board:';
                 displayTextElementmenu5.innerHTML = '<br>' +formattedCampaigns;
@@ -1338,6 +1420,8 @@ const chart = Highcharts.mapChart('container-visualizations', {
         var displayTextElementmccafe = document.getElementById('displayTextmccafe');
         var displayccafe = document.getElementById('displaymccafe');
         var displayccafename = document.getElementById('displaymccafename');
+        var displayTextElementmccafe5 = document.getElementById('displayTextmccafe5');
+        
         var displayTextElementmccafe1 = document.getElementById('displayTextmccafe1');
         var displayTextElementmccafe2 = document.getElementById('displayTextmccafe2');
         var displayTextElementmccafe3 = document.getElementById('displayTextmccafe3');
@@ -1346,6 +1430,8 @@ const chart = Highcharts.mapChart('container-visualizations', {
         displayccafe.style.color = 'black';
         displayccafename.innerHTML = '<span style="color: black;font-size:110%"><b>'+'Store: </b></span>' + summaryData.drive_store_site_name;
         displayccafename.style.color = 'black';
+        displayTextElementmccafe5.innerHTML = '<span style="color: black;font-size:110%"><b>'+'Is the menu Digital or Static? </b></span>' + summaryData.digital_menu_mc;
+        displayTextElementmccafe5.style.color = 'black';
         // Change the text content
         if (summaryData.mccafemenu_visibility) {
                 displayTextElementmccafe.innerHTML = '✔'+'<span style="color:black;font-size:110%"><b>'+'1.Is the menu clearly displayed?</b></span><br>Answer:' + summaryData.mccafemenu_visibility;
@@ -1361,10 +1447,14 @@ const chart = Highcharts.mapChart('container-visualizations', {
                 let promoCampaigns1 = summaryData.menu_promo;
 
                 // Split the string into an array using comma as a delimiter
-                let campaignsArray = promoCampaigns1.split(',');
-
-                // Format and display the campaigns with the thumbs-up emoji (👍) on new lines
-                let formattedCampaigns = campaignsArray.map(campaign => `👍 ${campaign.trim()}.`).join('<br>');
+                let formattedCampaigns = '';
+                if (Array.isArray(promoCampaigns1)) {
+                        // Format and display the campaigns
+                        formattedCampaigns = promoCampaigns1.map(campaign => `👍 ${campaign.trim()}.`).join('<br>');
+                        // Now you can use formattedCampaigns as needed
+                } else {
+                                console.error("promoCampaigns is not an array. Check the data structure.");
+                }
 
                 // Now, formattedCampaigns contains the desired output
                 displayTextElementmccafe1.innerHTML = 'Did you see the following promotions displayed on the digital Menu Board:';
@@ -1497,11 +1587,15 @@ const chart = Highcharts.mapChart('container-visualizations', {
             if (summaryData.drivethru_campaign!=0) {
                 let promoCampaigns1 = summaryData.drivethru_campaign;
 
-                // Split the string into an array using comma as a delimiter
-                let campaignsArray = promoCampaigns1.split(',');
-
                 // Format and display the campaigns with the thumbs-up emoji (👍) on new lines
-                let formattedCampaigns = campaignsArray.map(campaign => `👍 ${campaign.trim()}.`).join('<br>');
+                let formattedCampaigns = '';
+                if (Array.isArray(promoCampaigns1)) {
+                        // Format and display the campaigns
+                        formattedCampaigns = promoCampaigns1.map(campaign => `👍 ${campaign.trim()}.`).join('<br>');
+                        // Now you can use formattedCampaigns as needed
+                } else {
+                                console.error("promoCampaigns is not an array. Check the data structure.");
+                }
 
                 // Now, formattedCampaigns contains the desired output
                 displayTextElementdrivethru1.innerHTML = 'Which campaigns did you notice as you drove in?';
@@ -1553,9 +1647,21 @@ const chart = Highcharts.mapChart('container-visualizations', {
         } else {
             color = 'green';
         }
-
+        console.log('mccafe')
+        console.log(summaryData.mccafe_date)
+        if (summaryData.mccafe_date=0) {
+            var total_percentage = (summaryData.total_score_delivery + summaryData.total_score_drivethru  + summaryData.total_score_Main + summaryData.total_score_inside + summaryData.total_score_outside) / 11; 
+            
+        } else if(summaryData.drivethru_date=0) {
+            var total_percentage = (summaryData.total_score_delivery + summaryData.total_score_Mccafe + summaryData.total_score_Main + summaryData.total_score_inside + summaryData.total_score_outside) / 11;
+            
+        }
+        else{
+            var total_percentage = (summaryData.total_score_delivery + summaryData.total_score_drivethru + summaryData.total_score_Mccafe + summaryData.total_score_Main + summaryData.total_score_inside + summaryData.total_score_outside) / 12;
+        }
         // Calculate total percentage
-        var total_percentage = (summaryData.total_score_delivery + summaryData.total_score_drivethru + summaryData.total_score_Mccafe + summaryData.total_score_Main + summaryData.total_score_inside + summaryData.total_score_outside) / 10;
+        
+        
 
         // Round the total percentage to two decimal places
         total_percentage = total_percentage*100;
@@ -1575,7 +1681,7 @@ const chart = Highcharts.mapChart('container-visualizations', {
                         type: 'solidgauge',
                     },
                     title: {
-                        text: summaryData.selected_store,
+                        text: summaryData.selected_store_name,
                     },
                     credits: {
                         enabled: false
@@ -1630,6 +1736,7 @@ const chart = Highcharts.mapChart('container-visualizations', {
                     }],
                     
         });
+        
 
         // Assuming you have individual scores and target values
         const data2 = {
@@ -1657,12 +1764,32 @@ const chart = Highcharts.mapChart('container-visualizations', {
         const total_percentage2 = (barData.reduce((acc, score) => acc + score, 0) / (barData.length * 100)) * 100;
 
         // Create the chart using Highcharts
+        // Calculate the total sum of scores
+        const totalSum = (
+            summaryData.total_score_delivery +
+            summaryData.total_score_drivethru +
+            summaryData.total_score_Mccafe +
+            summaryData.total_score_Main +
+            summaryData.total_score_inside +
+            summaryData.total_score_outside
+        );
+
+        // Convert scores to percentages
+        const percentageDelivery = (summaryData.total_score_delivery / totalSum) * 100;
+        const percentageDriveThru = (summaryData.total_score_drivethru / totalSum) * 100;
+        const percentageMccafe = (summaryData.total_score_Mccafe / totalSum) * 100;
+        const percentageMain = (summaryData.total_score_Main / totalSum) * 100;
+        const percentageInside = (summaryData.total_score_inside / totalSum) * 100;
+        const percentageOutside = (summaryData.total_score_outside / totalSum) * 100;
+
+        
+
         Highcharts.chart('container-compare-bar', {
         chart: {
             type: 'column'
         },
         title: {
-            text: summaryData.selected_store
+            text: summaryData.selected_store_name
         },
         xAxis: {
             categories: Object.keys(data2)
@@ -1827,9 +1954,9 @@ const chart = Highcharts.mapChart('container-visualizations', {
             },
             yAxis: {
                 min: 0,
-                max: summaryData.target_score_inside,
+                max: '',
                 title: {
-                    text: summaryData.selected_province,
+                    text: '',
                     y: -70,
                 },
                 stops: [
@@ -1847,7 +1974,7 @@ const chart = Highcharts.mapChart('container-visualizations', {
             },
             series: [{
                 name: 'Achieved',
-                data: [summaryData.total_score_inside],
+                data: [''],
                 tooltip: {
                     valueSuffix: ' units',
                 },
@@ -1885,9 +2012,9 @@ const chart = Highcharts.mapChart('container-visualizations', {
             },
             yAxis: {
                 min: 0,
-                max: summaryData.target_score_Main,
+                max: '',
                 title: {
-                    text: summaryData.selected_province,
+                    text: '',
                     y: -70,
                 },
                 stops: [
@@ -1905,7 +2032,7 @@ const chart = Highcharts.mapChart('container-visualizations', {
             },
             series: [{
                 name: 'Achieved',
-                data: [summaryData.total_score_Main],
+                data: [''],
                 tooltip: {
                     valueSuffix: ' units',
                 },
@@ -1943,9 +2070,9 @@ const chart = Highcharts.mapChart('container-visualizations', {
             },
             yAxis: {
                 min: 0,
-                max: summaryData.target_score_drivethru,
+                max: '',
                 title: {
-                    text: summaryData.selected_province,
+                    text: '',
                     y: -70,
                 },
                 stops: [
@@ -1963,7 +2090,7 @@ const chart = Highcharts.mapChart('container-visualizations', {
             },
             series: [{
                 name: 'Achieved',
-                data: [ summaryData.total_score_drivethru],
+                data: [ ''],
                 tooltip: {
                     valueSuffix: ' units',
                 },
@@ -2001,9 +2128,9 @@ const chart = Highcharts.mapChart('container-visualizations', {
             },
             yAxis: {
                 min: 0,
-                max: summaryData.target_score_Mccafe,
+                max: '',
                 title: {
-                    text: summaryData.selected_province,
+                    text: '',
                     y: -70,
                 },
                 stops: [
@@ -2021,7 +2148,7 @@ const chart = Highcharts.mapChart('container-visualizations', {
             },
             series: [{
                 name: 'Achieved',
-                data: [summaryData.total_score_Mccafe],
+                data: [''],
                 tooltip: {
                     valueSuffix: ' units',
                 },
@@ -2059,9 +2186,9 @@ const chart = Highcharts.mapChart('container-visualizations', {
             },
             yAxis: {
                 min: 0,
-                max: summaryData.target_score_delivery,
+                max: '',
                 title: {
-                    text: summaryData.selected_province,
+                    text: '',
                     y: -70,
                 },
                 stops: [
@@ -2079,7 +2206,7 @@ const chart = Highcharts.mapChart('container-visualizations', {
             },
             series: [{
                 name: 'Achieved',
-                data: [summaryData.total_score_delivery],
+                data: [''],
                 tooltip: {
                     valueSuffix: ' units',
                 },
@@ -2091,6 +2218,7 @@ const chart = Highcharts.mapChart('container-visualizations', {
     
     // Initial rendering of the map with all stores
     const allStoresResponse = await fetchStoresByProvince('all');
+    //const allStoresResponse = '';
     const filterDropdownbyStoreStorestarts = document.getElementById('filterstore');
     const selectedStorestart = filterDropdownbyStoreStorestarts.value;
     var currentDate = new Date();
@@ -2103,9 +2231,10 @@ const chart = Highcharts.mapChart('container-visualizations', {
     var formattedDate = year + '-' + (month < 10 ? '0' : '') + month + '-' + (day < 10 ? '0' : '') + day;
     console.log('Date:')
     console.log(formattedDate)
-    const allStoresByStore=await fetchStores('all','all',selectedStorestart,'December_2023');
+    //const allStoresByStore=await fetchStores('all',selectedStorestart,'January_2024');
+    const allStoresByStore='';
 
-    const allStoresByStorescore=await fetchStoresScores('all','all',selectedStorestart,'December_2023');
+    const allStoresByStorescore=await fetchStoresScores('all',selectedStorestart,'January_2024');
     const allStoresbyscore = await allStoresByStorescore;
     creategaugeChartoutsidestorelevel(allStoresbyscore);
     creategaugeChartinsidestorelevel(allStoresbyscore);
@@ -2116,6 +2245,7 @@ const chart = Highcharts.mapChart('container-visualizations', {
     const allStoresby = await allStoresByStore;
 
     const allStores = await allStoresResponse;
+    //const allStores ='';
     //createMapStore(allStoresby);
     createMapChart(allStores);
     creategaugeChart(allStores);
@@ -2143,7 +2273,7 @@ const chart = Highcharts.mapChart('container-visualizations', {
 
     //Visualizations page 
     const filterDropdownbyStoreProvince = document.getElementById('filterprovincestore');
-    const filterDropdownbyStoreOwnerFranchise = document.getElementById('filterownerfranchise');
+    //const filterDropdownbyStoreOwnerFranchise = document.getElementById('filterownerfranchise');
     const filterDropdownbyStoreStore = document.getElementById('filterstore');
     //const filterDropdownfrom= document.getElementById('fromDate');
     //const filterDropdownto= document.getElementById('toDate');
@@ -2151,16 +2281,17 @@ const chart = Highcharts.mapChart('container-visualizations', {
     const filterButton = document.getElementById('filterstore');
     filterButton.addEventListener('change', async () => {
         const selectedStoreProvince = filterDropdownbyStoreProvince.value;
-        const selectedOwnerFranchise = filterDropdownbyStoreOwnerFranchise.value;
+        //const selectedOwnerFranchise = filterDropdownbyStoreOwnerFranchise.value;
         const selectedStore = filterDropdownbyStoreStore.value;
         //const selectedfrom = filterDropdownfrom.value;
         //const selectedto = filterDropdownto.value;
         const selectedmonth=filterDropdownmonth.value;
         
-        const filteredStoresResponseStore = await fetchStores(selectedStoreProvince, selectedOwnerFranchise, selectedStore,selectedmonth);
+        //const filteredStoresResponseStore = await fetchStores(selectedStoreProvince, selectedStore,selectedmonth);
+        const filteredStoresResponseStore = '';
         const filteredStoresStore = await filteredStoresResponseStore;
 
-        const filteredStoresResponseStorelevel = await fetchStoresScores(selectedStoreProvince, selectedOwnerFranchise, selectedStore,selectedmonth);
+        const filteredStoresResponseStorelevel = await fetchStoresScores(selectedStoreProvince, selectedStore,selectedmonth);
         const filteredStoresStorelevel = await filteredStoresResponseStorelevel;
         creategaugeChartoutsidestorelevel(filteredStoresStorelevel);
         creategaugeChartinsidestorelevel(filteredStoresStorelevel);
