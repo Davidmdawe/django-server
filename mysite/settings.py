@@ -80,14 +80,14 @@ WSGI_APPLICATION = 'Visuals.wsgi.application'
 # https://docs.djangoproject.com/en/4.0/ref/settings/#databases
 
 DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.postgresql_psycopg2',
-        'NAME': os.environ["PGDATABASE"],
-        'USER': os.environ["PGUSER"],
-        'PASSWORD': os.environ["PGPASSWORD"],
-        'HOST': os.environ["PGHOST"],
-        'PORT': os.environ["PGPORT"],
-    }
+   'default': {
+       'ENGINE': 'django.db.backends.postgresql_psycopg2',
+     'NAME': 'postgres',
+       'USER': 'postgres',
+       'PASSWORD': 'flowvisualpatterns',
+      'HOST': 'fvpdatabase.cv6g0e8oswze.af-south-1.rds.amazonaws.com',
+      'PORT': '5432',
+ }
 }
 
 
