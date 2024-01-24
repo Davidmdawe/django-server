@@ -638,7 +638,32 @@ const chart = Highcharts.mapChart('container-visualizations', {
         return await response.json();
     };
 
+      //Visualizations page 
+     const filterDropdownbyStoreProvince = document.getElementById('filterprovincestore');
+    //const filterDropdownbyStoreOwnerFranchise = document.getElementById('filterownerfranchise');
+    const filterDropdownbyStoreStore = document.getElementById('filterstore');
+    //const filterDropdownfrom= document.getElementById('fromDate');
+    //const filterDropdownto= document.getElementById('toDate');
+    const filterDropdownmonth= document.getElementById('month');
+    const filterButton = document.getElementById('filterstore');
+    filterButton.addEventListener('change', async () => {
+        const selectedStore = filterButton.value;
+        const selectedmonth = filterDropdownmonth.value;  // Assuming filterDropdownmonth is defined somewhere in your code
 
+        // Perform other actions with the selected values
+        console.log('Selected Store:', selectedStore);
+        console.log('Selected Month:', selectedmonth);
+
+        // Rest of your code...
+        const filteredStoresResponseStorelevel = await fetchStoresScores('', selectedStore, selectedmonth);
+        const filteredStoresStorelevel = await filteredStoresResponseStorelevel;
+        creategaugeChartoutsidestorelevel(filteredStoresStorelevel);
+        creategaugeChartinsidestorelevel(filteredStoresStorelevel);
+        creategaugeChartmenustorelevel(filteredStoresStorelevel);
+        creategaugeChartmccafestorelevel(filteredStoresStorelevel);
+        creategaugeChartdrivethrustorelevel(filteredStoresStorelevel);
+        creategaugeChartdeliverystorelevel(filteredStoresStorelevel);
+    });
     // Function to create the Highcharts map chart
     
     const createMapChart = (data) => {
@@ -1753,8 +1778,8 @@ const chart = Highcharts.mapChart('container-visualizations', {
         target_drivethru: 1,
         target_Mccafe: 1,
         target_Main: 1,
-        target_inside: 2,
-        target_outside: 3
+        target_inside: 3,
+        target_outside: 4
         };
         // Create series data for bars
         const barData = Object.values(data2);
@@ -2271,35 +2296,8 @@ const chart = Highcharts.mapChart('container-visualizations', {
 
     });
 
-    //Visualizations page 
-    const filterDropdownbyStoreProvince = document.getElementById('filterprovincestore');
-    //const filterDropdownbyStoreOwnerFranchise = document.getElementById('filterownerfranchise');
-    const filterDropdownbyStoreStore = document.getElementById('filterstore');
-    //const filterDropdownfrom= document.getElementById('fromDate');
-    //const filterDropdownto= document.getElementById('toDate');
-    const filterDropdownmonth= document.getElementById('month');
-    const filterButton = document.getElementById('filterstore');
-    filterButton.addEventListener('change', async () => {
-        const selectedStoreProvince = filterDropdownbyStoreProvince.value;
-        //const selectedOwnerFranchise = filterDropdownbyStoreOwnerFranchise.value;
-        const selectedStore = filterDropdownbyStoreStore.value;
-        //const selectedfrom = filterDropdownfrom.value;
-        //const selectedto = filterDropdownto.value;
-        const selectedmonth=filterDropdownmonth.value;
-        
-        //const filteredStoresResponseStore = await fetchStores(selectedStoreProvince, selectedStore,selectedmonth);
-        const filteredStoresResponseStore = '';
-        const filteredStoresStore = await filteredStoresResponseStore;
+    
 
-        const filteredStoresResponseStorelevel = await fetchStoresScores(selectedStoreProvince, selectedStore,selectedmonth);
-        const filteredStoresStorelevel = await filteredStoresResponseStorelevel;
-        creategaugeChartoutsidestorelevel(filteredStoresStorelevel);
-        creategaugeChartinsidestorelevel(filteredStoresStorelevel);
-        creategaugeChartmenustorelevel(filteredStoresStorelevel);
-        creategaugeChartmccafestorelevel(filteredStoresStorelevel);
-        creategaugeChartdrivethrustorelevel(filteredStoresStorelevel)
-        creategaugeChartdeliverystorelevel(filteredStoresStorelevel)
-    });
 
     
 })();
