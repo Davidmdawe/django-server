@@ -36,7 +36,7 @@ def home_view(request):
     username=user.username
     region_name = Store_level.objects.values('region').distinct()
     franchise_mcopco = Store_level.objects.values('portfolio_type').distinct()
-    ids=Outside.objects.values('store_id').distinct()
+    ids=Menu.objects.values('store_id')
     #restaurant= Store_level.objects.values('site_name').distinct()
     restaurant= Store_level.objects.filter(store_id__in=ids).values('site_name','store_id')
     print('store_ids')
@@ -172,6 +172,7 @@ def get_store_data_store_level(request):
     out_campaign_outside_date=0
     out_store_site_name=0
     out_description_inside_date=0
+    outsidemystorecamp=0
     digital_menu_mc=0
     Outqueryset = Outside.objects.filter(
         store_id=selected_store,
