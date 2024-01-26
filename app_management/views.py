@@ -11,6 +11,9 @@ from django.db.models import Sum
 from django.contrib.auth.models import User
 from django.contrib.auth.decorators import login_required
 from django.utils.timezone import make_aware
+from .filters import ShopsFilter
+
+
 
 
 def login_view(request):
@@ -38,7 +41,7 @@ def home_view(request):
     franchise_mcopco = Store_level.objects.values('portfolio_type').distinct()
     ids=Menu.objects.values('store_id')
     #restaurant= Store_level.objects.values('site_name').distinct()
-    restaurant= Store_level.objects.filter(store_id__in=ids).values('site_name','store_id')
+    restaurant= Store_level.objects.filter(store_id__in=ids).values('site_name','store_id',)
     print('store_ids')
     print(restaurant)
 
@@ -88,10 +91,31 @@ def home_view(request):
     # Count the number of stores in Gauteng
     num_WESTERN_CAPE_stores =WESTERN_CAPE_stores.count()
 
+    province_ids = Menu.objects.values('store_id')
+    restaurant_province = Store_level.objects.filter(store_id__in=province_ids).all()
+    shop_filter = ShopsFilter(request.GET, queryset=restaurant_province)
+
     total_stores=num_WESTERN_CAPE_stores+num_NORTHERN_CAPE_stores+num_NORTH_WEST_stores +num_LIMPOPO_stores+num_KWAZULU_NATAL_stores+num_EASTERN_CAPE_stores+num_FREE_STATE_stores+num_gauteng_stores
     print(f'Number of stores in Gauteng: {num_gauteng_stores}')
-    context = {'provinces': provinces,'total_stores':total_stores,'num_NORTHERN_CAPE_stores':num_NORTHERN_CAPE_stores,'num_WESTERN_CAPE_stores':num_WESTERN_CAPE_stores,'num_NORTH_WEST_stores':num_NORTH_WEST_stores,'num_MPUMALANGA_stores':num_MPUMALANGA_stores,'num_LIMPOPO_stores':num_LIMPOPO_stores,'num_KWAZULU_NATAL_stores':num_KWAZULU_NATAL_stores,'num_EASTERN_CAPE_stores':num_EASTERN_CAPE_stores,'num_FREE_STATE_stores':num_FREE_STATE_stores,'num_gauteng_stores':num_gauteng_stores,'username':username,'franchise_mcopco':franchise_mcopco,'restaurant':restaurant,'region_name':region_name}
+    
+    
+    context = {'filter': shop_filter,'provinces': provinces,'total_stores':total_stores,'num_NORTHERN_CAPE_stores':num_NORTHERN_CAPE_stores,'num_WESTERN_CAPE_stores':num_WESTERN_CAPE_stores,'num_NORTH_WEST_stores':num_NORTH_WEST_stores,'num_MPUMALANGA_stores':num_MPUMALANGA_stores,'num_LIMPOPO_stores':num_LIMPOPO_stores,'num_KWAZULU_NATAL_stores':num_KWAZULU_NATAL_stores,'num_EASTERN_CAPE_stores':num_EASTERN_CAPE_stores,'num_FREE_STATE_stores':num_FREE_STATE_stores,'num_gauteng_stores':num_gauteng_stores,'username':username,'franchise_mcopco':franchise_mcopco,'restaurant':restaurant,'region_name':region_name}
     return render(request, 'home.html', context)
+    
+@login_required
+def visuals_view(request):
+    provinces = Province.objects.all()
+    user = request.user
+    username = user.username
+
+    province_ids = Menu.objects.values('store_id')
+    restaurant_province = Store_level.objects.filter(store_id__in=province_ids).all()
+    shop_filter = ShopsFilter(request.GET, queryset=restaurant_province)
+    provinces = ['MPUMALANGA', 'GAUTENG', 'KWAZULU-NATAL', 'WESTERN CAPE', 'EASTERN CAPE', 'NORTHERN CAPE', 'NORTH WEST', 'FREE STATE', 'LIMPOPO']
+
+    context = {'filter': shop_filter,'provinces':provinces}
+
+    return render(request, 'visuals.html', context)
 
 @login_required()
 def logout_view(request):
@@ -375,4 +399,3 @@ def get_store_data_store_level(request):
     data.append({'out_pop_description_inside':out_pop_description_inside,'mystorecamp_img_url':mystorecamp_img_url,'digital_menu_mc':digital_menu_mc,'insidemystorecamp':insidemystorecamp,'outsidemystorecamp':outsidemystorecamp,'digital_menu':digital_menu,'out_campaign_outside_store_site_name':out_campaign_outside_store_site_name,'out_campaign_outside_date':out_campaign_outside_date,'out_store_site_name':out_store_site_name,'out_description_inside_date':out_description_inside_date,'description_menu_store_site_name':description_menu_store_site_name,'description_menu_date':description_menu_date,'mccafe_store_site_name':mccafe_store_site_name,'mccafe_date':mccafe_date,'drive_store_site_name':drive_store_site_name,'drivethru_date':drivethru_date,'store_site_name':store_site_name,'delivery_date':delivery_date,'description_delivery':description_delivery,'target_delivery':target_delivery,'third_party_del':third_party_del,'mc_delivery':mc_delivery,'total_score_delivery':total_score_delivery,'activation_description':activation_description,'customer_order_display':customer_order_display,'drivethru_campaign':drivethru_campaign,'target_drivethru':target_drivethru,'activation_on_promo':activation_on_promo,'total_score_drivethru':total_score_drivethru,'description_mccafe':description_mccafe,'menu_promo':menu_promo,'mccafemenu_visibility':mccafemenu_visibility,'target_mccafe':target_mccafe,'total_score_Mccafe':total_score_Mccafe,'description_menu':description_menu,'menu_promotion':menu_promotion,'price_visibility':price_visibility,'out_description_inside':out_description_inside,'out_happy_m_campaign':out_happy_m_campaign,'out_promo_sok_campaigns':out_promo_sok_campaigns,'out_description_outside':out_description_outside,'out_campaigns':out_campaigns,'total_score_Main': total_score_Main,'menu_visibility':menu_visibility,'target_menu':target_menu,'total_score_inside': total_score_inside,'out_point_of_sale':out_point_of_sale,'out_self_order_kiosk':out_self_order_kiosk,'target_inside':target_inside,'total_score_outside': total_score_outside,'out_campaign':out_campaign, 'target_outside': target_outside, 'selected_store': selected_store,'out_branding_condition':out_branding_condition,'out_signage_condition':out_signage_condition})
     print(data)
     return JsonResponse(data, safe=False)
-
