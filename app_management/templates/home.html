@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html >
 {% load static %}
@@ -733,18 +734,18 @@ const chart = Highcharts.mapChart('container-visualizations', {
             legend: {
                 align: 'left',
                 layout: 'vertical',
-                floating: true
+                floating: true,
             },
             accessibility: {
                 point: {
-                    valueDescriptionFormat: '{xDescription}.'
-                }
+                    valueDescriptionFormat: '{xDescription}.',
+                },
             },
             mapNavigation: {
-                enabled: true
+                enabled: true,
             },
             credits: {
-                enabled: false
+                enabled: false,
             },
             tooltip: {
                 headerFormat: '',
@@ -753,7 +754,7 @@ const chart = Highcharts.mapChart('container-visualizations', {
                     Audiited:{point.total}  <br>
                 `,
                 footerFormat: '',
-                xDateFormat: '%Y-%m-%d %H:%M:%S'
+                xDateFormat: '%Y-%m-%d %H:%M:%S',
             },
             plotOptions: {
                 series: {
@@ -761,24 +762,38 @@ const chart = Highcharts.mapChart('container-visualizations', {
                         fillColor: '#FFD100', // McDonald's yellow color for markers
                         lineWidth: 2,
                         lineColor: '#FFD100', // McDonald's yellow color for border
-                    }
-                }
+                    },
+                },
             },
             series: [{
                 mapData,  // Ensure that mapData is defined
                 name: 'South Africa',
                 borderColor: '#FFD100', // McDonald's yellow color for the map border
                 color: '#FFD100', // McDonald's yellow color for the map
-                showInLegend: false
+                showInLegend: false,
             }, {
                 type: 'mappoint',
                 name: 'Stores',
                 dataLabels: {
-                    format: '{point.site_name}'
+                    format: '{point.site_name}' + ' - ' + '{point.total}' + ' Stores Audited',
                 },
-                data: convertedStoreData
-            }]
+                data: convertedStoreData,
+            }],
+        }, function(chart) {
+            // Get the current date and time
+            const currentDate = new Date();
+
+            // Add two hours to the current date's time
+            const adjustedDate = new Date(currentDate.getTime() + 2 * 60 * 60 * 1000);
+
+            const formattedDate = Highcharts.dateFormat('%Y-%m-%d %H:%M:%S', adjustedDate);
+
+            // Add the date and time to the chart
+            chart.setTitle({
+                text: 'Audited Stores Map - ' + formattedDate,
+            });
         });
+
 
 
 
@@ -793,12 +808,12 @@ const chart = Highcharts.mapChart('container-visualizations', {
         const mcdonaldsColors = {
             'Eastern Cape': '#FFD100',        // McDonald's yellow
             'Free State': '#FF0000',          // McDonald's red
-            'Gauteng': '#FFD100',     // McDonald's yellow
-            'KwaZulu-Natal': '#FF0000',       // McDonald's red
-            'Limpopo': '#FFD100',              // McDonald's yellow
-            'Mpumalanga': '#FF0000',           // McDonald's red
-            'North West': '#FFD100',           // McDonald's yellow
-            'Northern Cape': '#FF0000',        // McDonald's red
+            'Gauteng': '#FF1493',     // McDonald's yellow
+            'KwaZulu-Natal': '#8B4513',       // McDonald's red
+            'Limpopo': '#32CD32',              // McDonald's yellow
+            'Mpumalanga': '#4B0082',           // McDonald's red
+            'North West': '#FFFFFF',           // McDonald's yellow
+            'Northern Cape': '#1E90FF',        // McDonald's red
             'Western Cape': '#FFD100',         // McDonald's yellow
         };
 
