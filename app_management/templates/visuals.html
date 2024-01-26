@@ -166,124 +166,260 @@ select {
             <img src="{% static 'app_management/images/logo.jpeg' %}" alt="Logo" style="margin-top: 1%;">
             
         </div>
-        <form method="post" action="{% url 'visuals' %}">
+        <form method="post" action="{% url 'home' %}">
             {% csrf_token %}
-            <button class="btn" style="text-align: center; background-color: #FFD200; font-family: 'Speedee', sans-serif;" type="submit"> Store Visualisations</button>
+            <button class="btn" style="text-align: center; background-color: #FFD200; font-family: 'Speedee', sans-serif;" type="submit">Landing Page</button>
         </form>
-        
-
         
     </header>
     <nav>
         <a class="btn" style="text-align: center; background-color: #FFD200; font-family: 'Speedee', sans-serif;" href="{% url 'logout' %}">Logout</a>
     </nav>
-    <div id="Home" class="container active"   style="max-width: 100%; padding: 0; margin: 0;">
-        <h1 style="font-weight: bold;font-size: 200%;font-family: 'Speedee', sans-serif;">Retail Audit Reporting Landing Page</h1>
+    <div id="visuals" class="container active" style="max-width: 100%; padding: 0; margin: 0;">
+        <h1 style="font-weight: bold;font-size: 200%;font-family: 'Speedee', sans-serif;">Retail Audit Reporting Visualisations</h1>
         <hr>
-        
         <div class="row">
+            <!--<div class="col-sm-2">
+                <label for="filter1" style="font-weight: bold;font-family: 'Speedee', sans-serif;">From:</label>
+                <input type="text" id="fromDate" class="form-control datepicker">
+            </div>
+            <div class="col-sm-2">
+                <label for="filter1" style="font-weight: bold;font-family: 'Speedee', sans-serif;">To:</label>
+                <input type="text" id="toDate" class="form-control datepicker">
+            </div>-->
             <div class="col-sm-3">
-                <label for="filter_main" style="font-weight: bold;font-family: 'Speedee', sans-serif;">Select Month:</label>
-                <select id="month_main" class="form-control drop-down-list">
+                <label for="filter1" style="font-weight: bold;font-family: 'Speedee', sans-serif;">Select Month:</label>
+                <select id="month" class="form-control drop-down-list">
                     <!--  <option value="all">All</option>-->
                     <!-- <option value="December_2023">December 2023</option>-->
                     <option value="January_2024">January 2024</option>
                 </select>
             </div>
+          <!-- <div class="col-sm-3">
+                <label for="filter1" style="font-weight: bold;font-family: 'Speedee', sans-serif;">Select Province:</label>
+                <select id="filterprovincestore" class="form-control drop-down-list">
+                     <option value="all">All</option>
+                    {% for province in region_name %}
+                    <option value="{{ province.region}}">{{ province.region }}</option>
+                     {% endfor %}
+                </select>
+            </div>-->
+         <!--<div class="col-sm-3">
+                <label for="filter2" style="font-weight: bold;font-family: 'Speedee', sans-serif;">Select Own/Franchise:</label>
+                <select id="filterownerfranchise" class="form-control drop-down-list">
+                  <option value="all">All</option>
+                    {% for own_franchise in franchise_mcopco %}
+                        <option value="{{ own_franchise.portfolio_type }}">{{ own_franchise.portfolio_type }}</option>
+                    {% endfor %} 
+                </select>
+            </div>-->  
             <div class="col-sm-3">
-                <label for="filter1" style="font-family: 'Speedee', sans-serif;">Select Province:</label>
-                        <select id="filter1" class="form-control drop-down-list">
-                            <option value="all">All</option>
-                            <option value="EASTERN CAPE">Eastern Cape</option>
-                            <option value="FREE STATE">Free State</option>
-                            <option value="GAUTENG">Gauteng</option>
-                            <option value="KWAZULU-NATAL">KwaZulu-Natal</option>
-                            <option value="LIMPOPO">Limpopo</option>
-                            <option value="MPUMALANGA">Mpumalanga</option>
-                            <option value="NORTH WEST">North West</option>
-                            <option value="NORTHERN CAPE">Northern Cape</option>
-                            <option value="WESTERN CAPE">Western Cape</option>
-                            
-                        </select>
+                <form method="get" id="filterForm">
+                    {{ filter.form.region.label_tag }}
+                    <select id="province_store" name="{{ filter.form.region.name }}" class="form-control" onchange="submitForm()">
+                        <option value="">------------</option>
+                        {% for province in provinces %}
+                            <option value="{{ province|upper }}">{{ province|upper }}</option>
+                        {% endfor %}
+                    </select>
+                </form>
+                
+            </div>
+        <div class="col-sm-3">
+            <label for="filter2" style="font-weight: bold;font-family: 'Speedee', sans-serif;">Select Store:</label>
+            <select id="filterstore" class="form-control drop-down-list">
+                {% for shop in filter.qs %}
+                <option value="{{ shop.store_id}}"> {{ shop.site_name }}</option>
+               {% endfor %}
+            </select>
+        </div>
+           
+            
+           <!-- <button id="filterbutton" class="btn mcdonalds-yellow" style="height: 40px; margin-top: 30px;">Filter</button>-->
+        </div>
+        <hr> 
+        <div class="row">
+           <!-- <div class="col-lg-12">
+                <div class="card-body shadow-lg">
+                    <div class="card-header py-2" style="text-align: center; background-color:#FFD200;font-weight: bold;font-family: 'Speedee', sans-serif;">
+                        
+                    </div>
+                    <div id="container-visualizations" style="width: 100%;height: 90%;"></div>
+                </div>
+                
+            </div>-->
+            <div class="col-lg-6">
+                <div class="card-body shadow-lg">
+                    <div class="card-header py-2" style="text-align: center; background-color:#FFD200;font-weight: bold;font-family: 'Speedee', sans-serif;">
+                        Overall Score
+                    </div>
+                    <div id="container-compare" style="width: 100%;height: 90%;"></div>
+                </div>        
+            </div>
+            <div class="col-lg-6">
+                <div class="card-body shadow-lg">
+                    <div class="card-header py-2" style="text-align: center; background-color:#FFD200;font-weight: bold;font-family: 'Speedee', sans-serif;">
+                        Actuals Vs Targets
+                    </div>
+                    <div id="container-compare-bar" style="width: 100%;height: 90%;"></div>
+                </div>        
             </div>
         </div>
-        <hr>
         <div class="row">
-
-            <div class="col-lg-6">
+            <div class="col-lg-2" >
                 <div class="card-body shadow-lg" style="height: 100%;">
-                    <div class="card-header py-2" style="text-align: center; background-color:#FFD200;font-weight: bold;font-family: 'Speedee', sans-serif;">
-                        Store Distribution by Region
-                    </div>
-                    <div id="container-pie-main"></div>
-                </div>
-            </div>
-            <div class="col-lg-6">
-                <div class="card-body shadow-lg" style="height: 100%;">
-                    <div class="card-header py-2" style="text-align: center; background-color:#FFD200; font-weight: bold; font-family: 'Speedee', sans-serif;">
-                        Total Audited Stores
-                    </div>
-                    <div id="total" class="total-text" style="text-align: center; color: #FFD200; font-weight: bold; margin-top: 50px; font-size: 200px;">
-                    </div>
-                </div>
-            </div>
-            
-            
-            <div class="col-lg-12">
-                <div class="card-body shadow-lg" style="height: 100%;">
-                    <div class="card-header py-2" style="text-align: center; background-color:#FFD200;font-weight: bold;font-family: 'Speedee', sans-serif;">
-                        Store Distribution by Region Map
-                    </div>
-                    <div id="container"></div>
-                </div>
-            </div>
-
-
-            
-          <!--  <div class="col-lg-3">
-                <div class="card-body shadow-lg">
                     <div class="card-header py-2" style="text-align: center; background-color:#FFD200;font-weight: bold;font-family: 'Speedee', sans-serif;">
                         Upon Entrance(outside)
                     </div>
-                    <div id="gauge-container" style="width: 50%; height: 50%; margin: auto;"></div>
-                </div>
-                <div class="card-body shadow-lg">
-                    <div class="card-header py-1" style="text-align: center; background-color:#FFD200;font-weight: bold;font-family: 'Speedee', sans-serif;">
-                        Main Digital Menu board and Pricing
+                    <div id="gauge-container-outside-store-level" style="width: 100%; height: 11%;margin: auto;"></div>
+
+                    <div id="textContainer">
+                        <p id="displayT"></p>
+                        <p id="displayTname"></p>
+                        <hr>
+                        <p id="displayText"></p>
+                        <hr>
+                        <p id="displayText2"></p>
+                        <hr>
+                        <p id="displayText3"></p>
+                        <hr>
+                        <p id="displayText8"></p>
+                        <hr>
+                        <p id="displayText5"></p>
+                        <p id="displayText7"></p>
+                        <p id="displayText6"></p>
+                       
+                        <hr>
+                        <p id="displayText4"></p>
                     </div>
-                    <div id="gauge-container-new2" style="width: 50%; height: 50%; margin: auto;"></div>
-                </div>
-                <div class="card-body shadow-lg">
-                    <div class="card-header py-2" style="text-align: center; background-color:#FFD200;font-weight: bold;font-family: 'Speedee', sans-serif;">
-                        McCafé Main Menu
-                    </div>
-                    <div id="gauge-container-new4" style="width: 50%; height: 50%; margin: auto;"></div>
+
+                    
                 </div>
             </div>
-            <div class="col-lg-3">
-                <div class="card-body shadow-lg">
+            <div class="col-lg-2">
+                <div class="card-body shadow-lg" style="height: 100%;">
                     <div class="card-header py-2" style="text-align: center; background-color:#FFD200;font-weight: bold;font-family: 'Speedee', sans-serif;">
                         Upon Entrance(In-store)
                     </div>
-                    <div id="gauge-container-inside" style="width: 50%; height: 50%; margin: auto;"></div>
+                    <div id="gauge-container-inside-store-level" style="width: 100%; height: 11%;margin: auto;"></div>
+                    <div id="textContainer">
+                        <p id="displayinside"></p>
+                        <p id="displayinsidename"></p>
+                        <hr>
+                        <p id="displayTextinside"></p>
+                        <hr>
+                        <p id="displayTextinside10"></p>
+                        <hr>
+                        <p id="displayTextinside2"></p>
+                        <hr>
+                        <p id="displayTextinside12"></p>
+                        <hr>
+                        <p id="displayTextinside3"></p>
+                        <p id="displayTextinside6"></p>
+                        <hr>
+                        <p id="displayTextinside4"></p>
+                        <p id="displayTextinside9"></p>
+                        <p id="displayTextinside8"></p>
+                        <hr>
+                        <p id="displayTextinside11"></p>
+                        <hr>
+                        <p id="displayTextinside5"></p>
+                    </div>
                 </div>
-                <div class="card-body shadow-lg">
+            </div>
+            <div class="col-lg-2">
+                <div class="card-body shadow-lg" style="height: 100%;">
+                    <div class="card-header py-1" style="text-align: center; background-color:#FFD200;font-weight: bold;font-family: 'Speedee', sans-serif;">
+                        Main Digital Menu board and Pricing
+                    </div>
+                    <div id="gauge-container-menu-store-level" style="width: 100%; height: 11%;margin: auto;"></div>
+                    <div id="textContainer">
+                        <p id="displaymenu"></p>
+                        <p id="displaymenuname"></p>
+                        <hr>
+                        <p id="displayTdigital"></p>
+                        <hr>
+                        <p id="displayTextmenu"></p>
+                        <hr>
+                        <p id="displayTextmenu1"></p>
+                        <p id="displayTextmenu2"></p>
+                        <p id="displayTextmenu3"></p>
+                        <hr>
+                        <p id="displayTextmenu4"></p>
+                        <p id="displayTextmenu6"></p>
+                        <p id="displayTextmenu5"></p>
+                        <hr>
+                        <p id="displayTextmenu7"></p>
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-2">
+                <div class="card-body shadow-lg" style="height: 100%;">
                     <div class="card-header py-2" style="text-align: center; background-color:#FFD200;font-weight: bold;font-family: 'Speedee', sans-serif;">
+                        McCafé Main Menu
+                    </div>
+                    <div id="gauge-container-mccafe-store-level" style="width: 100%; height: 11%;margin: auto;"></div>
+                    <div id="textContainermenu">
+                        <p id="displaymccafe"></p>
+                        <p id="displaymccafename"></p>
+                        <hr>
+                        <p id="displayTextmccafe5"></p>
+                        <hr>
+                        <p id="displayTextmccafe"></p>
+                        <hr>
+                        <p id="displayTextmccafe1"></p>
+                        <p id="displayTextmccafe3"></p>
+                        <p id="displayTextmccafe2"></p>
+                        <hr>
+                        <p id="displayTextmccafe4"></p>
+                    </div>
+                    
+                </div>
+            </div>
+            <div class="col-lg-2">
+                <div class="card-body shadow-lg" style="height: 100%;">
+                    <div id="driveThruHeader" class="card-header py-2" style="text-align: center; background-color:#FFD200;font-weight: bold;font-family: 'Speedee', sans-serif;">
                         Drive-thru
                     </div>
-                    <div id="gauge-container-new1" style="width: 50%; height: 50%; margin: auto;"></div>
+                    <div id="gauge-container-drivethru-store-level" style="width: 100%; height: 11%;margin: auto;"></div>
+                    <div id="textContainermenu">
+                        <p id="displaydrivethru"></p>
+                        <p id="displaydrivethruname"></p>
+                        <hr>
+                        <p id="displayTextdrivethru"></p>
+                        <p id="displayTextdrivethru5"></p>
+                        <hr>
+                        <p id="displayTextdrivethru1"></p>
+                        <p id="displayTextdrivethru4"></p>
+                        <p id="displayTextdrivethru2"></p>
+                        <hr>
+                        <p id="displayTextdrivethru3"></p>
+                    </div>
+                    
                 </div>
-                <div class="card-body shadow-lg">
+            </div>
+            <div class="col-lg-2">
+                <div class="card-body shadow-lg" style="height: 100%;">
                     <div class="card-header py-2" style="text-align: center; background-color:#FFD200;font-weight: bold;font-family: 'Speedee', sans-serif;">
                         Delivery
                     </div>
-                    <div id="gauge-container-new3" style="width: 50%; height: 50%; margin: auto;"></div>
+                    <div id="gauge-container-delivery-store-level" style="width: 100%; height: 11%;margin: auto;"></div>
+                    <div id="textContainermenu">
+                        <p id="displaydelivery"></p>
+                        <p id="displaydeliveryname"></p>
+                        <hr>
+                        <p id="displayTextdelivery"></p>
+                        <hr>
+                        <p id="displayTextdelivery1"></p>
+                        <hr>
+                        <p id="displayTextdelivery2"></p>
+                    </div>
+                    
                 </div>
-            </div>-->
+            </div>
         </div>
-        
+         
     </div>
-
     
  
 </body>
@@ -304,6 +440,10 @@ select {
 <script src="https://code.highcharts.com/highcharts-more.js"></script>
 <script src="https://code.highcharts.com/modules/solid-gauge.js"></script>
 <script>
+    function submitForm() {
+        // Assuming you have a form with the id "filterForm"
+        document.getElementById("filterForm").submit();
+    }
     $(document).ready(function () {
     // Get the current date
     var currentDate = new Date();
@@ -435,12 +575,37 @@ const chart = Highcharts.mapChart('container-visualizations', {
     //    const response = await fetch(`/get_map_data/?province_store=${province_store}&store=${store}&month=${month}`);
     //    return await response.json();
     //};
+    const fetchStoresScores = async (province_store, store,month) => {
+        const response = await fetch(`/get_store_data_store_level/?province_store=${province_store}&store=${store}&month=${month}`);
+        return await response.json();
+    };
+
       //Visualizations page 
      const filterDropdownbyStoreProvince = document.getElementById('filterprovincestore');
     //const filterDropdownbyStoreOwnerFranchise = document.getElementById('filterownerfranchise');
+    const filterDropdownbyStoreStore = document.getElementById('filterstore');
     //const filterDropdownfrom= document.getElementById('fromDate');
     //const filterDropdownto= document.getElementById('toDate');
     const filterDropdownmonth= document.getElementById('month');
+    const filterButton = document.getElementById('filterstore');
+    filterButton.addEventListener('change', async () => {
+        const selectedStore = filterButton.value;
+        const selectedmonth = filterDropdownmonth.value;  // Assuming filterDropdownmonth is defined somewhere in your code
+
+        // Perform other actions with the selected values
+        console.log('Selected Store:', selectedStore);
+        console.log('Selected Month:', selectedmonth);
+
+        // Rest of your code...
+        const filteredStoresResponseStorelevel = await fetchStoresScores('', selectedStore, selectedmonth);
+        const filteredStoresStorelevel = await filteredStoresResponseStorelevel;
+        creategaugeChartoutsidestorelevel(filteredStoresStorelevel);
+        creategaugeChartinsidestorelevel(filteredStoresStorelevel);
+        creategaugeChartmenustorelevel(filteredStoresStorelevel);
+        creategaugeChartmccafestorelevel(filteredStoresStorelevel);
+        creategaugeChartdrivethrustorelevel(filteredStoresStorelevel);
+        creategaugeChartdeliverystorelevel(filteredStoresStorelevel);
+    });
     // Function to create the Highcharts map chart
     
     const createMapChart = (data) => {
@@ -593,97 +758,7 @@ const chart = Highcharts.mapChart('container-visualizations', {
         });
 
     };
-        const filterDropdownpro1 = document.getElementById('filter1');
-        const filterDropdown1 = document.getElementById('filter1');
-        filterDropdown1.addEventListener('change', async () => {
-        const filterDropdownpro3 = filterDropdownpro1.value; // Move this line inside the event listener
-        console.log('Provinces')
-        console.log(filterDropdownpro3)
         
-        if (filterDropdownpro3=="all")
-        {
-            const responseData = [
-                // ... other store objects
-                // Add central coordinates for provinces
-                { "site_name": "Eastern Cape", "latitude": "-32.2968", "longitude": "26.4194", "region": "Eastern Cape","total":  "{{ num_EASTERN_CAPE_stores}}" },
-                { "site_name": "Free State", "latitude": "-29.1211", "longitude": "26.2140", "region": "Free State","total":  "{{num_FREE_STATE_stores}}" },
-                { "site_name": "Gauteng", "latitude": "-26.2708", "longitude": "28.1123", "region": "Gauteng","total":  "{{ num_gauteng_stores}}"},
-                { "site_name": "KwaZulu-Natal", "latitude": "-29.8499", "longitude": "30.9668", "region": "KwaZulu-Natal","total":  "{{ num_KWAZULU_NATAL_stores}}" },
-                { "site_name": "Limpopo", "latitude": "-23.4015", "longitude": "29.4185", "region": "Limpopo","total":  "{{ num_LIMPOPO_stores}}" },
-                { "site_name": "Mpumalanga", "latitude": "-25.5653", "longitude": "30.5279", "region": "Mpumalanga","total":  "{{ num_MPUMALANGA_stores}}" },
-                { "site_name": "North West", "latitude": "-25.6765", "longitude": "26.1182", "region": "North West","total":  "{{ num_NORTH_WEST_stores}}" },
-                { "site_name": "Northern Cape", "latitude": "-29.0468", "longitude": "21.8569", "region": "Northern Cape","total":  "{{num_NORTHERN_CAPE_stores}}" },
-                { "site_name": "Western Cape", "latitude": "-33.9180", "longitude": "18.4233", "region": "Western Cape","total":  "{{ num_WESTERN_CAPE_stores}}" }
-            ];
-            createMapChart(responseData);
-            const divElement = document.getElementById("total");
-            divElement.innerHTML = "{{total_stores}}"
-        }else if(filterDropdownpro3=='EASTERN CAPE'){
-            const responseData = [
-              { "site_name": "Eastern Cape", "latitude": "-32.2968", "longitude": "26.4194", "region": "Eastern Cape","total":  "{{ num_EASTERN_CAPE_stores}}" },
-            ];
-            createMapChart(responseData);
-            const divElement = document.getElementById("total");
-            divElement.innerHTML = "{{ num_EASTERN_CAPE_stores}}"
-        }else if(filterDropdownpro3=='FREE STATE'){
-            const responseData = [
-              { "site_name": "Free State", "latitude": "-29.1211", "longitude": "26.2140", "region": "Free State","total":  "{{num_FREE_STATE_stores}}" },
-            ];
-            createMapChart(responseData);
-            const divElement = document.getElementById("total");
-            divElement.innerHTML = "{{num_FREE_STATE_stores}}"
-        }else if(filterDropdownpro3=='GAUTENG'){
-            const responseData = [
-            { "site_name": "Gauteng", "latitude": "-26.2708", "longitude": "28.1123", "region": "Gauteng","total":  "{{ num_gauteng_stores}}" },
-            ];
-            createMapChart(responseData);
-            const divElement = document.getElementById("total");
-            divElement.innerHTML = "{{ num_gauteng_stores}}"
-        }else if(filterDropdownpro3=='KWAZULU-NATAL'){
-            const responseData = [
-            { "site_name": "KwaZulu-Natal", "latitude": "-29.8499", "longitude": "30.9668", "region": "KwaZulu-Natal","total":  "{{ num_KWAZULU_NATAL_stores}}" },
-            ];
-            createMapChart(responseData);
-            const divElement = document.getElementById("total");
-            divElement.innerHTML = "{{ num_KWAZULU_NATAL_stores}}"
-        }else if(filterDropdownpro3=='LIMPOPO'){
-            const responseData = [
-            { "site_name": "Limpopo", "latitude": "-23.4015", "longitude": "29.4185", "region": "Limpopo","total":  "{{num_LIMPOPO_stores}}" },
-            ];
-            createMapChart(responseData);
-            const divElement = document.getElementById("total");
-            divElement.innerHTML = "{{num_LIMPOPO_stores}}"
-        }else if(filterDropdownpro3=='MPUMALANGA'){
-            const responseData = [
-            { "site_name": "Mpumalanga Central", "latitude": "-25.5653", "longitude": "30.5279", "region": "Mpumalanga","total":  "{{ num_MPUMALANGA_stores}}" },
-            ];
-            createMapChart(responseData);
-            const divElement = document.getElementById("total");
-            divElement.innerHTML = "{{ num_MPUMALANGA_stores}}"
-        }else if(filterDropdownpro3=='NORTH WEST'){
-            const responseData = [
-            { "site_name": "North West", "latitude": "-25.6765", "longitude": "26.1182", "region": "North West","total":  "{{ num_NORTH_WEST_stores}}" },
-            ];
-            createMapChart(responseData);
-            const divElement = document.getElementById("total");
-            divElement.innerHTML ="{{ num_NORTH_WEST_stores}}"
-        }else if(filterDropdownpro3=='NORTHERN CAPE'){
-            const responseData = [
-            { "site_name": "Northern Cape Central", "latitude": "-29.0468", "longitude": "21.8569", "region": "Northern Cape","total":  "{{ num_NORTHERN_CAPE_stores}}" },
-            ];
-            createMapChart(responseData);
-            const divElement = document.getElementById("total");
-            divElement.innerHTML ="{{ num_NORTHERN_CAPE_stores}}"
-        }else if(filterDropdownpro3=='WESTERN CAPE'){
-            const responseData = [
-            { "site_name": "Western Cape", "latitude": "-33.9180", "longitude": "18.4233", "region": "Western Cape","total":  "{{ num_WESTERN_CAPE_stores}}" }
-            ];
-            createMapChart(responseData);
-            const divElement = document.getElementById("total");
-            divElement.innerHTML ="{{ num_WESTERN_CAPE_stores}}"
-        }
-        
-    });
     const creategaugeChart = (data) => {
         // Extract the summary data from the last object in the array
         const summaryData = data[data.length - 1];
@@ -2172,7 +2247,7 @@ const chart = Highcharts.mapChart('container-visualizations', {
     // Initial rendering of the map with all stores
     const allStoresResponse = await fetchStoresByProvince('all');
     //const allStoresResponse = '';
-    const filterDropdownbyStoreStorestarts =1;
+    const filterDropdownbyStoreStorestarts = document.getElementById('filterstore');
     const selectedStorestart = filterDropdownbyStoreStorestarts.value;
     var currentDate = new Date();
     // Get the current date
@@ -2187,6 +2262,14 @@ const chart = Highcharts.mapChart('container-visualizations', {
     //const allStoresByStore=await fetchStores('all',selectedStorestart,'January_2024');
     const allStoresByStore='';
 
+    const allStoresByStorescore=await fetchStoresScores('all',selectedStorestart,'January_2024');
+    const allStoresbyscore = await allStoresByStorescore;
+    creategaugeChartoutsidestorelevel(allStoresbyscore);
+    creategaugeChartinsidestorelevel(allStoresbyscore);
+    creategaugeChartmenustorelevel(allStoresbyscore);
+    creategaugeChartmccafestorelevel(allStoresbyscore);
+    creategaugeChartdrivethrustorelevel(allStoresbyscore)
+    creategaugeChartdeliverystorelevel(allStoresbyscore)
     const allStoresby = await allStoresByStore;
 
     const allStores = await allStoresResponse;
@@ -2207,8 +2290,6 @@ const chart = Highcharts.mapChart('container-visualizations', {
                 { "site_name": "Western Cape", "latitude": "-33.9180", "longitude": "18.4233", "region": "Western Cape","total":  "{{ num_WESTERN_CAPE_stores}}" },
                 
     ];
-    const divElement = document.getElementById("total");
-    divElement.innerHTML = "{{total_stores}}"
     createMapChart(responseData2);
     creategaugeChart(allStores);
     creategaugeChartinside(allStores);
@@ -2248,5 +2329,6 @@ $(document).ready(function () {
             $(".container").removeClass("active");
             $(target).addClass("active");
         });
+
     });
 </script>
