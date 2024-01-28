@@ -821,7 +821,7 @@ const chart = Highcharts.mapChart('container-visualizations', {
         const summaryData = data[data.length - 1];
 
         // Assuming summaryData.total_score_outside and summaryData.target_outside are both numeric values
-        const achievedPercentage = (summaryData.total_score_outside / summaryData.target_outside) * 100;
+        const achievedPercentage = Math.round((summaryData.total_score_outside / summaryData.target_outside) * 100);
         let color;
         if (achievedPercentage >= 0 && achievedPercentage < 20) {
             color = 'red';
@@ -995,7 +995,7 @@ const chart = Highcharts.mapChart('container-visualizations', {
     const creategaugeChartinsidestorelevel = (data) => {
         // Extract the summary data from the last object in the array
         const summaryData = data[data.length - 1];
-        const achievedPercentage = (summaryData.total_score_inside / summaryData.target_inside) * 100;
+        const achievedPercentage = Math.round((summaryData.total_score_inside / summaryData.target_inside) * 100);
         let color;
         if (achievedPercentage >= 0 && achievedPercentage < 20) {
             color = 'red';
@@ -1171,7 +1171,7 @@ const chart = Highcharts.mapChart('container-visualizations', {
             //displayTextElement9inside.innerHTML = '-Happy meal with Pokémon toy'+'<br>'+'-Happy meal with ‘Roblox adopt me’ toy';
             //displayTextElement9inside.style.fontWeight = 'bold';
            // displayTextElement9inside.style.backgroundColor = '#FFD700';
-           let promoCampaigns = summaryData.out_campaigns;
+           let promoCampaigns = summaryData.out_happy_m_campaign;
 
             // Format and display the campaigns
             let formattedCampaigns = '';
@@ -1193,7 +1193,7 @@ const chart = Highcharts.mapChart('container-visualizations', {
     const creategaugeChartmenustorelevel = (data) => {
         // Extract the summary data from the last object in the array
         const summaryData = data[data.length - 1];
-        const achievedPercentage = (summaryData.total_score_Main / summaryData.target_menu) * 100;
+        const achievedPercentage = Math.round((summaryData.total_score_Main / summaryData.target_menu) * 100);
         let color;
         if (achievedPercentage >= 0 && achievedPercentage < 20) {
             color = 'red';
@@ -1368,7 +1368,7 @@ const chart = Highcharts.mapChart('container-visualizations', {
     const creategaugeChartmccafestorelevel = (data) => {
         // Extract the summary data from the last object in the array
         const summaryData = data[data.length - 1];
-        const achievedPercentage = (summaryData.total_score_Mccafe / summaryData.target_mccafe) * 100;
+        const achievedPercentage = Math.round((summaryData.total_score_Mccafe / summaryData.target_mccafe) * 100);
         let color;
         if (achievedPercentage >= 0 && achievedPercentage < 20) {
             color = 'red';
@@ -1509,7 +1509,7 @@ const chart = Highcharts.mapChart('container-visualizations', {
     const creategaugeChartdrivethrustorelevel = (data) => {
         // Extract the summary data from the last object in the array
         const summaryData = data[data.length - 1];
-        const achievedPercentage = (summaryData.total_score_drivethru / summaryData.target_drivethru) * 100;
+        const achievedPercentage = Math.round((summaryData.total_score_drivethru / summaryData.target_drivethru) * 100);
         let color;
         if (achievedPercentage >= 0 && achievedPercentage < 20) {
             color = 'red';
@@ -1666,7 +1666,7 @@ const chart = Highcharts.mapChart('container-visualizations', {
     const creategaugeChartdeliverystorelevel = (data) => {
         // Extract the summary data from the last object in the array
         const summaryData = data[data.length - 1];
-        const achievedPercentage = (summaryData.total_score_delivery/ summaryData.target_delivery) * 100;
+        const achievedPercentage = Math.round((summaryData.total_score_delivery/ summaryData.target_delivery) * 100);
         let color;
         if (achievedPercentage >= 0 && achievedPercentage < 20) {
             color = 'red';
@@ -1692,7 +1692,7 @@ const chart = Highcharts.mapChart('container-visualizations', {
         
 
         // Round the total percentage to two decimal places
-        total_percentage = total_percentage*100;
+        total_percentage = Math.round(total_percentage * 100);
 
         let color1;
         if (total_percentage >= 0 && total_percentage < 20) {
