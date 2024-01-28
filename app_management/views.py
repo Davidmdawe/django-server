@@ -338,7 +338,7 @@ def get_store_data_store_level(request):
     else:
         print("No records found within the specified date range.")
 
-    Mccafequeryset = McCafe.objects.filter(store_id=selected_store,mccafe_date__gte=start_date,mccafe_date__lte=end_date).values('digital_menu_mc','store_id','employee_no',  'menu_visibility','description_mccafe','description_mccafe','mccafe_date').last()
+    Mccafequeryset = McCafe.objects.filter(store_id=selected_store,mccafe_date__gte=start_date,mccafe_date__lte=end_date).values('digital_menu_mc','store_id','employee_no',  'menu_visibility','description_mccafe','description_mccafe','mccafe_date','menu_promo').last()
     print('McCafe')
     print(Mccafequeryset)
     if Mccafequeryset:
@@ -346,7 +346,7 @@ def get_store_data_store_level(request):
         mccafemenu_visibility_score = 1 if item['menu_visibility'] else 0
 
         mccafemenu_visibility=item['menu_visibility']
-        menu_promo=item['description_mccafe']
+        menu_promo=item['menu_promo']
         description_mccafe=item['description_mccafe']
         mccafe_date=item['mccafe_date']
         store_id=item['store_id']
