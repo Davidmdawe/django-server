@@ -192,7 +192,9 @@ select {
                 <select id="month" class="form-control drop-down-list">
                     <!--  <option value="all">All</option>-->
                     <!-- <option value="December_2023">December 2023</option>-->
+                    <option value="February_2024">February 2024</option>
                     <option value="January_2024">January 2024</option>
+                    
                 </select>
             </div>
           <!-- <div class="col-sm-3">
@@ -353,30 +355,30 @@ select {
                     </div>
                 </div>
             </div>
-            <div class="col-lg-2">
-                <div class="card-body shadow-lg" style="height: 100%;">
-                    <div class="card-header py-2" style="text-align: center; background-color:#FFD200;font-weight: bold;font-family: 'Speedee', sans-serif;">
-                        McCafé Main Menu
+                <div id="mccafedisplay" class="col-lg-2">
+                    <div class="card-body shadow-lg" style="height: 100%;">
+                        <div class="card-header py-2" style="text-align: center; background-color:#FFD200;font-weight: bold;font-family: 'Speedee', sans-serif;">
+                            McCafé Main Menu
+                        </div>
+                        <div id="gauge-container-mccafe-store-level" style="width: 100%; height: 11%;margin: auto;"></div>
+                        <div id="textContainermenu">
+                            <p id="displaymccafe"></p>
+                            <p id="displaymccafename"></p>
+                            <hr>
+                            <p id="displayTextmccafe5"></p>
+                            <hr>
+                            <p id="displayTextmccafe"></p>
+                            <hr>
+                            <p id="displayTextmccafe1"></p>
+                            <p id="displayTextmccafe3"></p>
+                            <p id="displayTextmccafe2"></p>
+                            <hr>
+                            <p id="displayTextmccafe4"></p>
+                        </div>
+                        
                     </div>
-                    <div id="gauge-container-mccafe-store-level" style="width: 100%; height: 11%;margin: auto;"></div>
-                    <div id="textContainermenu">
-                        <p id="displaymccafe"></p>
-                        <p id="displaymccafename"></p>
-                        <hr>
-                        <p id="displayTextmccafe5"></p>
-                        <hr>
-                        <p id="displayTextmccafe"></p>
-                        <hr>
-                        <p id="displayTextmccafe1"></p>
-                        <p id="displayTextmccafe3"></p>
-                        <p id="displayTextmccafe2"></p>
-                        <hr>
-                        <p id="displayTextmccafe4"></p>
-                    </div>
-                    
                 </div>
-            </div>
-            <div class="col-lg-2">
+            <div id="drivedisplay" class="col-lg-2">
                 <div class="card-body shadow-lg" style="height: 100%;">
                     <div id="driveThruHeader" class="card-header py-2" style="text-align: center; background-color:#FFD200;font-weight: bold;font-family: 'Speedee', sans-serif;">
                         Drive-thru
@@ -440,6 +442,7 @@ select {
 <script src="https://code.highcharts.com/highcharts-more.js"></script>
 <script src="https://code.highcharts.com/modules/solid-gauge.js"></script>
 <script>
+    
     function submitForm() {
         // Assuming you have a form with the id "filterForm"
         document.getElementById("filterForm").submit();
@@ -567,10 +570,7 @@ const chart = Highcharts.mapChart('container-visualizations', {
 };*/
 
     // Function to fetch store data based on the selected province
-    const fetchStoresByProvince = async (province) => {
-        const response = await fetch(`/get_store_data/?province=${province}`);
-            return await response.json();
-    };
+   
     //const fetchStores = async (province_store, store,month) => {
     //    const response = await fetch(`/get_map_data/?province_store=${province_store}&store=${store}&month=${month}`);
     //    return await response.json();
@@ -591,6 +591,32 @@ const chart = Highcharts.mapChart('container-visualizations', {
     filterButton.addEventListener('change', async () => {
         const selectedStore = filterButton.value;
         const selectedmonth = filterDropdownmonth.value;  // Assuming filterDropdownmonth is defined somewhere in your code
+
+        // Perform other actions with the selected values
+        console.log('Selected Store:', selectedStore);
+        console.log('Selected Month:', selectedmonth);
+
+        // Rest of your code...
+        const filteredStoresResponseStorelevel = await fetchStoresScores('', selectedStore, selectedmonth);
+        const filteredStoresStorelevel = await filteredStoresResponseStorelevel;
+        creategaugeChartoutsidestorelevel(filteredStoresStorelevel);
+        creategaugeChartinsidestorelevel(filteredStoresStorelevel);
+        creategaugeChartmenustorelevel(filteredStoresStorelevel);
+        creategaugeChartmccafestorelevel(filteredStoresStorelevel);
+        creategaugeChartdrivethrustorelevel(filteredStoresStorelevel);
+        creategaugeChartdeliverystorelevel(filteredStoresStorelevel);
+    });
+
+    const filterDropdownbyStoreProvince2 = document.getElementById('filterprovincestore');
+    //const filterDropdownbyStoreOwnerFranchise = document.getElementById('filterownerfranchise');
+    const filterDropdownbyStoreStore2 = document.getElementById('filterstore');
+    //const filterDropdownfrom= document.getElementById('fromDate');
+    //const filterDropdownto= document.getElementById('toDate');
+    const filterDropdownmonth2= document.getElementById('month');
+    const filterButton2 = document.getElementById('filterstore');
+    filterDropdownmonth2.addEventListener('change', async () => {
+        const selectedStore = filterButton2.value;
+        const selectedmonth = filterDropdownmonth2.value;  // Assuming filterDropdownmonth is defined somewhere in your code
 
         // Perform other actions with the selected values
         console.log('Selected Store:', selectedStore);
@@ -1675,21 +1701,37 @@ const chart = Highcharts.mapChart('container-visualizations', {
         } else {
             color = 'green';
         }
-        console.log('mccafe')
-        console.log(summaryData.mccafe_date)
-        if (summaryData.mccafe_date=0) {
-            var total_percentage = (summaryData.total_score_delivery + summaryData.total_score_drivethru  + summaryData.total_score_Main + summaryData.total_score_inside + summaryData.total_score_outside) / 11; 
+        console.log('mccafe');
+        console.log(summaryData.drivethru_date);
+
+        var mccafedisplay = document.getElementById("mccafedisplay");
+        var drivethrudisplay = document.getElementById("drivedisplay");
+
+        // Calculate total percentage based on different conditions
+        var total_percentage;
+
+        if (summaryData.mccafe_date === 0 && summaryData.drivethru_date === 0) {
+            // If both dates are 0, hide both displays
+            mccafedisplay.style.display = "none";
+            drivethrudisplay.style.display = "none";
             
-        } else if(summaryData.drivethru_date=0) {
-            var total_percentage = (summaryData.total_score_delivery + summaryData.total_score_Mccafe + summaryData.total_score_Main + summaryData.total_score_inside + summaryData.total_score_outside) / 11;
-            
+            total_percentage = (summaryData.total_score_delivery + summaryData.total_score_Main + summaryData.total_score_inside + summaryData.total_score_outside) / 10;
+        } else if (summaryData.mccafe_date === 0) {
+            // If mccafe_date is 0, hide mccafedisplay
+            mccafedisplay.style.display = "none";
+            drivethrudisplay.style.display = "block";
+            total_percentage = (summaryData.total_score_delivery + summaryData.total_score_drivethru + summaryData.total_score_Main + summaryData.total_score_inside + summaryData.total_score_outside) / 11;
+        } else if (summaryData.drivethru_date === 0) {
+            // If drivethru_date is 0, hide drivethrudisplay
+            drivethrudisplay.style.display = "none";
+            mccafedisplay.style.display = "block";
+            total_percentage = (summaryData.total_score_delivery + summaryData.total_score_Mccafe + summaryData.total_score_Main + summaryData.total_score_inside + summaryData.total_score_outside) / 11;
+        } else {
+            // Default case, show both displays
+            mccafedisplay.style.display = "block";
+            drivethrudisplay.style.display = "block";
+            total_percentage = (summaryData.total_score_delivery + summaryData.total_score_drivethru + summaryData.total_score_Mccafe + summaryData.total_score_Main + summaryData.total_score_inside + summaryData.total_score_outside) / 12;
         }
-        else{
-            var total_percentage = (summaryData.total_score_delivery + summaryData.total_score_drivethru + summaryData.total_score_Mccafe + summaryData.total_score_Main + summaryData.total_score_inside + summaryData.total_score_outside) / 12;
-        }
-        // Calculate total percentage
-        
-        
 
         // Round the total percentage to two decimal places
         total_percentage = Math.round(total_percentage * 100);
@@ -2245,7 +2287,6 @@ const chart = Highcharts.mapChart('container-visualizations', {
     };
     
     // Initial rendering of the map with all stores
-    const allStoresResponse = await fetchStoresByProvince('all');
     //const allStoresResponse = '';
     const filterDropdownbyStoreStorestarts = document.getElementById('filterstore');
     const selectedStorestart = filterDropdownbyStoreStorestarts.value;
@@ -2262,7 +2303,7 @@ const chart = Highcharts.mapChart('container-visualizations', {
     //const allStoresByStore=await fetchStores('all',selectedStorestart,'January_2024');
     const allStoresByStore='';
 
-    const allStoresByStorescore=await fetchStoresScores('all',selectedStorestart,'January_2024');
+    const allStoresByStorescore=await fetchStoresScores('all',selectedStorestart,'February_2024');
     const allStoresbyscore = await allStoresByStorescore;
     creategaugeChartoutsidestorelevel(allStoresbyscore);
     creategaugeChartinsidestorelevel(allStoresbyscore);
@@ -2299,21 +2340,7 @@ const chart = Highcharts.mapChart('container-visualizations', {
     creategaugeChartDelivery(allStores);
 
     // Listen for changes in the dropdown selection
-    const filterDropdown = document.getElementById('filter1');
-    filterDropdown.addEventListener('change', async () => {
-        const selectedProvince = filterDropdown.value;
-        const filteredStoresResponse = await fetchStoresByProvince(selectedProvince);
-        const filteredStores = await filteredStoresResponse;
-        createMapChart(filteredStores);
-        creategaugeChart(filteredStores);
-        creategaugeChartinside(filteredStores);
-        creategaugeChartMainDigitalMenu(filteredStores);
-        creategaugeChartDrivethru(filteredStores);
-        creategaugeChartMcCafMain(filteredStores);
-        creategaugeChartDelivery(filteredStores);
-
-    });
-
+    
     
 
 
