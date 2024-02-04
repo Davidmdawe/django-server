@@ -23,7 +23,7 @@ urlpatterns = [
     path('admin/', admin.site.urls),
     path('app/', include('app_management.urls')),
     
-    path('', login_view, name='login'),
+    path('login/', login_view, name='login'),
     path('visuals/', visuals_view, name='visuals'),
     path('McDonalds_Retail_Audit_Reporting/', home_view, name='home'),  # Add this line to handle the root path
     path('get_store_data/', get_store_data, name='get_store_data'),
