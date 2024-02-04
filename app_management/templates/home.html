@@ -428,8 +428,13 @@ const chart = Highcharts.mapChart('container-visualizations', {
 };*/
 
     // Function to fetch store data based on the selected province
-    const fetchStoresByProvince = async (province) => {
-        const response = await fetch(`/get_store_data/?province=${province}`);
+    const fetchStoresByProvince = async (province,month) => {
+        const response = await fetch(`/get_store_data/?province=${province}&month=${month}`);
+            return await response.json();
+    };
+
+    const fetchStoresBylandingpage = async (province,month) => {
+        const response = await fetch(`/home/?province=${province}&month=${month}`);
             return await response.json();
     };
     //const fetchStores = async (province_store, store,month) => {
@@ -2171,7 +2176,11 @@ const chart = Highcharts.mapChart('container-visualizations', {
     };
     
     // Initial rendering of the map with all stores
-    const allStoresResponse = await fetchStoresByProvince('all');
+    const filterDropdownmonth22 = document.getElementById('month_main');
+
+    // Get the last option in the dropdown
+    const selectedMonth22 = filterDropdownmonth22.options[filterDropdownmonth22.options.length - 1].value;
+    const allStoresResponse = await fetchStoresByProvince('all',selectedMonth22);
     //const allStoresResponse = '';
     const filterDropdownbyStoreStorestarts =1;
     const selectedStorestart = filterDropdownbyStoreStorestarts.value;
@@ -2220,9 +2229,11 @@ const chart = Highcharts.mapChart('container-visualizations', {
 
     // Listen for changes in the dropdown selection
     const filterDropdown = document.getElementById('filter1');
+    const filterDropdownmonth2 = document.getElementById('month_main');
     filterDropdown.addEventListener('change', async () => {
         const selectedProvince = filterDropdown.value;
-        const filteredStoresResponse = await fetchStoresByProvince(selectedProvince);
+        const selectedMonth = filterDropdownmonth2.value;
+        const filteredStoresResponse = await fetchStoresByProvince(selectedProvince,selectedMonth);
         const filteredStores = await filteredStoresResponse;
         createMapChart(filteredStores);
         creategaugeChart(filteredStores);
