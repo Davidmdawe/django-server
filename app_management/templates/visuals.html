@@ -187,16 +187,7 @@ select {
                 <label for="filter1" style="font-weight: bold;font-family: 'Speedee', sans-serif;">To:</label>
                 <input type="text" id="toDate" class="form-control datepicker">
             </div>-->
-            <div class="col-sm-3">
-                <label for="filter1" style="font-weight: bold;font-family: 'Speedee', sans-serif;">Select Month:</label>
-                <select id="month" class="form-control drop-down-list">
-                    <!--  <option value="all">All</option>-->
-                    <!-- <option value="December_2023">December 2023</option>-->
-                    <option value="February_2024">February 2024</option>
-                    <option value="January_2024">January 2024</option>
-                    
-                </select>
-            </div>
+            
           <!-- <div class="col-sm-3">
                 <label for="filter1" style="font-weight: bold;font-family: 'Speedee', sans-serif;">Select Province:</label>
                 <select id="filterprovincestore" class="form-control drop-down-list">
@@ -216,17 +207,17 @@ select {
                 </select>
             </div>-->  
             <div class="col-sm-3">
+                <label for="filter1" style="font-weight: bold;font-family: 'Speedee', sans-serif;">Select Province:</label>
                 <form method="get" id="filterForm">
-                    {{ filter.form.region.label_tag }}
                     <select id="province_store" name="{{ filter.form.region.name }}" class="form-control" onchange="submitForm()">
-                        <option value="">------------</option>
+                        <option value=""></option>
                         {% for province in provinces %}
                             <option value="{{ province|upper }}">{{ province|upper }}</option>
                         {% endfor %}
                     </select>
                 </form>
-                
             </div>
+            
         <div class="col-sm-3">
             <label for="filter2" style="font-weight: bold;font-family: 'Speedee', sans-serif;">Select Store:</label>
             <select id="filterstore" class="form-control drop-down-list">
@@ -235,7 +226,16 @@ select {
                {% endfor %}
             </select>
         </div>
-           
+        <div class="col-sm-3">
+            <label for="filter1" style="font-weight: bold;font-family: 'Speedee', sans-serif;">Select Month:</label>
+            <select id="month" class="form-control drop-down-list">
+                <!--  <option value="all">All</option>-->
+                <!-- <option value="December_2023">December 2023</option>-->
+                <option value="February_2024">February 2024</option>
+                <option value="January_2024">January 2024</option>
+                
+            </select>
+        </div>   
             
            <!-- <button id="filterbutton" class="btn mcdonalds-yellow" style="height: 40px; margin-top: 30px;">Filter</button>-->
         </div>
