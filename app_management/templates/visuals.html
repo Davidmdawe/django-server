@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html >
 {% load static %}
@@ -154,6 +155,13 @@ select {
     content: 'X';
     margin-right: 5px; /* Adjust as needed */
 }
+.center {
+    position: fixed;
+    top: 15%;
+    left: 48%;
+    transform: translate(-50%, -50%);
+    display: none;
+}
 
     </style>
 </head>
@@ -178,6 +186,9 @@ select {
     <div id="visuals" class="container active" style="max-width: 100%; padding: 0; margin: 0;">
         <h1 style="font-weight: bold;font-size: 200%;font-family: 'Speedee', sans-serif;">Retail Audit Reporting Visualisations</h1>
         <hr>
+        
+        
+        
         <div class="row">
             <!--<div class="col-sm-2">
                 <label for="filter1" style="font-weight: bold;font-family: 'Speedee', sans-serif;">From:</label>
@@ -590,7 +601,7 @@ const chart = Highcharts.mapChart('container-visualizations', {
     const filterButton = document.getElementById('filterstore');
     filterButton.addEventListener('change', async () => {
         const selectedStore = filterButton.value;
-        const selectedmonth = filterDropdownmonth.value;  // Assuming filterDropdownmonth is defined somewhere in your code
+        const selectedmonth = filterDropdownmonth.value; 
 
         // Perform other actions with the selected values
         console.log('Selected Store:', selectedStore);
@@ -616,8 +627,7 @@ const chart = Highcharts.mapChart('container-visualizations', {
     const filterButton2 = document.getElementById('filterstore');
     filterDropdownmonth2.addEventListener('change', async () => {
         const selectedStore = filterButton2.value;
-        const selectedmonth = filterDropdownmonth2.value;  // Assuming filterDropdownmonth is defined somewhere in your code
-
+        const selectedmonth = filterDropdownmonth2.value;  
         // Perform other actions with the selected values
         console.log('Selected Store:', selectedStore);
         console.log('Selected Month:', selectedmonth);
@@ -631,6 +641,7 @@ const chart = Highcharts.mapChart('container-visualizations', {
         creategaugeChartmccafestorelevel(filteredStoresStorelevel);
         creategaugeChartdrivethrustorelevel(filteredStoresStorelevel);
         creategaugeChartdeliverystorelevel(filteredStoresStorelevel);
+        
     });
     // Function to create the Highcharts map chart
     
@@ -1810,21 +1821,21 @@ const chart = Highcharts.mapChart('container-visualizations', {
 
         // Assuming you have individual scores and target values
         const data2 = {
-        total_score_delivery: summaryData.total_score_delivery,
-        total_score_drivethru: summaryData.total_score_drivethru,
-        total_score_Mccafe: summaryData.total_score_Mccafe,
         total_score_Main: summaryData.total_score_Main,
+        ...(summaryData.mccafe_date !== 0 && { total_score_Mccafe: summaryData.total_score_Mccafe }),
+        ...(summaryData.drivethru_date !== 0 && {  total_score_drivethru: summaryData.total_score_drivethru}),
+        total_score_delivery: summaryData.total_score_delivery,
         total_score_inside: summaryData.total_score_inside,
-        total_score_outside: summaryData.total_score_outside
+        total_score_outside: summaryData.total_score_outside,
         };
 
         const targets = {
-        target_delivery: 2,
-        target_drivethru: 1,
-        target_Mccafe: 1,
         target_Main: 1,
+        ...(summaryData.mccafe_date !== 0 && { target_Mccafe: 1 }),
+        ...(summaryData.drivethru_date !== 0 && {target_drivethru: 1 }),
+        target_delivery: 2,
         target_inside: 3,
-        target_outside: 4
+        target_outside: 4,
         };
         // Create series data for bars
         const barData = Object.values(data2);
