@@ -46,6 +46,7 @@ def home_view(request):
     print(restaurant)
 
     # Get all store IDs from Menu model
+    
     all_store_ids = Menu.objects.values_list('store_id', flat=True).distinct()
 
     # Filter store details from Shops model where the region is Gauteng
@@ -125,14 +126,29 @@ def logout_view(request):
 @login_required()   
 def get_store_data(request):
     selected_province = request.GET.get('province', 'all')
+    month = request.GET.get('month', None)
+    print()
+    if month and "_" in month:
+        month_name, year = month.split("_")
+        month_number = list(calendar.month_name).index(month_name.capitalize())
 
+        # Get the first and last day of the month
+        _, last_day = calendar.monthrange(int(year), month_number)
+
+        # Create a timezone object (adjust to your project's timezone)
+        timezone = pytz.timezone('UTC')
+
+        # Generate a list of datetime objects for the entire month (with timezone awareness)
+        start_date = timezone.localize(datetime(int(year), month_number, 1, 0, 0, 0))
+        end_date = timezone.localize(datetime(int(year), month_number, last_day, 23, 59, 59))
+    stores_ids=Menu.objects.filter(menu_date__gte=start_date,menu_date__lte=end_date).values('store_id')
     try:
         data = []  # Initialize the data list
         if selected_province == 'all':
             stores = Store_level.objects.values('site_name', 'latitude', 'longitude', 'region')
 
         else:
-            stores = Store_level.objects.filter(region=selected_province).values('site_name', 'latitude', 'longitude', 'region')
+            stores = Store_level.objects.filter(region=selected_province,store_id__in=stores_ids).values('site_name', 'latitude', 'longitude', 'region')
 
         # Convert QuerySet to a list of dictionaries
         stores_list = list(stores)
@@ -249,6 +265,7 @@ def get_store_data_store_level(request):
     outsidemystorecamp=0
     mystorecamp_img_url=0
     digital_menu_mc=0
+    digital_menu=0
     Outqueryset = Outside.objects.filter(
         store_id=selected_store,
         outside_date__gte=start_date,
