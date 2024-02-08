@@ -183,14 +183,14 @@ select {
         <hr>
         
         <div class="row">
-            <div class="col-sm-3">
+           <!-- <div class="col-sm-3">
                 <label for="filter_main" style="font-weight: bold;font-family: 'Speedee', sans-serif;">Select Month:</label>
                 <select id="month_main" class="form-control drop-down-list">
-                    <!--  <option value="all">All</option>-->
-                    <!-- <option value="December_2023">December 2023</option>-->
+                    <option value="all">All</option>
+                  <option value="December_2023">December 2023</option>
                     <option value="January_2024">January 2024</option>
                 </select>
-            </div>
+            </div>-->
             <div class="col-sm-3">
                 <label for="filter1" style="font-family: 'Speedee', sans-serif;">Select Province:</label>
                         <select id="filter1" class="form-control drop-down-list">
@@ -2176,10 +2176,10 @@ const chart = Highcharts.mapChart('container-visualizations', {
     };
     
     // Initial rendering of the map with all stores
-    const filterDropdownmonth22 = document.getElementById('month_main');
+    //const filterDropdownmonth22 = document.getElementById('month_main');
 
     // Get the last option in the dropdown
-    const selectedMonth22 = filterDropdownmonth22.options[filterDropdownmonth22.options.length - 1].value;
+    const selectedMonth22 ="January_2024";
     const allStoresResponse = await fetchStoresByProvince('all',selectedMonth22);
     //const allStoresResponse = '';
     const filterDropdownbyStoreStorestarts =1;
@@ -2229,10 +2229,10 @@ const chart = Highcharts.mapChart('container-visualizations', {
 
     // Listen for changes in the dropdown selection
     const filterDropdown = document.getElementById('filter1');
-    const filterDropdownmonth2 = document.getElementById('month_main');
+    //const filterDropdownmonth2 = document.getElementById('month_main');
     filterDropdown.addEventListener('change', async () => {
         const selectedProvince = filterDropdown.value;
-        const selectedMonth = filterDropdownmonth2.value;
+        const selectedMonth = "January_2024";
         const filteredStoresResponse = await fetchStoresByProvince(selectedProvince,selectedMonth);
         const filteredStores = await filteredStoresResponse;
         createMapChart(filteredStores);
