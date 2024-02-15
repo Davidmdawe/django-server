@@ -112,11 +112,69 @@ def visuals_view(request):
     province_ids = Menu.objects.values('store_id')
     restaurant_province = Store_level.objects.filter(store_id__in=province_ids).all()
     shop_filter = ShopsFilter(request.GET, queryset=restaurant_province)
-    provinces = ['MPUMALANGA', 'GAUTENG', 'KWAZULU-NATAL', 'WESTERN CAPE', 'EASTERN CAPE', 'NORTHERN CAPE', 'NORTH WEST', 'FREE STATE', 'LIMPOPO']
 
     context = {'filter': shop_filter,'provinces':provinces}
 
     return render(request, 'visuals.html', context)
+
+def get_stores(request):
+    month = request.GET.get('month')
+    province = request.GET.get('province')
+    if month:
+        # Assuming you have a model structure that associates months with provinces
+        if "_" in month:
+            month_name, year = month.split("_")
+            month_number = list(calendar.month_name).index(month_name.capitalize())
+
+            # Get the first and last day of the month
+            _, last_day = calendar.monthrange(int(year), month_number)
+
+            # Create a timezone object (adjust to your project's timezone)
+            timezone = pytz.timezone('UTC')
+
+            # Generate a list of datetime objects for the entire month (with timezone awareness)
+            start_date = timezone.localize(datetime(int(year), month_number, 1, 0, 0, 0))
+            end_date = timezone.localize(datetime(int(year), month_number, last_day, 23, 59, 59))
+
+            store_ids = Menu.objects.filter(menu_date__gte=start_date,menu_date__lte=end_date).values('store_id')
+            restaurant = Store_level.objects.filter(store_id__in=store_ids,region=province).values("site_name","store_id").distinct()
+            store_list = list(restaurant)
+        else:
+            store_list = []
+    else:
+        store_list = []
+
+    return JsonResponse(store_list, safe=False)
+
+def get_provinces(request):
+    month = request.GET.get('month')
+    if month:
+        # Assuming you have a model structure that associates months with provinces
+        if "_" in month:
+            month_name, year = month.split("_")
+            month_number = list(calendar.month_name).index(month_name.capitalize())
+
+            # Get the first and last day of the month
+            _, last_day = calendar.monthrange(int(year), month_number)
+
+            # Create a timezone object (adjust to your project's timezone)
+            timezone = pytz.timezone('UTC')
+
+            # Generate a list of datetime objects for the entire month (with timezone awareness)
+            start_date = timezone.localize(datetime(int(year), month_number, 1, 0, 0, 0))
+            end_date = timezone.localize(datetime(int(year), month_number, last_day, 23, 59, 59))
+
+            store_ids = Menu.objects.filter(menu_date__gte=start_date,menu_date__lte=end_date).values('store_id')
+            restaurant_province = Store_level.objects.filter(store_id__in=store_ids).values("region").distinct()
+            provinces_list = list(restaurant_province)
+        else:
+            provinces_list = []
+    else:
+        provinces_list = []
+
+    return JsonResponse(provinces_list, safe=False)
+
+
 
 @login_required()
 def logout_view(request):
@@ -141,7 +199,7 @@ def get_store_data(request):
         # Generate a list of datetime objects for the entire month (with timezone awareness)
         start_date = timezone.localize(datetime(int(year), month_number, 1, 0, 0, 0))
         end_date = timezone.localize(datetime(int(year), month_number, last_day, 23, 59, 59))
-    stores_ids=Menu.objects.filter(menu_date__gte=start_date,menu_date__lte=end_date).values('store_id')
+    stores_ids=Menu.objects.values('store_id')
     try:
         data = []  # Initialize the data list
         if selected_province == 'all':
@@ -191,6 +249,7 @@ def get_store_data_store_level(request):
     #selected_store=1
     site_name=Store_level.objects.filter(store_id=selected_store).values('site_name')
     selected_store_name= site_name[0]['site_name'] if site_name else None
+    print("Successfulll")
     print(selected_store)
     
     
