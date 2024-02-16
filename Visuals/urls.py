@@ -17,7 +17,7 @@ Including another URLconf
 
 from django.contrib import admin
 from django.urls import path
-from .views import login_view, home_view,logout_view,get_store_data,MapDataView,get_store_data_store_level,visuals_view,get_provinces,get_stores
+from app_management.views import login_view, home_view,logout_view,get_store_data,MapDataView,get_store_data_store_level,visuals_view,get_provinces,get_stores
 
 urlpatterns = [
     path('login/', login_view, name='login'),
