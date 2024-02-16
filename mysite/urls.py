@@ -17,7 +17,6 @@ Including another URLconf
 from django.contrib import admin
 from django.urls import include, path, re_path
 from app_management.views import home_view,login_view,get_store_data,MapDataView,get_store_data_store_level,visuals_view,get_provinces,get_stores  # Import your home view
-
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('app/', include('app_management.urls')),
@@ -31,4 +30,3 @@ urlpatterns = [
     path('get_store_data_store_level/', get_store_data_store_level, name='get_store_data_store_level'),
     path('get_map_data/', MapDataView.as_view(), name='get_map_data'),
 ]
-
