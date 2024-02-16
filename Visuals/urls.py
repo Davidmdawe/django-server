@@ -22,14 +22,13 @@ from app_management.views import login_view, home_view,logout_view,get_store_dat
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('app/', include('app_management.urls')),
-    path('login/', login_view, name='login'),
-    path('home/', home_view, name='home'),
+    path('', login_view, name='login'),
     path('visuals/', visuals_view, name='visuals'),
-    path('logout/', logout_view, name='logout'),
+    path('McDonalds_Retail_Audit_Reporting/', home_view, name='home'),  # Add this line to handle the root 
     path('get-provinces/',get_provinces , name='get_provinces'),
     path('get-stores/',get_stores , name='get_stores'),
-    path('get_store_data_store_level/', get_store_data_store_level, name='get_store_data_store_level'),
     path('get_store_data/', get_store_data, name='get_store_data'),
+    path('get_store_data_store_level/', get_store_data_store_level, name='get_store_data_store_level'),
     path('get_map_data/', MapDataView.as_view(), name='get_map_data'),
     # Add other URL patterns as needed
 ]
