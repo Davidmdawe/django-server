@@ -1,7 +1,7 @@
 from django.shortcuts import render, redirect
 from django.contrib.auth import authenticate, login,logout
 from django.contrib import messages
-from .models import Province,Store_Map,StorePerformance,Shops as Store_level,Inside,Outside,Menu,Mccafe as McCafe,Drivethru as Drivethru,Delivery as Delivery # Import the Province model
+from .models import Province,Shops as Store_level,Inside,Outside,Menu,Mccafe as McCafe,Drivethru as Drivethru,Delivery as Delivery # Import the Province model
 from django.http import JsonResponse
 import random
 import calendar
@@ -274,11 +274,11 @@ def get_store_data_store_level(request):
     total_score_Main=0
     target_outside = 4
     total_score_Mccafe=0
-    target_mccafe = 1
+    target_mccafe = 2
     target_delivery = 2
-    target_drivethru = 1
-    target_inside=3
-    target_menu=1
+    target_drivethru = 3
+    target_inside=5
+    target_menu=3
     out_branding_condition = 0  # Initialize out_branding_condition
     out_signage_condition = 0  # Initialize out_signage_condition
     out_point_of_sale=0
@@ -325,21 +325,70 @@ def get_store_data_store_level(request):
     mystorecamp_img_url=0
     digital_menu_mc=0
     digital_menu=0
+    ##New##
+    outside_promotions_score=0
+    outside_promotions=''
+    outside_promotions_desc=''
+    inside_date=''
+    inside_entry_campaigns_score=0
+    inside_music_score =0
+    inside_television_score =0
+    inside_avail_sok_score =0
+    inside_happymeal_layout_score =0
+    inside_sok_layout_score =0
+    inside_television_number=''
+    inside_television_number_work=''
+    inside_avail_sok=''
+    inside_sok_layout=''
+    inside_sok_layout_desc=''
+    inside_sok_campaigns_list=''
+    inside_mystore_campaigns=''
+    inside_happymeal_layout=''
+    inside_happymeal_layout_desc=''
+    inside_happymeal_campaigns_list=''
+    menu_date=''
+    menu_pricepoint=''
+    menu_pop_layout=''
+    menu_board_display=''
+    menu_pop_layout_desc=''
+    menu_board_display_desc=''
+    menu_board_campaign_layout=''
+    menu_board_campaign_layout_desc=''
+    menu_board_campaig_list=''
+    mccafe_model=''
+    mccafe_menu=''
+    mccafe_menu_display=''
+    mccafe_menu_display_desc=''
+    mccafe_menu_board_campaign_layout=''
+    mccafe_menu_board_campaign_layout_desc=''
+    mccafe_menu_board_layout_campaign_list=''
+    is_drivethru=''
+    drive_menu=''
+    drive_menu_board=''
+    drive_menu_board_desc=''
+    drive_menu_board_campaign_layout=''
+    drive_menu_board_campaign_layout_desc=''
+    drive_menu_board_layout_campaign_list=''
+    drive_cod_layout=''
+    drive_cod_layout_desc=''
+    drive_advert=''
+    drive_advert_desc=''
+    drive_cod_layout_score=0
+    mcdelivery=''
+    drive_other=''
     Outqueryset = Outside.objects.filter(
         store_id=selected_store,
         outside_date__gte=start_date,
         outside_date__lte=end_date
     ).values(
-        'store_id',
         'employee_no',
+        'store_id',
+        'outside_trans_id',
+        'outside_promotions',
+        'outside_promotions_desc',
+        'outside_image_url',
         'outside_date',
-        'outsidemystorecamp',
-        'disclaimer',
-        'campaigns',
-        'campaigns_list',
-        'description_outside',
-        'signage_condition',
-        'mystorecamp_img_url'
+        'outside_id'
     ).last()
     print('OutSide')
     print(Outqueryset)
@@ -347,18 +396,12 @@ def get_store_data_store_level(request):
     if Outqueryset:
         item = Outqueryset  # No need to loop, as there's only one record
 
-        branding_condition_score = 1 if item['signage_condition'] else 0
-        signage_condition_score = 1 if item['disclaimer'] else 0
-        campaign_score = 1 if item['campaigns'] else 0
-        outsidemystorecamp_score = 1 if item['outsidemystorecamp'] else 0
+        outside_promotions_score = 1 if item['outside_promotions'] else 0
 
-        out_branding_condition = item['signage_condition']
-        out_signage_condition = item['disclaimer']
-        out_campaigns = item['campaigns_list']
-        mystorecamp_img_url = item['mystorecamp_img_url']
-        outsidemystorecamp=item['outsidemystorecamp']
-        out_description_outside = item['description_outside']
-        out_campaign = item['campaigns']
+        outside_promotions = item['outside_promotions']
+        outside_promotions_desc = item['outside_promotions_desc']
+        outside_image_url = item['outside_image_url']
+        
         out_campaign_outside_date = item['outside_date']
         store_id = item['store_id']
         site_name_store = Store_level.objects.filter(store_id=store_id).values('site_name')
@@ -366,112 +409,234 @@ def get_store_data_store_level(request):
         print(out_campaigns)
         selected_store_name_store = site_name_store[0]['site_name'] if site_name_store else None
         out_campaign_outside_store_site_name = selected_store_name_store
-        total_score_outside += branding_condition_score + signage_condition_score + campaign_score+outsidemystorecamp_score
+        total_score_outside +=outside_promotions_score
     else:
         print("No records found within the specified date range.")
 
 
-    Inqueryset = Inside.objects.filter(store_id=selected_store,inside_date__gte=start_date,inside_date__lte=end_date).values('mystorecamp_image_url','insidemystorecamp','store_id','pop_description','employee_no','inside_date', 'point_of_purchase','self_order_kiosk','promo_sok_campaigns_list','happy_m_campaign','description_inside').last()
+
+    Inqueryset = Inside.objects.filter(store_id=selected_store,inside_date__gte=start_date,inside_date__lte=end_date).values(
+    'employee_no',
+    'store_id',
+    'inside_trans_id',
+    'inside_entry_campaigns',
+    'inside_entry_campaigns_list',
+    'inside_music',
+    'inside_television',
+    'inside_television_number',
+    'inside_television_number_work',
+    'inside_sok_layout',
+    'inside_sok_layout_desc',
+    'inside_sok_campaigns_list',
+    'inside_mystore_campaigns',
+    'inside_mystore_image_url',
+    'inside_happymeal_layout',
+    'inside_happymeal_layout_desc',
+    'inside_happymeal_campaigns_list',
+    'inside_description',
+    'inside_date',
+    'inside_id',
+    'inside_avail_sok',
+    'inside_avail_sok_desc').last()
     print('Inside')
     print(Inqueryset)
     if Inqueryset:
         item =Inqueryset
-        point_of_sale_score = 1 if item['point_of_purchase'] else 0
-        self_order_kiosk_score = 1 if item['self_order_kiosk'] else 0
-        insidemystorecamp_score = 1 if item['insidemystorecamp'] else 0
+        #inside_entry_campaigns_score = 1 if item['inside_entry_campaigns'] else 0
+        inside_music_score = 1 if item['inside_music'] else 0
+        inside_television_score = 1 if item['inside_television'] else 0
+        inside_avail_sok_score = 1 if item['inside_avail_sok'] else 0
+        inside_happymeal_layout_score = 1 if item['inside_happymeal_layout'] else 0
+        inside_sok_layout_score = 1 if item['inside_sok_layout'] else 0
+        
 
-        out_point_of_sale=item['point_of_purchase']
-        out_self_order_kiosk=item['self_order_kiosk']
-        out_promo_sok_campaigns=item['promo_sok_campaigns_list']
-        out_happy_m_campaign=item['happy_m_campaign']
-        out_description_inside=item['description_inside']
-        out_description_inside_date=item['inside_date']
-        insidemystorecamp=item['insidemystorecamp']
+        employee_no=item['employee_no']
+        inside_trans_id=item['inside_trans_id']
+        inside_entry_campaigns=item['inside_entry_campaigns']
+        inside_entry_campaigns_list=item['inside_entry_campaigns_list']
+        inside_music=item['inside_music']
+        inside_television=item['inside_television']
+        inside_television_number=item['inside_television_number']
+        inside_television_number_work=item['inside_television_number_work']
+        inside_sok_layout=item['inside_sok_layout']
+        inside_sok_layout_desc=item['inside_sok_layout_desc']
+        inside_sok_campaigns_list=item['inside_sok_campaigns_list']
+        inside_mystore_campaigns=item['inside_mystore_campaigns']
+        inside_mystore_image_url=item['inside_mystore_image_url']
+        inside_happymeal_layout=item['inside_happymeal_layout']
+        inside_happymeal_layout_desc=item['inside_happymeal_layout_desc']
+        inside_happymeal_campaigns_list=item['inside_happymeal_campaigns_list']
+        inside_description=item['inside_description']
+        inside_date=item['inside_date']
+        inside_avail_sok=item['inside_avail_sok']
+        inside_avail_sok_desc=item['inside_avail_sok_desc']
         store_id=item['store_id']
         site_name_store=Store_level.objects.filter(store_id=store_id).values('site_name')
         selected_store_name_store= site_name_store[0]['site_name'] if site_name_store else None
         out_store_site_name=selected_store_name_store
-        out_pop_description_inside=item['pop_description']
-        total_score_inside += point_of_sale_score + self_order_kiosk_score+insidemystorecamp_score
+        total_score_inside += inside_music_score+inside_television_score+inside_sok_layout_score+inside_happymeal_layout_score+inside_avail_sok_score
     else:
         print("No records found within the specified date range.")
 
-    Mainqueryset = Menu.objects.filter(store_id=selected_store,menu_date__gte=start_date,menu_date__lte=end_date).values('digital_menu','store_id','employee_no', 'menu_visibility','price_visibility','menu_promotion','description_menu','menu_date').last()
+    Mainqueryset = Menu.objects.filter(store_id=selected_store,menu_date__gte=start_date,menu_date__lte=end_date).values(
+    'employee_no',
+    'store_id',
+    'menu_display',
+    'menu_pop_layout',
+    'menu_pop_layout_desc',
+    'menu_pricepoint',
+    'menu_board_display',
+    'menu_board_display_desc',
+    'menu_board_campaign_layout',
+    'menu_board_campaign_layout_desc',
+    'menu_board_campaig_list',
+    'menu_trans_id',
+    'menu_date',
+    'menu_id').last()
     print('Main')
     print(Mainqueryset)
     if Mainqueryset:
         item=Mainqueryset
-        menu_visibility_score = 1 if item['menu_visibility'] else 0
+        menu_pop_layout_score = 1 if item['menu_pop_layout'] else 0
+        menu_board_display_score = 1 if item['menu_board_display'] else 0
+        menu_board_campaign_layout_score = 1 if item['menu_board_campaign_layout'] else 0
+        
+        
 
-        menu_visibility=item['menu_visibility']
-        price_visibility=item['price_visibility']
-        menu_promotion=item['menu_promotion']
-        description_menu=item['description_menu']
-        description_menu_date=item['menu_date']
-        digital_menu=item['digital_menu']
+        menu_display=item['menu_display']
+        menu_pop_layout=item['menu_pop_layout']
+        menu_pop_layout_desc=item['menu_pop_layout_desc']
+        menu_pricepoint=item['menu_pricepoint']
+        menu_board_display=item['menu_board_display']
+        menu_board_display_desc=item['menu_board_display_desc']
+        menu_board_campaign_layout=item['menu_board_campaign_layout']
+        menu_board_campaig_list=item['menu_board_campaig_list']
+        menu_board_campaign_layout_desc=item['menu_board_campaign_layout_desc']
+        menu_date=item['menu_date']
         description_menu_store_site_name=selected_store_name
-        total_score_Main += menu_visibility_score
+        total_score_Main += menu_pop_layout_score+menu_board_display_score+menu_board_campaign_layout_score
     else:
         print("No records found within the specified date range.")
 
-    Mccafequeryset = McCafe.objects.filter(store_id=selected_store,mccafe_date__gte=start_date,mccafe_date__lte=end_date).values('digital_menu_mc','store_id','employee_no',  'menu_visibility','description_mccafe','description_mccafe','mccafe_date','menu_promo').last()
+    Mccafequeryset = McCafe.objects.filter(store_id=selected_store,mccafe_date__gte=start_date,mccafe_date__lte=end_date).values(
+    'mccafe_id',
+    'employee_no',
+    'store_id',
+    'mccafe_trans_id',
+    'mccafe_menu',
+    'mccafe_model',
+    'mccafe_menu_display',
+    'mccafe_menu_display_desc',
+    'mccafe_menu_board_campaign_layout',
+    'mccafe_menu_board_campaign_layout_desc',
+    'mccafe_menu_board_layout_campaign_list',
+    'mccafe_date').last()
     print('McCafe')
     print(Mccafequeryset)
     if Mccafequeryset:
         item=Mccafequeryset
-        mccafemenu_visibility_score = 1 if item['menu_visibility'] else 0
+        mccafe_menu_display_score = 1 if item['mccafe_menu_display'] else 0
+        mccafe_menu_board_campaign_layout_score = 1 if item['mccafe_menu_board_campaign_layout'] else 0
 
-        mccafemenu_visibility=item['menu_visibility']
-        menu_promo=item['menu_promo']
-        description_mccafe=item['description_mccafe']
-        mccafe_date=item['mccafe_date']
+        mccafe_id=item['mccafe_id']
+        employee_no=item['employee_no']
         store_id=item['store_id']
-        digital_menu_mc=item['digital_menu_mc']
+        mccafe_trans_id=item['mccafe_trans_id']
+        mccafe_menu=item['mccafe_menu']
+        mccafe_model=item['mccafe_model']
+        mccafe_menu_display=item['mccafe_menu_display']
+        mccafe_menu_display_desc=item['mccafe_menu_display_desc']
+        mccafe_menu_board_campaign_layout=item['mccafe_menu_board_campaign_layout']
+        mccafe_menu_board_campaign_layout_desc=item['mccafe_menu_board_campaign_layout_desc']
+        mccafe_menu_board_layout_campaign_list=item['mccafe_menu_board_layout_campaign_list']
+        mccafe_date=item['mccafe_date']
         site_name_store=Store_level.objects.filter(store_id=store_id).values('site_name')
         selected_store_name_store= site_name_store[0]['site_name'] if site_name_store else None
         mccafe_store_site_name=selected_store_name_store
-        total_score_Mccafe += mccafemenu_visibility_score
+        total_score_Mccafe += mccafe_menu_display_score+mccafe_menu_board_campaign_layout_score
     else:
         print("No records found within the specified date range.")
 
-    drivethruqueryset = Drivethru.objects.filter(store_id=selected_store,drivethru_date__gte=start_date,drivethru_date__lte=end_date).values('store_id','employee_no', 'activation_on_promo','drivethru_campaign','customer_order_display','activation_description','drivethru_date').last()
+    drivethruqueryset = Drivethru.objects.filter(store_id=selected_store,drivethru_date__gte=start_date,drivethru_date__lte=end_date).values(
+    'employee_no',
+    'store_id',
+    'is_drivethru',
+    'drive_menu',
+    'drive_menu_board',
+    'drive_menu_board_desc',
+    'drive_menu_board_campaign_layout',
+    'drive_menu_board_campaign_layout_desc',
+    'drive_menu_board_layout_campaign_list',
+    'drive_cod_layout',
+    'drive_cod_layout_desc',
+    'drive_advert',
+    'drive_advert_desc',
+    'drive_trans_id',
+    'drivethru_date',
+    'drivethru_id').last()
     print('Drive')
     print(drivethruqueryset)
     if drivethruqueryset:
         item=drivethruqueryset
-        activation_on_promo_score = 1 if item['activation_on_promo'] else 0
+        drive_menu_board_campaign_layout_score = 1 if item['drive_menu_board_campaign_layout'] else 0
+        drive_menu_board_score = 1 if item['drive_menu_board'] else 0
+        drive_cod_layout_score = 1 if item['drive_cod_layout'] else 0
 
-        activation_on_promo=item['activation_on_promo']
-        drivethru_campaign=item['drivethru_campaign']
-        customer_order_display=item['customer_order_display']
-        activation_description=item['activation_description']
+        drive_menu_board_layout_campaign_list=item['drive_menu_board_layout_campaign_list']
+        drive_menu_board_campaign_layout_desc=item['drive_menu_board_campaign_layout_desc']
+        drive_menu_board_campaign_layout=item['drive_menu_board_campaign_layout']
+        drive_menu_board_desc=item['drive_menu_board_desc']
+        drive_menu_board=item['drive_menu_board']
+        drive_menu=item['drive_menu']
+        is_drivethru=item['is_drivethru']
+        store_id=item['store_id']
+        employee_no=item['employee_no']
+        drive_cod_layout=item['drive_cod_layout']
+        drive_cod_layout_desc=item['drive_cod_layout_desc']
+        drive_advert=item['drive_advert']
+        drive_advert_desc=item['drive_advert_desc']
+        drive_trans_id=item['drive_trans_id']
         drivethru_date=item['drivethru_date']
+        drivethru_id=item['drivethru_id']
         store_id=item['store_id']
         site_name_store=Store_level.objects.filter(store_id=store_id).values('site_name')
         selected_store_name_store= site_name_store[0]['site_name'] if site_name_store else None
         drive_store_site_name=selected_store_name_store
-        total_score_drivethru += activation_on_promo_score
+        total_score_drivethru += drive_menu_board_campaign_layout_score+drive_menu_board_score+drive_cod_layout_score
     else:
         print("No records found within the specified date range.")
 
-    deliveryqueryset = Delivery.objects.filter(store_id=selected_store,delivery_date__gte=start_date,delivery_date__lte=end_date).values('store_id','employee_no','mcdelivery','third_party_del','description_delivery','delivery_date').last()
+    deliveryqueryset = Delivery.objects.filter(store_id=selected_store,delivery_date__gte=start_date,delivery_date__lte=end_date).values(
+    'employee_no',
+    'store_id',
+    'mcdelivery',
+    'drive_other',
+    'drive_other_desc',
+    'del_trans_id',
+    'delivery_date',
+    'delivery_id').last()
     print('Dilivery')
     print(deliveryqueryset)
     if deliveryqueryset:
         item=deliveryqueryset
-        mc_delivery_score = 1 if item['mcdelivery'] else 0
-        third_party_del_score = 1 if item['third_party_del'] else 0
+        mcdelivery_score = 1 if item['mcdelivery'] else 0
+        drive_other_score = 1 if item['drive_other'] else 0
 
-        mc_delivery=item['mcdelivery']
-        third_party_del=item['third_party_del']
-        description_delivery=item['description_delivery']
-        delivery_date=item['delivery_date']
+        
         store_id=item['store_id']
+        employee_no=item['employee_no']
+        mcdelivery=item['mcdelivery']
+        drive_other=item['drive_other']
+        drive_other_desc=item['drive_other_desc']
+        del_trans_id=item['del_trans_id']
+        delivery_date=item['delivery_date']
+        delivery_id=item['delivery_id']
         site_name_store=Store_level.objects.filter(store_id=store_id).values('site_name')
         selected_store_name_store= site_name_store[0]['site_name'] if site_name_store else None
         store_site_name=selected_store_name_store
-        total_score_delivery += mc_delivery_score+third_party_del_score
+        total_score_delivery += drive_other_score+mcdelivery_score
                     
-    data.append({'out_pop_description_inside':out_pop_description_inside,'mystorecamp_img_url':mystorecamp_img_url,'digital_menu_mc':digital_menu_mc,'insidemystorecamp':insidemystorecamp,'outsidemystorecamp':outsidemystorecamp,'digital_menu':digital_menu,'out_campaign_outside_store_site_name':out_campaign_outside_store_site_name,'out_campaign_outside_date':out_campaign_outside_date,'out_store_site_name':out_store_site_name,'out_description_inside_date':out_description_inside_date,'description_menu_store_site_name':description_menu_store_site_name,'description_menu_date':description_menu_date,'mccafe_store_site_name':mccafe_store_site_name,'mccafe_date':mccafe_date,'drive_store_site_name':drive_store_site_name,'drivethru_date':drivethru_date,'store_site_name':store_site_name,'delivery_date':delivery_date,'description_delivery':description_delivery,'target_delivery':target_delivery,'third_party_del':third_party_del,'mc_delivery':mc_delivery,'total_score_delivery':total_score_delivery,'activation_description':activation_description,'customer_order_display':customer_order_display,'drivethru_campaign':drivethru_campaign,'target_drivethru':target_drivethru,'activation_on_promo':activation_on_promo,'total_score_drivethru':total_score_drivethru,'description_mccafe':description_mccafe,'menu_promo':menu_promo,'mccafemenu_visibility':mccafemenu_visibility,'target_mccafe':target_mccafe,'total_score_Mccafe':total_score_Mccafe,'description_menu':description_menu,'menu_promotion':menu_promotion,'price_visibility':price_visibility,'out_description_inside':out_description_inside,'out_happy_m_campaign':out_happy_m_campaign,'out_promo_sok_campaigns':out_promo_sok_campaigns,'out_description_outside':out_description_outside,'out_campaigns':out_campaigns,'total_score_Main': total_score_Main,'menu_visibility':menu_visibility,'target_menu':target_menu,'total_score_inside': total_score_inside,'out_point_of_sale':out_point_of_sale,'out_self_order_kiosk':out_self_order_kiosk,'target_inside':target_inside,'total_score_outside': total_score_outside,'out_campaign':out_campaign, 'target_outside': target_outside, 'selected_store': selected_store,'out_branding_condition':out_branding_condition,'out_signage_condition':out_signage_condition})
+    data.append({'drive_other':drive_other,'mcdelivery':mcdelivery,'drive_advert_desc':drive_advert_desc,'drive_advert':drive_advert,'drive_cod_layout_desc':drive_cod_layout_desc,'drive_cod_layout':drive_cod_layout,'drive_menu_board_layout_campaign_list':drive_menu_board_layout_campaign_list,'drive_menu_board_campaign_layout_desc':drive_menu_board_campaign_layout_desc,'drive_menu_board_campaign_layout':drive_menu_board_campaign_layout,'drive_menu_board_desc':drive_menu_board_desc,'drive_menu_board':drive_menu_board,'drive_menu':drive_menu,'is_drivethru':is_drivethru,'mccafe_menu_board_layout_campaign_list':mccafe_menu_board_layout_campaign_list,'mccafe_menu_board_campaign_layout_desc':mccafe_menu_board_campaign_layout_desc,'mccafe_menu_board_campaign_layout':mccafe_menu_board_campaign_layout,'mccafe_menu_display_desc':mccafe_menu_display_desc,'mccafe_menu_display':mccafe_menu_display,'mccafe_menu':mccafe_menu,'mccafe_model':mccafe_model,'menu_board_campaig_list':menu_board_campaig_list,'menu_board_campaign_layout_desc':menu_board_campaign_layout_desc,'menu_board_campaign_layout':menu_board_campaign_layout,'menu_board_display_desc':menu_board_display_desc,'menu_board_display':menu_board_display,'menu_pricepoint':menu_pricepoint,'menu_display':menu_display,'menu_pop_layout_desc':menu_pop_layout_desc,'menu_pop_layout':menu_pop_layout,'menu_date':menu_date,'inside_happymeal_campaigns_list':inside_happymeal_campaigns_list,'inside_happymeal_layout_desc':inside_happymeal_layout_desc,'inside_happymeal_layout':inside_happymeal_layout,'inside_mystore_image_url':inside_mystore_image_url,'inside_mystore_campaigns':inside_mystore_campaigns,'inside_sok_campaigns_list':inside_sok_campaigns_list,'inside_sok_layout_desc':inside_sok_layout_desc,'inside_sok_layout':inside_sok_layout,'inside_avail_sok':inside_avail_sok,'inside_television_number_work':inside_television_number_work,'inside_television_number':inside_television_number,'inside_television':inside_television,'inside_music':inside_music,'inside_entry_campaigns_list':inside_entry_campaigns_list,'inside_entry_campaigns':inside_entry_campaigns,'inside_date':inside_date,'outside_image_url':outside_image_url,'outside_promotions':outside_promotions,'outside_promotions_desc':outside_promotions_desc,'out_pop_description_inside':out_pop_description_inside,'mystorecamp_img_url':mystorecamp_img_url,'digital_menu_mc':digital_menu_mc,'insidemystorecamp':insidemystorecamp,'outsidemystorecamp':outsidemystorecamp,'digital_menu':digital_menu,'out_campaign_outside_store_site_name':out_campaign_outside_store_site_name,'out_campaign_outside_date':out_campaign_outside_date,'out_store_site_name':out_store_site_name,'out_description_inside_date':out_description_inside_date,'description_menu_store_site_name':description_menu_store_site_name,'description_menu_date':description_menu_date,'mccafe_store_site_name':mccafe_store_site_name,'mccafe_date':mccafe_date,'drive_store_site_name':drive_store_site_name,'drivethru_date':drivethru_date,'store_site_name':store_site_name,'delivery_date':delivery_date,'description_delivery':description_delivery,'target_delivery':target_delivery,'third_party_del':third_party_del,'mc_delivery':mc_delivery,'total_score_delivery':total_score_delivery,'activation_description':activation_description,'customer_order_display':customer_order_display,'drivethru_campaign':drivethru_campaign,'target_drivethru':target_drivethru,'activation_on_promo':activation_on_promo,'total_score_drivethru':total_score_drivethru,'description_mccafe':description_mccafe,'menu_promo':menu_promo,'mccafemenu_visibility':mccafemenu_visibility,'target_mccafe':target_mccafe,'total_score_Mccafe':total_score_Mccafe,'description_menu':description_menu,'menu_promotion':menu_promotion,'price_visibility':price_visibility,'out_description_inside':out_description_inside,'out_happy_m_campaign':out_happy_m_campaign,'out_promo_sok_campaigns':out_promo_sok_campaigns,'out_description_outside':out_description_outside,'out_campaigns':out_campaigns,'total_score_Main': total_score_Main,'menu_visibility':menu_visibility,'target_menu':target_menu,'total_score_inside': total_score_inside,'out_point_of_sale':out_point_of_sale,'out_self_order_kiosk':out_self_order_kiosk,'target_inside':target_inside,'total_score_outside': total_score_outside,'out_campaign':out_campaign, 'target_outside': target_outside, 'selected_store': selected_store,'out_branding_condition':out_branding_condition,'out_signage_condition':out_signage_condition})
     print(data)
     return JsonResponse(data, safe=False)
+
