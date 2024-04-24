@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html >
 {% load static %}
@@ -176,6 +177,48 @@ select {
     border: 2px solid red;
     padding: 10px;
 }
+
+/* Modal styles */
+.modal {
+    display: none; /* Hidden by default */
+    position: fixed; /* Stay in place */
+    z-index: 1; /* Sit on top */
+    padding-top: 50px; /* Location of the box */
+    left: 0;
+    top: 0;
+    width: 100%; /* Full width */
+    height: 100%; /* Full height */
+    overflow: auto; /* Enable scroll if needed */
+    background-color: rgb(0,0,0); /* Fallback color */
+    background-color: rgba(0,0,0,0.9); /* Black w/ opacity */
+}
+
+/* Modal Content (image) */
+.modal-content {
+    margin: auto;
+    display: block;
+    width: 80%;
+    max-width: 700px;
+}
+
+/* Close button */
+.close {
+    position: absolute;
+    top: 15px;
+    right: 35px;
+    color: #f1f1f1;
+    font-size: 40px;
+    font-weight: bold;
+    transition: 0.3s;
+}
+
+.close:hover,
+.close:focus {
+    color: #bbb;
+    text-decoration: none;
+    cursor: pointer;
+}
+
     </style>
 </head>
 
@@ -234,8 +277,8 @@ select {
                 <label for="filter1" style="font-weight: bold;font-family: 'Speedee', sans-serif;">Select Month:</label>
                 <select id="month" class="form-control drop-down-list" onchange="filterProvinces()">
                     <option value=""></option>
-                    <option value="February_2024">February 2024</option>
-                    <option value="January_2024">January 2024</option>
+                    <!--<option value="February_2024">February 2024</option>-->
+                    <option value="April_2024">April 2024</option>
                 </select>
             </div>
             <div class="col-sm-3">
@@ -288,26 +331,23 @@ select {
                     <div class="card-header py-2" style="text-align: center; background-color:#FFD200;font-weight: bold;font-family: 'Speedee', sans-serif;">
                         Upon Entrance(outside)
                     </div>
-                    <div id="gauge-container-outside-store-level" style="width: 100%; height: 11%;margin: auto;"></div>
+                    <div id="gauge-container-outside-store-level" style="width: 100%; height: 11%;margin: auto;display: none;"></div>
 
                     <div id="textContainer">
+                        <hr>
                         <p id="displayT"></p>
                         <p id="displayTname"></p>
-                        <hr>
-                        <p id="displayText"></p>
-                        <hr>
-                        <p id="displayText2"></p>
                         <hr>
                         <p id="displayText3"></p>
                         <hr>
                         <p id="displayText8"></p>
-                        <hr>
-                        <p id="displayText5"></p>
-                        <p id="displayText7"></p>
-                        <p id="displayText6"></p>
-                       
-                        <hr>
-                        <p id="displayText4"></p>
+                        <button id="showImageBtn" style="display: none;">Show Image</button>
+
+                        <!-- Modal for displaying the image -->
+                        <div id="imageModal" class="modal">
+                            <span class="close">&times;</span>
+                            <img class="modal-content" id="img01">
+                        </div>
                     </div>
 
                     
@@ -332,15 +372,28 @@ select {
                         <p id="displayTextinside12"></p>
                         <hr>
                         <p id="displayTextinside3"></p>
-                        <p id="displayTextinside6"></p>
+                        <p id="displayTextinside3Tvnumber"></p>
+                        <p id="displayTextinside3Tvnumberfunctioning"></p>
                         <hr>
                         <p id="displayTextinside4"></p>
+                        <hr>
                         <p id="displayTextinside9"></p>
                         <p id="displayTextinside8"></p>
                         <hr>
                         <p id="displayTextinside11"></p>
                         <hr>
                         <p id="displayTextinside5"></p>
+                        <button id="showImageBtninside" style="display: none;">Show Image</button>
+
+                        <!-- Modal for displaying the image -->
+                        <div id="imageModalinside" class="modal">
+                            <span class="close">&times;</span>
+                            <img class="modal-content" id="img01inside">
+                        </div>
+                        <hr>
+                        <p id="displayTextinside7"></p>
+                        <p id="displayTextinside77"></p>
+                        <hr>
                     </div>
                 </div>
             </div>
@@ -354,19 +407,18 @@ select {
                         <p id="displaymenu"></p>
                         <p id="displaymenuname"></p>
                         <hr>
+                        <p id="displayTextmenu"></p>
+                        <p id="displayTextmenu1"></p>
+                        <hr>
                         <p id="displayTdigital"></p>
                         <hr>
-                        <p id="displayTextmenu"></p>
-                        <hr>
-                        <p id="displayTextmenu1"></p>
                         <p id="displayTextmenu2"></p>
-                        <p id="displayTextmenu3"></p>
                         <hr>
+                        <p id="displayTextmenu3"></p>
                         <p id="displayTextmenu4"></p>
+                        <hr>
                         <p id="displayTextmenu6"></p>
                         <p id="displayTextmenu5"></p>
-                        <hr>
-                        <p id="displayTextmenu7"></p>
                     </div>
                 </div>
             </div>
@@ -384,14 +436,14 @@ select {
                                 <p id="displaymccafe"></p>
                                 <p id="displaymccafename"></p>
                                 <hr>
+                                <p id="displayTextmccafe1"></p>
+                                <hr>
                                 <p id="displayTextmccafe5"></p>
                                 <hr>
                                 <p id="displayTextmccafe"></p>
-                                <hr>
-                                <p id="displayTextmccafe1"></p>
                                 <p id="displayTextmccafe3"></p>
-                                <p id="displayTextmccafe2"></p>
                                 <hr>
+                                <p id="displayTextmccafe2"></p>
                                 <p id="displayTextmccafe4"></p>
                             </div>
                         </div>
@@ -414,13 +466,21 @@ select {
                             <p id="displaydrivethruname"></p>
                             <hr>
                             <p id="displayTextdrivethru"></p>
+                            <hr>
                             <p id="displayTextdrivethru5"></p>
                             <hr>
                             <p id="displayTextdrivethru1"></p>
                             <p id="displayTextdrivethru4"></p>
-                            <p id="displayTextdrivethru2"></p>
                             <hr>
+                            <p id="displayTextdrivethru2"></p>
                             <p id="displayTextdrivethru3"></p>
+                            <hr>
+                            <p id="displayTextdrivethru33"></p>
+                            <p id="displayTextdrivethru333"></p>
+                            <hr>
+                            <p id="displayTextdrivethru333advert"></p>
+                            <p id="displayTextdrivethru333advertdesc"></p>
+                            
                         </div>
                     </div>
                      
@@ -439,8 +499,6 @@ select {
                         <p id="displayTextdelivery"></p>
                         <hr>
                         <p id="displayTextdelivery1"></p>
-                        <hr>
-                        <p id="displayTextdelivery2"></p>
                     </div>
                     
                 </div>
@@ -871,8 +929,8 @@ const chart = Highcharts.mapChart('container-visualizations', {
                 enabled: false
             },
             pane: {
-                center: ['50%', '85%'],
-                size: '140%',
+                center: ['50%', '77%'],
+                size: '100%',
                 startAngle: -90,
                 endAngle: 90,
                 background: {
@@ -938,8 +996,8 @@ const chart = Highcharts.mapChart('container-visualizations', {
                 enabled: false
             },
             pane: {
-                center: ['50%', '85%'],
-                size: '140%',
+                center: ['50%', '77%'],
+                size: '100%',
                 startAngle: -90,
                 endAngle: 90,
                 background: {
@@ -997,95 +1055,57 @@ const chart = Highcharts.mapChart('container-visualizations', {
 
 
 
-        var displayTextElement = document.getElementById('displayText');
         var displayT = document.getElementById('displayT');
         var displayTname = document.getElementById('displayTname');
-        var displayTextElement2 = document.getElementById('displayText2');
         var displayTextElement3 = document.getElementById('displayText3');
-        var displayTextElement4 = document.getElementById('displayText4');
-        var displayTextElement5 = document.getElementById('displayText5');
-        var displayTextElement6 = document.getElementById('displayText6');
         var displayTextElement8 = document.getElementById('displayText8');
-        
-        var displayTextElement7 = document.getElementById('displayText7');
         displayT.innerHTML = '<span style="color: black;font-Weight:bold;font-size:110%">'+'Date: </span>' + summaryData.out_campaign_outside_date;
         displayT.style.color = 'black';
         displayTname.innerHTML = '<span style="color: black;font-Weight:bold;font-size:110%">'+'Store: </span>' + summaryData.out_campaign_outside_store_site_name;
         displayTname.style.color = 'black';
-            // Change the text content
-            if (summaryData.out_branding_condition) {
-                displayTextElement.innerHTML = '<span style="color: black;font-size:110%"><b>1.Branding features in good condition?</b></span><br>Answer:' + summaryData.out_branding_condition;
-                displayTextElement.style.color = 'green';
-                displayTextElement.style.fontWeight = 'bold';
-                displayTextElement.classList.add('green-text');
-
-            } else {
-                displayTextElement.innerHTML = '<span style="color: black;font-size:110%"><b>1.Branding features in good condition?</b></span><br>Answer:' + summaryData.out_branding_condition;
-                displayTextElement.style.color = 'red';
-                displayTextElement.style.fontWeight = 'bold';
-                displayTextElement.classList.add('red-text');
-            }
-            if (summaryData.out_signage_condition) {
-                displayTextElement2.innerHTML = '<span style="color: black;font-size:110%"><b>2.Was there external disclaimer signage?</b></span><br>Answer: ' + summaryData.out_signage_condition;
-                displayTextElement2.style.color = 'green';
-                displayTextElement2.style.fontWeight = 'bold';
-                displayTextElement2.classList.add('green-text');
-            } else {
-                displayTextElement2.innerHTML = '<span style="color: black;font-size:110%"><b>2.Was there external disclaimer signage?</b></span><br>Answer: ' + summaryData.out_signage_condition;
-                displayTextElement2.style.color = 'red';
-                displayTextElement2.style.fontWeight = 'bold';
-                displayTextElement2.classList.add('red-text');
-            }
-            console.log(summaryData.out_campaign)
-            if (summaryData.out_campaign) {
-                displayTextElement3.innerHTML = '<span style="color: black;font-size:110%"><b>3. Notice any campaigns as you entered?</b></span><br>Answer: ' + summaryData.out_campaign;
+        
+            if (summaryData.outside_promotions) {
+                displayTextElement3.innerHTML = '<span style="color: black;font-size:110%"><b>1. Were there any My Store marketing promotions/activations outside?</b></span><br>Answer: ' + summaryData.outside_promotions;
                 displayTextElement3.style.color = 'green';
                 displayTextElement3.style.fontWeight = 'bold';
                 displayTextElement3.classList.add('green-text');
+                displayTextElement8.innerHTML = '<span style="color: black;font-size:110%"><b>2.If Yes describe The My Store marketing promotions/activations outside and take pictures?</b></span><br>Answer: ' + summaryData.outside_promotions_desc;
+                displayTextElement8.style.fontWeight = 'bold';
+                // Get the modal
+                var modal = document.getElementById("imageModal");
+
+                // Get the image and insert it inside the modal
+                var img = document.getElementById("img01");
+
+                // Get the button that opens the modal
+                var btn = document.getElementById("showImageBtn");
+                btn.style.display = "block";
+
+                // When the user clicks the button, open the modal 
+                btn.onclick = function() {
+                    modal.style.display = "block";
+                    img.src = summaryData.outside_image_url;
+                }
+
+                // When the user clicks on <span> (x), close the modal
+                var span = document.getElementsByClassName("close")[0];
+                span.onclick = function() {
+                modal.style.display = "none";
+                }
+
+                // When the user clicks anywhere outside of the modal, close it
+                window.onclick = function(event) {
+                if (event.target == modal) {
+                    modal.style.display = "none";
+                }
+                }
+
             } else {
-                displayTextElement3.innerHTML = '<span style="color: black;font-size:110%"><b>3.Notice any campaigns as you entered?</b></span><br>Answer: ' + summaryData.out_campaign;
+                displayTextElement3.innerHTML = '<span style="color: black;font-size:110%"><b>1. Were there any My Store marketing promotions/activations outside?</b></span><br>Answer: ' + summaryData.outside_promotions;
                 displayTextElement3.style.color = 'red';
                 displayTextElement3.style.fontWeight = 'bold';
                 displayTextElement3.classList.add('red-text');
             }
-
-            if (summaryData.outsidemystorecamp) {
-                displayTextElement8.innerHTML = '<span style="color: black;font-size:110%"><b>4.Were there any MyStore marketing promotions/activations outside and as you entered the store?</b></span><br>Answer: ' + summaryData.outsidemystorecamp;
-                displayTextElement8.style.color = 'green';
-                displayTextElement8.style.fontWeight = 'bold';
-                displayTextElement8.classList.add('green-text');
-            } else {
-                displayTextElement8.innerHTML = '<span style="color: black;font-size:110%"><b>4.Were there any MyStore marketing promotions/activations outside and as you entered the store?</b></span><br>Answer: ' + summaryData.outsidemystorecamp;
-                displayTextElement8.style.color = 'red';
-                displayTextElement8.style.fontWeight = 'bold';
-                displayTextElement8.classList.add('red-text');
-            }
-            
-                
-            if (summaryData.out_campaign!="false") {
-                        displayTextElement5.textContent =  ' If yes, Which campaigns did you notice as you entered the store? ';
-                        displayTextElement5.style.fontWeight = 'bold';
-                        let promoCampaigns = summaryData.out_campaigns;
-
-                        // Format and display the campaigns
-                        let formattedCampaigns = '';
-                        if (Array.isArray(promoCampaigns)) {
-                            // Format and display the campaigns
-                            formattedCampaigns = promoCampaigns.map(campaign => `👍 ${campaign.trim()}.`).join('<br>');
-                            // Now you can use formattedCampaigns as needed
-                        } else {
-                            console.error("promoCampaigns is not an array. Check the data structure.");
-                        }
-                        displayTextElement6.innerHTML = '<br>' + formattedCampaigns;
-                        displayTextElement6.style.fontWeight = 'bold';
-                        displayTextElement6.style.color = 'green';
-                    } else {
-                        // Handle the case where summaryData.out_campaigns is not defined
-                        console.error('summaryData.out_campaigns is not defined.');
-                    }
-            displayTextElement4.innerHTML= '<span style="color:black;font-size:110%"><b>4.Give a brief description of anything that was did not sit right/was not in good condition?</b></span><br>Answer:' + summaryData.out_description_outside;
-            displayTextElement4.style.fontWeight = 'bold';
-            displayTextElement4.style.color = 'green';
 
     };
 
@@ -1112,8 +1132,8 @@ const chart = Highcharts.mapChart('container-visualizations', {
                 enabled: false
             },
             pane: {
-                center: ['50%', '85%'],
-                size: '140%',
+                center: ['50%', '77%'],
+                size: '100%',
                 startAngle: -90,
                 endAngle: 90,
                 background: {
@@ -1176,116 +1196,144 @@ const chart = Highcharts.mapChart('container-visualizations', {
         
         var displayTextElement2inside = document.getElementById('displayTextinside2');
         var displayTextElement3inside = document.getElementById('displayTextinside3');
+        var displayTextElement3insideTvnumber= document.getElementById('displayTextinside3Tvnumber');
+        var displayTextElement3insideTvnumberfunctiong= document.getElementById('displayTextinside3Tvnumberfunctioning');
         var displayTextElement4inside = document.getElementById('displayTextinside4');
         var displayTextElement5inside = document.getElementById('displayTextinside5');
-        var displayTextElement6inside = document.getElementById('displayTextinside6');
-        //var displayTextElement7inside = document.getElementById('displayTextinside7');
+        var displayTextElement7inside = document.getElementById('displayTextinside7');
+        var displayTextElement77inside = document.getElementById('displayTextinside77');
         var displayTextElement8inside = document.getElementById('displayTextinside8');
+        var displayTextElement11inside = document.getElementById('displayTextinside11');
         
         
 
         var displayTextElement9inside = document.getElementById('displayTextinside9');
         var displayTextElementinside10 = document.getElementById('displayTextinside10');
-        displayinside.innerHTML = '<span style="color: black;font-Weight:bold;font-size:110%">'+'Date: </span>' + summaryData.out_description_inside_date;
+        displayinside.innerHTML = '<span style="color: black;font-Weight:bold;font-size:110%">'+'Date: </span>' + summaryData.inside_date;
         displayinside.style.color = 'black';
         displayinsidename.innerHTML = '<span style="color: black;font-Weight:bold;font-size:110%">'+'Store: </span>' + summaryData.out_store_site_name;
         displayinsidename.style.color = 'black';
         
             // Change the text content
-            if (summaryData.out_point_of_sale) {
-                displayTextElementinside.innerHTML = '<span style="color: black;font-size:110%"><b>1.Was the window POP (Point of Purchase) as per our layout?</b></span><br>Answer: ' + summaryData.out_point_of_sale;
-                displayTextElementinside.style.color = 'green';
+            if (summaryData.inside_entry_campaigns) {
+                displayTextElementinside.innerHTML = '<span style="color: black;font-size:110%"><b>1.Did you notice any campaigns as you entered the store?</b></span><br>Answer: ' + summaryData.inside_entry_campaigns;
                 displayTextElementinside.style.fontWeight = 'bold';
-                displayTextElementinside.classList.add('green-text');
+                displayTextElementinside10.innerHTML = '<span style="color: black;font-Weight:bold;font-size:110%"><b>' + 'If yes, Which campaignsdid you notice as you entered the store</b></span><br>Answer:' + summaryData.inside_entry_campaigns_list;
             } else {
-                displayTextElementinside.innerHTML = '<span style="color: black;font-size:110%"><b>1.Was the window POP (Point of Purchase) as per our layout?</b></span><br>Answer: ' + summaryData.out_point_of_sale;
-                displayTextElementinside.style.color = 'red';
+                displayTextElementinside.innerHTML = '<span style="color: black;font-size:110%"><b>1.Did you notice any campaigns as you entered the store?</b></span><br>Answer: ' + summaryData.inside_entry_campaigns;
                 displayTextElementinside.style.fontWeight = 'bold';
-                displayTextElementinside.classList.add('red-text');
             }
-            displayTextElementinside10.innerHTML = '<span style="color: black;font-Weight:bold;font-size:110%"><b>' + 'If no, give a brief description of the condition? </b></span><br>Answer:' + summaryData.out_pop_description_inside;
-            displayTextElementinside10.style.color = 'green';
             
-            if (summaryData.out_self_order_kiosk) {
-                displayTextElement2inside.innerHTML = '<span style="color:black;font-size:110%"><b>2.Was the SOKs (Self Ording Kiosks) fully functioning with all promotional items displaying?</b></span><br>Answer: ' + summaryData.out_self_order_kiosk;
+            if (summaryData.inside_happymeal_layout) {
+                displayTextElement7inside.innerHTML = '<span style="color:black;font-size:110%"><b>8.Is the happy meal campaign the same as new campaigns layout?</b></span><br>Answer: ' + summaryData.inside_happymeal_layout;
+                displayTextElement7inside.style.color = 'green';
+                displayTextElement7inside.style.fontWeight = 'bold';
+                displayTextElement7inside.classList.add('green-text');
+                displayTextElement77inside.innerHTML = '<span style="color:black;font-size:110%"><b>If Yes, which happy meal campaign currently displaying?</b></span><br>Answer: ' + summaryData.inside_happymeal_campaigns_list;
+                displayTextElement77inside.style.fontWeight = 'bold';
+                
+            } else {
+                displayTextElement7inside.innerHTML = '<span style="color: black;font-size:110%"><b>8.Is the happy meal campaign the same as new campaigns layout?</b></span><br>Answer:' + summaryData.inside_happymeal_layout;
+                displayTextElement7inside.style.color = 'red';
+                displayTextElement7inside.style.fontWeight = 'bold';
+                displayTextElement7inside.classList.add('red-text');
+                displayTextElement77inside.innerHTML = '<span style="color:black;font-size:110%"><b>If No,give a brief description of the happy meal campaign?</b></span><br>Answer: ' + summaryData.inside_happymeal_layout_desc;
+                displayTextElement77inside.style.fontWeight = 'bold';
+            }
+            
+            if (summaryData.inside_music) {
+                displayTextElement2inside.innerHTML = '<span style="color:black;font-size:110%"><b>2.Was music playing inside the store?</b></span><br>Answer: ' + summaryData.inside_music;
                 displayTextElement2inside.style.color = 'green';
                 displayTextElement2inside.style.fontWeight = 'bold';
                 displayTextElement2inside.classList.add('green-text');
                 
             } else {
-                displayTextElement2inside.innerHTML = '<span style="color: black;font-size:110%"><b>2.Was the SOKs (Self Ording Kiosks) fully functioning with all promotional items displaying?</b></span><br>Answer:' + summaryData.out_self_order_kiosk;
+                displayTextElement2inside.innerHTML = '<span style="color: black;font-size:110%"><b>2.Was music playing inside the store?</b></span><br>Answer:' + summaryData.inside_music;
                 displayTextElement2inside.style.color = 'red';
                 displayTextElement2inside.style.fontWeight = 'bold';
                 displayTextElement2inside.classList.add('red-text');
             }
 
-            if (summaryData.insidemystorecamp) {
-                displayTextElement12inside.innerHTML = '<span style="color:black;font-size:110%"><b>3.Were there any MyStore marketing promotions/activations?</b></span><br>Answer: ' + summaryData.insidemystorecamp;
+            if (summaryData.inside_television) {
+                displayTextElement12inside.innerHTML = '<span style="color:black;font-size:110%"><b>3.Does the store have TV screens?</b></span><br>Answer: ' + summaryData.inside_television;
                 displayTextElement12inside.style.color = 'green';
                 displayTextElement12inside.style.fontWeight = 'bold';
                 displayTextElement12inside.classList.add('green-text');
+                displayTextElement3inside.innerHTML = '<span style="color:black;font-size:110%"><b>If yes,how many TV screens does the store have, and how many are currently function</b></span><br>';
+                displayTextElement3insideTvnumber.innerHTML = '<span style="color:black;font-size:110%"><b>Total number of TV screens in the store</b></span><br>:'+summaryData.inside_television_number;
+                displayTextElement3insideTvnumberfunctiong.innerHTML = '<span style="color:black;font-size:110%"><b>Number of functioning TV screens</b></span><br>'+summaryData.inside_television_number_work;
+                displayTextElement3inside.style.fontWeight = 'bold';
+                
                 
             } else {
-                displayTextElement12inside.innerHTML = '<span style="color: black;font-size:110%"><b>3.Were there any MyStore marketing promotions/activations??</b></span><br>Answer:' + summaryData.insidemystorecamp;
+                displayTextElement12inside.innerHTML = '<span style="color: black;font-size:110%"><b>3.Does the store have TV screens?</b></span><br>Answer:' + summaryData.inside_television;
                 displayTextElement12inside.style.color = 'red';
                 displayTextElement12inside.style.fontWeight = 'bold';
                 displayTextElement12inside.classList.add('red-text');
             }
-
-            if(summaryData.out_self_order_kiosk!="false"){
-                displayTextElement3inside.textContent = 'Did you see the following promotions displayed on the SOK (Self Ordering Kiosk)?';
-                //displayTextElement7inside.innerHTML = '- Hero Double Quarter Pounder with Cheese'+'<br>'+'- McFlurry Strawberry Shortcake'+'<br>'+'- 4 Piece Chicken Tenders'+'<br>'+'- McFizz Lemon Litchi'+'<br>'+'- Nazo'+'<br>'+'- Chillie Cheese McFlavour Fries (newly launched)'+'<br>'+'-Beef/Chicken Hamburger(McSaver Menu)'+'<br>'+'-Small coke-no sugar(McSaver Menu)'+'<br>'+'-Small Fries(McSaver Menu)'+'<br>'+'-Plain Sundae ice cream(McSaver Menu)';
-                //displayTextElement7inside.style.fontWeight = 'bold';
-                //displayTextElement7inside.style.backgroundColor = '#FFD700';
-                displayTextElement3inside.style.fontWeight = 'bold';
-                displayTextElement3inside.style.fontSize = '130%';
-
-                // Assuming summaryData.out_promo_sok_campaigns is a string
-                let promoCampaigns = summaryData.out_promo_sok_campaigns;
-
-                // Split the string into an array using comma as a delimiter
-                //let campaignsArray = promoCampaigns.split(',');
-
-                // Format and display the campaigns
-                let formattedCampaigns = '';
-                if (Array.isArray(promoCampaigns)) {
-                        // Format and display the campaigns
-                        formattedCampaigns = promoCampaigns.map(campaign => `👍 ${campaign.trim()}.`).join('<br>');
-                        // Now you can use formattedCampaigns as needed
-                } else {
-                                console.error("promoCampaigns is not an array. Check the data structure.");
-                }
-                // Now, formattedCampaigns contains the desired output
-                console.log(formattedCampaigns);
-                displayTextElement6inside.innerHTML = '<br>'+ formattedCampaigns;
-                displayTextElement3inside.style.fontWeight = 'bold';
-                displayTextElement6inside.style.color = 'green';
-                displayTextElement6inside.style.fontWeight = 'bold';
-            }
-            displayTextElement4inside.textContent = ' Which Happy Meal campaign is currently displaying in stores?';
-            displayTextElement4inside.style.fontWeight = 'bold';
-            displayTextElement4inside.style.fontSize = '130%';
-            //displayTextElement9inside.innerHTML = '-Happy meal with Pokémon toy'+'<br>'+'-Happy meal with ‘Roblox adopt me’ toy';
-            //displayTextElement9inside.style.fontWeight = 'bold';
-           // displayTextElement9inside.style.backgroundColor = '#FFD700';
-           let promoCampaigns = summaryData.out_happy_m_campaign;
-
-            // Format and display the campaigns
-            let formattedCampaigns = '';
-            if (Array.isArray(promoCampaigns)) {
-                    // Format and display the campaigns
-                    formattedCampaigns = promoCampaigns.map(campaign => `👍 ${campaign.trim()}.`).join('<br>');
-                    // Now you can use formattedCampaigns as needed
+            if (summaryData.inside_avail_sok) {
+                displayTextElement4inside.innerHTML = '<span style="color: black;font-size:110%"><b>4.Does the store have SOKs and fully functioning?</b></span><br>Answer:' + summaryData.inside_avail_sok;
+                displayTextElement4inside.style.color = 'green';
+                displayTextElement4inside.classList.add('green-text');
+                displayTextElement4inside.style.fontWeight = 'bold';
+                
             } else {
-                            console.error("promoCampaigns is not an array. Check the data structure.");
+                displayTextElement4inside.innerHTML = '<span style="color: black;font-size:110%"><b>4.Does the store have SOKs and fully functioning?</b></span><br>Answer:' + summaryData.inside_avail_sok;
+                displayTextElement4inside.style.color = 'red';
+                displayTextElement4inside.style.fontWeight = 'bold';
+                displayTextElement4inside.classList.add('red-text');
             }
-            displayTextElement8inside.innerHTML = '<br>' + formattedCampaigns;
-            displayTextElement8inside.style.fontWeight = 'bold';
-            displayTextElement8inside.style.color  = 'green';
+            if (summaryData.inside_sok_layout) {
+                displayTextElement9inside.innerHTML = '<span style="color: black;font-size:110%"><b>5.Is the SOKs (self-ordering menu) the same as the new McDonald layout?</b></span><br>Answer:' + summaryData.inside_sok_layout;
+                displayTextElement9inside.style.color = 'green';
+                displayTextElement9inside.classList.add('green-text');
+                displayTextElement9inside.style.fontWeight = 'bold';
+                displayTextElement8inside.innerHTML = '<span style="color: black;font-size:110%"><b>If yes, did you see the following promotions displayed on the SOK(Self Ordering Kiosk)?</b></span><br>Answer:' + summaryData.inside_sok_campaigns_list;
+                displayTextElement8inside.style.fontWeight = 'bold';
+                
+            } else {
+                displayTextElement9inside.innerHTML = '<span style="color: black;font-size:110%"><b>5.Is the SOKs (self-ordering menu) the same as the new McDonald layout?</b></span><br>Answer:' + summaryData.inside_sok_layout;
+                displayTextElement9inside.style.color = 'red';
+                displayTextElement9inside.style.fontWeight = 'bold';
+                displayTextElement9inside.classList.add('red-text');
+                
+                displayTextElement8inside.innerHTML = '<span style="color: black;font-size:110%"><b>If no give a brief discussion of SOKs menu?</b></span><br>Answer:' + summaryData.inside_sok_layout_desc;
+                displayTextElement8inside.style.fontWeight = 'bold';
+                
+            }
+            if(summaryData.inside_mystore_campaigns)
+            {
+                displayTextElement11inside.innerHTML =  '<span style="color: black;font-size:110%"><b>6.Were there any My Store marketing promotions/activations?</b></span><br>Answer:' + summaryData.inside_mystore_campaigns;
+                displayTextElement11inside.style.fontWeight = 'bold';
 
-            displayTextElement5inside.innerHTML =  '<span style="color: black;font-size:110%"><b>Give a brief description of anything that was did not sit right/was not in good condition?</b></span><br>Answer:' + summaryData.out_description_inside;
-            displayTextElement5inside.style.fontWeight = 'bold';
-            displayTextElement5inside.style.color  = 'green';
+                // Get the modal
+                var modalinside = document.getElementById("imageModalinside");
+
+                // Get the image and insert it inside the modal
+                var imginside = document.getElementById("img01inside");
+
+                // Get the button that opens the modal
+                var btninside = document.getElementById("showImageBtninside");
+                btninside.style.display = "block";
+
+                // When the user clicks the button, open the modal 
+                btninside.onclick = function() {
+                    modalinside.style.display = "block";
+                    imginside.src = summaryData.inside_mystore_image_url;
+                }
+
+                // When the user clicks on <span> (x), close the modal
+                var spaninside = document.getElementsByClassName("close")[0];
+                spaninside.onclick = function() {
+                modalinside.style.display = "none";
+                }
+                displayTextElement5inside.innerHTML =  '<span style="color: black;font-size:110%"><b>7.Please describe the promotion/activationsTake pictures of the activations</b></span><br>';
+                displayTextElement5inside.style.fontWeight = 'bold';
+           }else{
+            displayTextElement11inside.innerHTML =  '<span style="color: black;font-size:110%"><b>6.Were there any My Store marketing promotions/activations?</b></span><br>Answer:' + summaryData.inside_mystore_campaigns;
+                displayTextElement11inside.style.fontWeight = 'bold';
+           }
+            
     };
     const creategaugeChartmenustorelevel = (data) => {
         // Extract the summary data from the last object in the array
@@ -1310,8 +1358,8 @@ const chart = Highcharts.mapChart('container-visualizations', {
                 enabled: false
             },
             pane: {
-                center: ['50%', '85%'],
-                size: '140%',
+                center: ['50%', '77%'],
+                size: '100%',
                 startAngle: -90,
                 endAngle: 90,
                 background: {
@@ -1377,57 +1425,42 @@ const chart = Highcharts.mapChart('container-visualizations', {
         var displayTextElementmenu4 = document.getElementById('displayTextmenu4');
         var displayTextElementmenu5 = document.getElementById('displayTextmenu5');
         var displayTextElementmenu6 = document.getElementById('displayTextmenu6');
-        var displayTextElementmenu7 = document.getElementById('displayTextmenu7');
 
-        displaymenu.innerHTML = '<span style="color: black;font-Weight:bold;font-size:110%"><b>'+'Date: </b></span>' + summaryData.description_menu_date;
+        displaymenu.innerHTML = '<span style="color: black;font-Weight:bold;font-size:110%"><b>'+'Date: </b></span>' + summaryData.menu_date;
         displaymenu.style.color = 'black';
         displaymenuname.innerHTML = '<span style="color: black;font-Weight:bold;font-size:110%"><b>'+'Store: </b></span>' + summaryData.description_menu_store_site_name;
         displaymenuname.style.color = 'black';
-        displayTdigital.innerHTML = '<span style="color: black;font-Weight:bold;font-size:110%">'+'Digital/Static: </span>' + summaryData.digital_menu;
+        displayTdigital.innerHTML = '<span style="color: black;font-Weight:bold;font-size:110%">'+'2.Is the menu Digital or Static?</span>' + summaryData.menu_display;
         displayTdigital.style.color = 'black';
             // Change the text content
-            if (summaryData.menu_visibility) {
-                displayTextElementmenu.innerHTML = '✔1'+'<span style="color: black;font-size:110%"><b>'+'.Digital menu board clearly displayed and fully functioning with all promotional items displaying?</b></span><br>Answer: ' + summaryData.menu_visibility;
+            if (summaryData.menu_pop_layout) {
+                displayTextElementmenu.innerHTML = '✔1'+'<span style="color: black;font-size:110%"><b>'+'.Was the window POP (Point of Purchase) as per our layout and fully functiong?</b></span><br>Answer: ' + summaryData.menu_pop_layout;
                 displayTextElementmenu.style.color = 'green';
                 displayTextElementmenu.style.fontWeight = 'bold';
+                
             } else {
-                displayTextElementmenu.innerHTML = 'x'+'<span style="color:black;font-size:110%"><b>'+'1.Digital menu board clearly displayed and fully functioning with all promotional items displaying?</b></span><br>Answer: '  + summaryData.menu_visibility;
+                displayTextElementmenu.innerHTML = 'x'+'<span style="color:black;font-size:110%"><b>'+'1.Was the window POP (Point of Purchase) as per our layout and fully functiong?</b></span><br>Answer: '  + summaryData.menu_pop_layout;
                 displayTextElementmenu.style.color = 'red';
                 displayTextElementmenu.style.fontWeight = 'bold';
+                displayTextElementmenu1.innerHTML= '<span style="color: black;font-size:110%"><b>'+'If no, give a brief description of the condition?</b></span><br>Answer: ' + summaryData.menu_pop_layout_desc;
+                displayTextElementmenu1.style.fontWeight = 'bold';
             }
             
 
-            if (summaryData.price_visibility!=0) {
-
-                let promoCampaigns1 = summaryData.price_visibility;
-
-                // Format and display the campaigns with the thumbs-up emoji (👍) on new lines
-                let formattedCampaigns = '';
-                if (Array.isArray(promoCampaigns1)) {
-                        // Format and display the campaigns
-                        formattedCampaigns = promoCampaigns1.map(campaign => `👍 ${campaign.trim()}.`).join('<br>');
-                        // Now you can use formattedCampaigns as needed
-                } else {
-                                console.error("promoCampaigns is not an array. Check the data structure.");
-                }
-
-                // Now, formattedCampaigns contains the desired output
-                console.log(summaryData.price_visibility);
-                displayTextElementmenu1.innerHTML = 'Looking at price points, which pricing is being advertised to customers?';
-                displayTextElementmenu3.innerHTML = '<br>' +formattedCampaigns;
-                displayTextElementmenu1.style.fontWeight = 'bold';
-                displayTextElementmenu1.style.fontSize = '120%';
-                displayTextElementmenu3.style.color  = 'green';
+            if (summaryData.menu_board_display) {
+                displayTextElementmenu3.innerHTML = '✔4'+'<span style="color: black;font-size:110%"><b>'+'.Is the menu board clearly displayed and fully functioning?</b></span><br>Answer: ' + summaryData.menu_board_display;
+                displayTextElementmenu3.style.color = 'green';
+                displayTextElementmenu3.style.fontWeight = 'bold';
             } else {
-                displayTextElementmenu1.innerHTML = 'Looking at price points, which pricing is being advertised to customers?<br>' +summaryData.price_visibility;
-
-                displayTextElementmenu1.style.fontWeight = 'bold';
-                displayTextElementmenu1.style.fontSize = '120%';
+                displayTextElementmenu3.innerHTML = 'x'+'<span style="color:black;font-size:110%"><b>'+'4.Is the menu board clearly displayed and fully functioning?</b></span><br>Answer: '  + summaryData.menu_board_display;
+                displayTextElementmenu3.style.color = 'red';
+                displayTextElementmenu3.style.fontWeight = 'bold';
+                displayTextElementmenu4.innerHTML = '<span style="color:black;font-size:110%"><b>'+'If no, give a brief description of the condition?</b></span><br>Answer: '  + summaryData.menu_board_display_desc;
+                displayTextElementmenu4.style.fontWeight = 'bold';
             }
 
-            //displayTextElementmenu2.innerHTML = '-Regular meals displayed'+'<br>'+'-Medium meals displayed'+'<br>'+'-Large meals displayed';
-            //displayTextElementmenu2.style.fontWeight = 'bold';
-           // displayTextElementmenu2.style.backgroundColor = '#FFD700';
+            displayTextElementmenu2.innerHTML ='<span style="color:black;font-size:110%"><b>'+'3.Looking at price points, which pricing is being advertised to customers?</b></span><br>Answer: '  + summaryData.menu_pricepoint;
+            displayTextElementmenu2.style.fontWeight = 'bold';
 
             if (summaryData.menu_promotion!=0) {
                 let promoCampaigns1 = summaryData.menu_promotion;
@@ -1441,26 +1474,22 @@ const chart = Highcharts.mapChart('container-visualizations', {
                 } else {
                                 console.error("promoCampaigns is not an array. Check the data structure.");
                 }
-                // Now, formattedCampaigns contains the desired output
-                displayTextElementmenu4.innerHTML = 'Did you see the following promotions displayed on the digital Menu Board:';
-                displayTextElementmenu5.innerHTML = '<br>' +formattedCampaigns;
-                displayTextElementmenu4.style.fontWeight = 'bold';
-                displayTextElementmenu4.style.fontSize = '120%';
-                displayTextElementmenu5.style.color  = 'green';
             } else {
-                displayTextElementmenu4.innerHTML = 'Did you see the following promotions displayed on the digital Menu Board:' +summaryData.menu_promotion;
-
-                displayTextElementmenu4.style.fontWeight = 'bold';
-                displayTextElementmenu4.style.fontSize = '120%';
             }
 
-            //displayTextElementmenu6.innerHTML = '-Regular meals displayed'+'<br>'+'-Medium meals displayed'+'<br>'+'-Large meals displayed';
-           // displayTextElementmenu6.style.fontWeight = 'bold';
-            //displayTextElementmenu6.style.backgroundColor = '#FFD700';
-
-            displayTextElementmenu7.innerHTML =  '<span style="color:black;font-size:110%"><b>Give a brief description of anything that was did not sit right/was not in good condition on the menu?</b></span><br>Answer:' + summaryData.description_menu;
-            displayTextElementmenu7.style.fontWeight = 'bold';
-            displayTextElementmenu7.style.color  = 'green';
+            if (summaryData.menu_board_campaign_layout) {
+                displayTextElementmenu6.innerHTML = '✔5'+'<span style="color: black;font-size:110%"><b>'+'.Are menu boards the same as the new campaign layout?</b></span><br>Answer: ' + summaryData.menu_board_campaign_layout;
+                displayTextElementmenu6.style.color = 'green';
+                displayTextElementmenu6.style.fontWeight = 'bold';
+                displayTextElementmenu5.innerHTML = '<span style="color:black;font-size:110%"><b>'+'If yes, did you see the following promotions displayed?</b></span><br>Answer: '  + summaryData.menu_board_campaig_list;
+                displayTextElementmenu5.style.fontWeight = 'bold';
+            } else {
+                displayTextElementmenu6.innerHTML = 'x'+'<span style="color:black;font-size:110%"><b>'+'5.Are menu boards the same as the new campaign layout?</b></span><br>Answer: '  + summaryData.menu_board_campaign_layout;
+                displayTextElementmenu6.style.color = 'red';
+                displayTextElementmenu6.style.fontWeight = 'bold';
+                displayTextElementmenu5.innerHTML = '<span style="color:black;font-size:110%"><b>'+'If no, give a brief description of what you see on menu.</b></span><br>Answer: '  + summaryData.menu_board_campaign_layout_desc;
+                displayTextElementmenu5.style.fontWeight = 'bold';
+            }
     };
     const creategaugeChartmccafestorelevel = (data) => {
         // Extract the summary data from the last object in the array
@@ -1485,8 +1514,8 @@ const chart = Highcharts.mapChart('container-visualizations', {
                 enabled: false
             },
             pane: {
-                center: ['50%', '85%'],
-                size: '140%',
+                center: ['50%', '77%'],
+                size: '100%',
                 startAngle: -90,
                 endAngle: 90,
                 background: {
@@ -1501,7 +1530,7 @@ const chart = Highcharts.mapChart('container-visualizations', {
                 max: 100,
                 title: {
                     text: '',
-                    y: -70,
+                    y: 10,
                 },
                 stops: [
                     [0.1, 'red'],    // Red for 0% - 20%
@@ -1555,52 +1584,36 @@ const chart = Highcharts.mapChart('container-visualizations', {
         displayccafe.style.color = 'black';
         displayccafename.innerHTML = '<span style="color: black;font-size:110%"><b>'+'Store: </b></span>' + summaryData.drive_store_site_name;
         displayccafename.style.color = 'black';
-        displayTextElementmccafe5.innerHTML = '<span style="color: black;font-size:110%"><b>'+'Is the menu Digital or Static? </b></span>' + summaryData.digital_menu_mc;
+        displayTextElementmccafe5.innerHTML = '<span style="color: black;font-size:110%"><b>'+'2.Is the menu Digital or Static? </b></span>' + summaryData.mccafe_menu;
         displayTextElementmccafe5.style.color = 'black';
         // Change the text content
-        if (summaryData.mccafemenu_visibility) {
-                displayTextElementmccafe.innerHTML = '✔'+'<span style="color:black;font-size:110%"><b>'+'1.Is the menu clearly displayed?</b></span><br>Answer:' + summaryData.mccafemenu_visibility;
+          if (summaryData.mccafe_menu_display) {
+                displayTextElementmccafe.innerHTML = '✔'+'<span style="color:black;font-size:110%"><b>'+'3.Is the menu clearly displayed and fully functioning?</b></span><br>Answer:' + summaryData.mccafe_menu_display;
                 displayTextElementmccafe.style.color = 'green';
                 displayTextElementmccafe.style.fontWeight = 'bold';
             } else {
-                displayTextElementmccafe.innerHTML = 'x1'+'<span style="color: black;font-size:110%"><b>'+'.Is the menu clearly displayed?</b></span><br>Answer:'  + summaryData.mccafemenu_visibility;
+                displayTextElementmccafe.innerHTML = 'x3'+'<span style="color: black;font-size:110%"><b>'+'Is the menu clearly displayed and fully functioning?</b></span><br>Answer:'  + summaryData.mccafe_menu_display;
                 displayTextElementmccafe.style.color = 'red';
                 displayTextElementmccafe.style.fontWeight = 'bold';
+                displayTextElementmccafe3.innerHTML ='<span style="color: black;font-size:110%"><b>'+'If no, give a brief description of the condition.?</b></span><br>Answer:'  + summaryData.mccafe_menu_display_desc;
+                displayTextElementmccafe3.style.fontWeight = 'bold';
             }
+            displayTextElementmccafe1.innerHTML = '<span style="color:black;font-size:110%"><b>1.Model of McCafé?</b></span>'+'<br>Answer:'+summaryData.mccafe_model;
+            displayTextElementmccafe1.style.fontWeight = 'bold';
 
-            if (summaryData.menu_promo!=0) {
-                let promoCampaigns1 = summaryData.menu_promo;
-
-                // Split the string into an array using comma as a delimiter
-                let formattedCampaigns = '';
-                if (Array.isArray(promoCampaigns1)) {
-                        // Format and display the campaigns
-                        formattedCampaigns = promoCampaigns1.map(campaign => `👍 ${campaign.trim()}.`).join('<br>');
-                        // Now you can use formattedCampaigns as needed
-                } else {
-                                console.error("promoCampaigns is not an array. Check the data structure.");
-                }
-
-                // Now, formattedCampaigns contains the desired output
-                displayTextElementmccafe1.innerHTML = 'Did you see the following promotions displayed on the digital Menu Board:';
-                displayTextElementmccafe2.innerHTML = '<br>' +formattedCampaigns;
-                displayTextElementmccafe1.style.fontWeight = 'bold';
-                displayTextElementmccafe2.style.color  = 'green';
-                displayTextElementmccafe1.style.fontSize = '120%';
+            if (summaryData.mccafe_menu_board_campaign_layout) {
+                displayTextElementmccafe2.innerHTML = '✔'+'<span style="color:black;font-size:110%"><b>'+'4.is menu the same as the new campaign layout?</b></span><br>Answer:' + summaryData.mccafe_menu_board_campaign_layout;
+                displayTextElementmccafe2.style.color = 'green';
+                displayTextElementmccafe2.style.fontWeight = 'bold';
+                displayTextElementmccafe4.innerHTML ='<span style="color: black;font-size:110%"><b>'+'If yes, did you see the following promotions displayed on the menu?</b></span><br>Answer:'  + summaryData.mccafe_menu_board_layout_campaign_list;
+                displayTextElementmccafe4.style.fontWeight = 'bold';
             } else {
-                displayTextElementmccafe1.innerHTML = 'Did you see the following promotions displayed on the digital Menu Board:' +summaryData.menu_promo;
-
-                displayTextElementmccafe1.style.fontWeight = 'bold';
-                displayTextElementmccafe1.style.fontSize = '120%';
+                displayTextElementmccafe2.innerHTML = 'x4'+'<span style="color: black;font-size:110%"><b>'+'is menu the same as the new campaign layout?</b></span><br>Answer:'  + summaryData.mccafe_menu_board_campaign_layout;
+                displayTextElementmccafe2.style.color = 'red';
+                displayTextElementmccafe2.style.fontWeight = 'bold';
+                displayTextElementmccafe4.innerHTML ='<span style="color: black;font-size:110%"><b>'+'If no, give a brief description of what you see on menu.?</b></span><br>Answer:'  + summaryData.mccafe_menu_board_campaign_layout_desc;
+                displayTextElementmccafe4.style.fontWeight = 'bold';
             }
-
-            //displayTextElementmccafe3.innerHTML = '-Iced Latte(R26.90)'+'<br>'+'-Iced Latte(Add Doughnut for R3.00)'+'<br>'+'-Iced Latte(Add Cream R8.00)'+'<br>'+'-Other (please specify)';
-            //displayTextElementmccafe3.style.fontWeight = 'bold';
-            //displayTextElementmccafe3.style.backgroundColor = '#FFD700';
-
-            displayTextElementmccafe4.innerHTML = '<span style="color:black;font-size:110%"><b> Give a brief description of anything that did not sit right/was not in good condition at McCafé?</b></span>'+'<br>Answer:'+summaryData.description_mccafe;
-            displayTextElementmccafe4.style.fontWeight = 'bold';
-            displayTextElementmccafe4.style.color  = 'green';
     };
 
     const creategaugeChartdrivethrustorelevel = (data) => {
@@ -1626,8 +1639,8 @@ const chart = Highcharts.mapChart('container-visualizations', {
                 enabled: false
             },
             pane: {
-                center: ['50%', '85%'],
-                size: '140%',
+                center: ['50%', '77%'],
+                size: '100%',
                 startAngle: -90,
                 endAngle: 90,
                 background: {
@@ -1689,60 +1702,80 @@ const chart = Highcharts.mapChart('container-visualizations', {
         var displayTextElementdrivethru1 = document.getElementById('displayTextdrivethru1');
         var displayTextElementdrivethru2 = document.getElementById('displayTextdrivethru2');
         var displayTextElementdrivethru3 = document.getElementById('displayTextdrivethru3');
+        var displayTextElementdrivethru33 = document.getElementById('displayTextdrivethru33');
+        var displayTextElementdrivethru333 = document.getElementById('displayTextdrivethru333');
+        var displayTextElementdrivethru333advert = document.getElementById('displayTextdrivethru333advert');
+        var displayTextElementdrivethru333advertdesc = document.getElementById('displayTextdrivethru333advertdesc');
         var displayTextElementdrivethru4 = document.getElementById('displayTextdrivethru4');
         var displayTextElementdrivethru5 = document.getElementById('displayTextdrivethru5');
         displaydrivethru.innerHTML = '<span style="color: black;font-Weight:bold;font-size:110%"><b>'+'Date: </b></span>' + summaryData.drivethru_date;
         displaydrivethru.style.color = 'black';
         displaydrivethruname.innerHTML = '<span style="color: black;font-Weight:bold;font-size:110%"><b>'+'Store: </b></span>' + summaryData.drive_store_site_name;
         displaydrivethruname.style.color = 'black';
-        if (summaryData.activation_on_promo) {
-                displayTextElementdrivethru.innerHTML = '✔'+'<span style="color: black;font-size:110%"><b>'+'1.Is there any advertising/activations observed above related to any ongoing promotions?</b></span><br>Answer:' + summaryData.activation_on_promo;
-                displayTextElementdrivethru.style.color = 'green';
+        displayTextElementdrivethru5.innerHTML = '<span style="color: black;font-Weight:bold;font-size:110%"><b>'+'2.is the drive thru menu static or digital?</b></span>' + summaryData.drive_menu;
+        displayTextElementdrivethru5.style.color = 'black';
+        displayTextElementdrivethru5.style.fontWeight = 'bold';
+        if (summaryData.is_drivethru) {
+                displayTextElementdrivethru.innerHTML = '<span style="color: black;font-size:110%"><b>'+'1.Does the store have Drive-Thru? (if no, skip to the section)?</b></span><br>Answer:' + summaryData.is_drivethru;
                 displayTextElementdrivethru.style.fontWeight = 'bold';
                 
             } else {
-                displayTextElementdrivethru.innerHTML = 'x'+'<span style="color:black;font-size:110%"><b>'+'1.Is there any advertising/activations observed above related to any ongoing promotions?</b></span><br>Answer: '  + summaryData.activation_on_promo;
-                displayTextElementdrivethru.style.color = 'red';
+                displayTextElementdrivethru.innerHTML ='<span style="color:black;font-size:110%"><b>'+'1.Does the store have Drive-Thru? (if no, skip to the section)?</b></span><br>Answer: '  + summaryData.is_drivethru;
                 displayTextElementdrivethru.style.fontWeight = 'bold';
-                displayTextElementdrivethru5.innerHTML = '<span style="color: black;font-size:110%"><b>If no, please describe the advertising/activation?</b></span><br>Answer:' +summaryData.activation_description;
-                displayTextElementdrivethru5.style.fontWeight = 'bold';
-                displayTextElementdrivethru5.style.color  = 'green';
             }
             
-            if (summaryData.drivethru_campaign!=0) {
-                let promoCampaigns1 = summaryData.drivethru_campaign;
-
-                // Format and display the campaigns with the thumbs-up emoji (👍) on new lines
-                let formattedCampaigns = '';
-                if (Array.isArray(promoCampaigns1)) {
-                        // Format and display the campaigns
-                        formattedCampaigns = promoCampaigns1.map(campaign => `👍 ${campaign.trim()}.`).join('<br>');
-                        // Now you can use formattedCampaigns as needed
-                } else {
-                                console.error("promoCampaigns is not an array. Check the data structure.");
-                }
-
-                // Now, formattedCampaigns contains the desired output
-                displayTextElementdrivethru1.innerHTML = 'Which campaigns did you notice as you drove in?';
-                displayTextElementdrivethru2.innerHTML = '<br>' +formattedCampaigns;
+            if (summaryData.drive_menu_board) {
+                displayTextElementdrivethru1.innerHTML = '✔3'+'<span style="color: black;font-size:110%"><b>'+'.Is the menu board clearly displayed and fully functioning?</b></span><br>Answer: ' + summaryData.drive_menu_board;
+                displayTextElementdrivethru1.style.color = 'green';
                 displayTextElementdrivethru1.style.fontWeight = 'bold';
-                displayTextElementdrivethru2.style.color  = 'green';
-                displayTextElementdrivethru1.style.fontSize = '120%';
+                
             } else {
-                displayTextElementdrivethru1.innerHTML = 'Which campaigns did you notice as you drove in?' +summaryData.drivethru_campaign;
-
+                displayTextElementdrivethru1.innerHTML = 'x'+'<span style="color:black;font-size:110%"><b>'+'3.Is the menu board clearly displayed and fully functioning?</b></span><br>Answer: '  + summaryData.drive_menu_board;
+                displayTextElementdrivethru1.style.color = 'red';
                 displayTextElementdrivethru1.style.fontWeight = 'bold';
-                displayTextElementdrivethru1.style.fontSize = '120%';
+                displayTextElementdrivethru4.innerHTML = '<span style="color:black;font-size:110%"><b>'+'If no, give a brief description of the condition.</b></span><br>Answer: '  + summaryData.drive_menu_board_desc;
+                displayTextElementdrivethru4.style.fontWeight = 'bold';
             }
 
-            displayTextElementdrivethru3.innerHTML = '<span style="color: black;font-size:110%"><b>What advertising is on the COD (Customer Order Display) as you approach the Speaker inthe drive-thru?</b></span><br>Answer:' +summaryData.customer_order_display;
+            if (summaryData.drive_menu_board_campaign_layout) {
+                displayTextElementdrivethru2.innerHTML = '✔4'+'<span style="color: black;font-size:110%"><b>'+'.is menu the same as the new campaign layout?</b></span><br>Answer: ' + summaryData.drive_menu_board_campaign_layout;
+                displayTextElementdrivethru2.style.color = 'green';
+                displayTextElementdrivethru2.style.fontWeight = 'bold';
+                displayTextElementdrivethru3.innerHTML = '<span style="color: black;font-size:110%"><b>If yes, Which campaigns did you notice as you drove in?</b></span><br>Answer:' +summaryData.drive_menu_board_layout_campaign_list;
+                displayTextElementdrivethru3.style.fontWeight = 'bold';
+                
+            } else {
+                displayTextElementdrivethru2.innerHTML = 'x'+'<span style="color:black;font-size:110%"><b>'+'4.is menu the same as the new campaign layout?</b></span><br>Answer: '  + summaryData.drive_menu_board_campaign_layout;
+                displayTextElementdrivethru2.style.color = 'red';
+                displayTextElementdrivethru2.style.fontWeight = 'bold';
+                displayTextElementdrivethru3.innerHTML = '<span style="color: black;font-size:110%"><b>If not, give a brief description of what you see on menu.</b></span><br>Answer:' +summaryData.drive_menu_board_campaign_layout_desc;
+                displayTextElementdrivethru3.style.fontWeight = 'bold';
+            }
 
-            displayTextElementdrivethru3.style.fontWeight = 'bold';
-            displayTextElementdrivethru3.style.color  = 'green';
+            if (summaryData.drive_cod_layout) {
+                displayTextElementdrivethru33.innerHTML = '✔5'+'<span style="color: black;font-size:110%"><b>'+'.Is the COD (customer order display) the same as the new advertising layout?</b></span><br>Answer: ' + summaryData.drive_cod_layout;
+                displayTextElementdrivethru33.style.color = 'green';
+                displayTextElementdrivethru33.style.fontWeight = 'bold';
+                
+            } else {
+                displayTextElementdrivethru33.innerHTML = 'x'+'<span style="color:black;font-size:110%"><b>'+'5.Is the COD (customer order display) the same as the new advertising layout? </b></span><br>Answer: '  + summaryData.drive_cod_layout;
+                displayTextElementdrivethru33.style.color = 'red';
+                displayTextElementdrivethru33.style.fontWeight = 'bold';
+                displayTextElementdrivethru333.innerHTML = '<span style="color: black;font-size:110%"><b>If no, give brief description of what you see on COD (customer order display)</b></span><br>Answer:' +summaryData.drive_cod_layout_desc;
+                displayTextElementdrivethru333.style.fontWeight = 'bold';
+            }
 
-            //displayTextElementdrivethru4.innerHTML = '-Hero Double Quarter Pounder with Cheese(R89.90 (Regular meal))'+'<br>'+'-McFlurry Strawberry Shortcake(R39.90)'+'<br>'+'-4 Piece Chicken Tenders(R39.90)'+'<br>'+'-McFizz Lemon Litchi(R27.00)'+'<br>'+'-Nazo(R49.90)'+'<br>'+'-Chillie cheese McFlavour Fries (newly launched)(TBC)'+'<br>'+'-Other (please specify)';
-            //displayTextElementdrivethru4.style.fontWeight = 'bold';
-            //displayTextElementdrivethru4.style.backgroundColor = '#FFD700';
+            
+            if (summaryData.drive_advert) {
+                displayTextElementdrivethru333advert.innerHTML = '<span style="color: black;font-size:110%"><b>'+'6.Are there any advertising/activations observed above related to any ongoing promotions?  </b></span><br>Answer: ' + summaryData.drive_advert;
+                displayTextElementdrivethru333advert.style.fontWeight = 'bold';
+                
+            } else {
+                displayTextElementdrivethru333advert.innerHTML = '<span style="color:black;font-size:110%"><b>'+'6.Are there any advertising/activations observed above related to any ongoing promotions?</b></span><br>Answer: '  + summaryData.drive_advert;
+                displayTextElementdrivethru333advert.style.fontWeight = 'bold';
+                displayTextElementdrivethru333advertdesc.innerHTML = '<span style="color: black;font-size:110%"><b>'+'If no, please describe the advertising/activation. </b></span><br>Answer: ' + summaryData.drive_advert_desc;
+                displayTextElementdrivethru333advertdesc.style.fontWeight = 'bold';
+            }
             let driveThruElement = document.getElementById('driveThruHeader');
 
             // Check the conditions
@@ -1799,7 +1832,7 @@ const chart = Highcharts.mapChart('container-visualizations', {
 
             mccafedisplay.style.display = "none";
             drivethrudisplay.style.display = "block";
-            total_percentage = (summaryData.total_score_delivery + summaryData.total_score_drivethru + summaryData.total_score_Main + summaryData.total_score_inside + summaryData.total_score_outside) / 11;
+            total_percentage = (summaryData.total_score_delivery + summaryData.total_score_drivethru + summaryData.total_score_Main + summaryData.total_score_inside + summaryData.total_score_outside) / 12;
         } else if (summaryData.drivethru_date === 0) {
             // If drivethru_date is 0, hide drivethrudisplay
 
@@ -1808,14 +1841,14 @@ const chart = Highcharts.mapChart('container-visualizations', {
 
             mccafedisplay.style.display = "block";
             drivethrudisplay.style.display = "none";
-            total_percentage = (summaryData.total_score_delivery + summaryData.total_score_Mccafe + summaryData.total_score_Main + summaryData.total_score_inside + summaryData.total_score_outside) / 11;
+            total_percentage = (summaryData.total_score_delivery + summaryData.total_score_Mccafe + summaryData.total_score_Main + summaryData.total_score_inside + summaryData.total_score_outside) / 12;
         } else {
             // Default case, show both displays
             disclaimermccafeDiv.style.display = "none";
             disclaimerdriveDiv.style.display = "none";
             mccafedisplay.style.display = "block";
             drivethrudisplay.style.display = "block";
-            total_percentage = (summaryData.total_score_delivery + summaryData.total_score_drivethru + summaryData.total_score_Mccafe + summaryData.total_score_Main + summaryData.total_score_inside + summaryData.total_score_outside) / 12;
+            total_percentage = (summaryData.total_score_delivery + summaryData.total_score_drivethru + summaryData.total_score_Mccafe + summaryData.total_score_Main + summaryData.total_score_inside + summaryData.total_score_outside) / 15;
         }
 
         // Round the total percentage to two decimal places
@@ -1842,8 +1875,8 @@ const chart = Highcharts.mapChart('container-visualizations', {
                         enabled: false
                     },
                     pane: {
-                        center: ['50%', '85%'],
-                        size: '140%',
+                        center: ['50%', '77%'],
+                        size: '100%',
                         startAngle: -90,
                         endAngle: 90,
                         background: {
@@ -1900,16 +1933,14 @@ const chart = Highcharts.mapChart('container-visualizations', {
         ...(summaryData.drivethru_date !== 0 && {  total_score_drivethru: summaryData.total_score_drivethru}),
         total_score_delivery: summaryData.total_score_delivery,
         total_score_inside: summaryData.total_score_inside,
-        total_score_outside: summaryData.total_score_outside,
         };
 
         const targets = {
-        target_Main: 1,
-        ...(summaryData.mccafe_date !== 0 && { target_Mccafe: 1 }),
-        ...(summaryData.drivethru_date !== 0 && {target_drivethru: 1 }),
+        target_Main: 3,
+        ...(summaryData.mccafe_date !== 0 && { target_Mccafe: 2 }),
+        ...(summaryData.drivethru_date !== 0 && {target_drivethru: 3 }),
         target_delivery: 2,
-        target_inside: 3,
-        target_outside: 4,
+        target_inside: 5,
         };
         // Create series data for bars
         const barData = Object.values(data2);
@@ -1925,8 +1956,7 @@ const chart = Highcharts.mapChart('container-visualizations', {
             summaryData.total_score_drivethru +
             summaryData.total_score_Mccafe +
             summaryData.total_score_Main +
-            summaryData.total_score_inside +
-            summaryData.total_score_outside
+            summaryData.total_score_inside 
         );
 
         // Convert scores to percentages
@@ -1935,7 +1965,6 @@ const chart = Highcharts.mapChart('container-visualizations', {
         const percentageMccafe = (summaryData.total_score_Mccafe / totalSum) * 100;
         const percentageMain = (summaryData.total_score_Main / totalSum) * 100;
         const percentageInside = (summaryData.total_score_inside / totalSum) * 100;
-        const percentageOutside = (summaryData.total_score_outside / totalSum) * 100;
 
         
 
@@ -1988,8 +2017,8 @@ const chart = Highcharts.mapChart('container-visualizations', {
                 enabled: false
             },
             pane: {
-                center: ['50%', '85%'],
-                size: '140%',
+                center: ['50%', '77%'],
+                size: '100%',
                 startAngle: -90,
                 endAngle: 90,
                 background: {
@@ -2048,35 +2077,30 @@ const chart = Highcharts.mapChart('container-visualizations', {
         var displaydelivery = document.getElementById('displaydelivery');
         var displaydeliveryname = document.getElementById('displaydeliveryname');
         var displayTextElementdelivery1 = document.getElementById('displayTextdelivery1');
-        var displayTextElementdelivery2 = document.getElementById('displayTextdelivery2');
         displaydelivery.innerHTML = '<span style="color: black;font-Weight:bold;font-size:110%"><b>'+'Date: </b></span>' + summaryData.delivery_date;
         displaydelivery.style.color = 'black';
         displaydeliveryname.innerHTML = '<span style="color: black;font-Weight:bold;font-size:110%"><b>'+'Store: </b></span>' + summaryData.store_site_name;
         displaydeliveryname.style.color = 'black';
-        if (summaryData.mc_delivery) {
-                displayTextElementdelivery.innerHTML = '✔'+'<span style="color: black;font-Weight:bold;font-size:110%"><b>'+'1.Is the McDelivery advertising visible?</b></span><br>Answer: ' + summaryData.mc_delivery;
+        if (summaryData.mcdelivery) {
+                displayTextElementdelivery.innerHTML = '✔'+'<span style="color: black;font-Weight:bold;font-size:110%"><b>'+'1.Is the McDelivery advertising visible?</b></span><br>Answer: ' + summaryData.mcdelivery;
                 displayTextElementdelivery.style.color = 'green';
                 displayTextElementdelivery.style.fontWeight = 'bold';
                 
             } else {
-                displayTextElementdelivery.innerHTML = 'x'+'<span style="color: black;font-Weight:bold;font-size:110%"><b>'+'1.Is the McDelivery advertising visible?</b></span><br>Answer: '  + summaryData.mc_delivery;
+                displayTextElementdelivery.innerHTML = 'x'+'<span style="color: black;font-Weight:bold;font-size:110%"><b>'+'1.Is the McDelivery advertising visible?</b></span><br>Answer: '  + summaryData.mcdelivery;
                 displayTextElementdelivery.style.color = 'red';
                 displayTextElementdelivery.style.fontWeight = 'bold';
             }
-            if (summaryData.third_party_del) {
-                displayTextElementdelivery1.innerHTML = '✔'+'<span style="color: black;font-Weight:bold;font-size:110%"><b>'+'2.Did you see Any Delivery advertising from 3 rd party (Uber eats or MrD)?</b></span><br>Answer: ' + summaryData.third_party_del;
+            if (summaryData.drive_other) {
+                displayTextElementdelivery1.innerHTML = '✔'+'<span style="color: black;font-Weight:bold;font-size:110%"><b>'+'2.Did you see Any Delivery advertising from 3 rd party (Uber eats or MrD)?</b></span><br>Answer: ' + summaryData.drive_other;
                 displayTextElementdelivery1.style.color = 'green';
                 displayTextElementdelivery1.style.fontWeight = 'bold';
                 
             } else {
-                displayTextElementdelivery1.innerHTML = 'x'+'<span style="color: black;font-Weight:bold;font-size:110%"><b>'+'2.Did you see Any Delivery advertising from 3 rd party (Uber eats or MrD)?</b></span><br>Answer:'  + summaryData.third_party_del;
+                displayTextElementdelivery1.innerHTML = 'x'+'<span style="color: black;font-Weight:bold;font-size:110%"><b>'+'2.Did you see Any Delivery advertising from 3 rd party (Uber eats or MrD)?</b></span><br>Answer:'  + summaryData.drive_other;
                 displayTextElementdelivery1.style.color = 'red';
                 displayTextElementdelivery1.style.fontWeight = 'bold';
             }
-
-            displayTextElementdelivery2.innerHTML = '<span style="color: black;font-Weight:bold;font-size:110%"><b>3.Give a brief description of what you have observed about the drive-through?</b></span><br>Answer:'  + summaryData.description_delivery;
-            displayTextElementdelivery2.style.fontWeight = 'bold';
-            displayTextElementdelivery2.style.color  = 'green';
 
     };
     
@@ -2096,8 +2120,8 @@ const chart = Highcharts.mapChart('container-visualizations', {
                 enabled: false
             },
             pane: {
-                center: ['50%', '85%'],
-                size: '140%',
+                center: ['50%', '77%'],
+                size: '100%',
                 startAngle: -90,
                 endAngle: 90,
                 background: {
@@ -2154,8 +2178,8 @@ const chart = Highcharts.mapChart('container-visualizations', {
                 enabled: false
             },
             pane: {
-                center: ['50%', '85%'],
-                size: '140%',
+                center: ['50%', '77%'],
+                size: '100%',
                 startAngle: -90,
                 endAngle: 90,
                 background: {
@@ -2212,8 +2236,8 @@ const chart = Highcharts.mapChart('container-visualizations', {
                 enabled: false
             },
             pane: {
-                center: ['50%', '85%'],
-                size: '140%',
+                center: ['50%', '77%'],
+                size: '100%',
                 startAngle: -90,
                 endAngle: 90,
                 background: {
@@ -2270,8 +2294,8 @@ const chart = Highcharts.mapChart('container-visualizations', {
                 enabled: false
             },
             pane: {
-                center: ['50%', '85%'],
-                size: '140%',
+                center: ['50%', '77%'],
+                size: '100%',
                 startAngle: -90,
                 endAngle: 90,
                 background: {
@@ -2328,8 +2352,8 @@ const chart = Highcharts.mapChart('container-visualizations', {
                 enabled: false
             },
             pane: {
-                center: ['50%', '85%'],
-                size: '140%',
+                center: ['50%', '77%'],
+                size: '100%',
                 startAngle: -90,
                 endAngle: 90,
                 background: {
