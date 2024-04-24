@@ -83,7 +83,7 @@ WSGI_APPLICATION = 'Visuals.wsgi.application'
 DATABASES = {
    'default': {
        'ENGINE': 'django.db.backends.postgresql_psycopg2',
-     'NAME': 'postgres',
+     'NAME': 'retailsupport',
        'USER': 'postgres',
        'PASSWORD': 'flowvisualpatterns',
       'HOST': 'fvpdatabase.cv6g0e8oswze.af-south-1.rds.amazonaws.com',
