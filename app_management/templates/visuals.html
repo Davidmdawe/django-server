@@ -279,6 +279,7 @@ select {
                     <option value=""></option>
                     <!--<option value="February_2024">February 2024</option>-->
                     <option value="April_2024">April 2024</option>
+                    <option value="May_2024">May 2024</option>
                 </select>
             </div>
             <div class="col-sm-3">
@@ -1815,8 +1816,10 @@ const chart = Highcharts.mapChart('container-visualizations', {
 
         // Calculate total percentage based on different conditions
         var total_percentage;
-
-        if (summaryData.mccafe_date === 0 && summaryData.drivethru_date === 0) {
+        console.log('Displays:::')
+        console.log(summaryData.mccafe_model)
+        console.log(summaryData.is_drivethru)
+        if ((summaryData.mccafe_model === '4' || summaryData.mccafe_model === '5') && !summaryData.is_drivethru) {
             // If both dates are 0, hide both displays
             disclaimerdriveDiv.style.display = "block";
             disclaimermccafeDiv.style.display = "block";
@@ -1825,7 +1828,7 @@ const chart = Highcharts.mapChart('container-visualizations', {
             drivethrudisplay.style.display = "none";
             
             total_percentage = (summaryData.total_score_delivery + summaryData.total_score_Main + summaryData.total_score_inside + summaryData.total_score_outside) / 10;
-        } else if (summaryData.mccafe_date === 0) {
+        } else if ((summaryData.mccafe_model === '4' || summaryData.mccafe_model === '5')) {
             // If mccafe_date is 0, hide mccafedisplay
             disclaimermccafeDiv.style.display = "block";
             disclaimerdriveDiv.style.display = "none";
@@ -1833,7 +1836,7 @@ const chart = Highcharts.mapChart('container-visualizations', {
             mccafedisplay.style.display = "none";
             drivethrudisplay.style.display = "block";
             total_percentage = (summaryData.total_score_delivery + summaryData.total_score_drivethru + summaryData.total_score_Main + summaryData.total_score_inside + summaryData.total_score_outside) / 12;
-        } else if (summaryData.drivethru_date === 0) {
+        } else if (!summaryData.is_drivethru) {
             // If drivethru_date is 0, hide drivethrudisplay
 
             disclaimermccafeDiv.style.display = "none";
@@ -1929,16 +1932,16 @@ const chart = Highcharts.mapChart('container-visualizations', {
         // Assuming you have individual scores and target values
         const data2 = {
         total_score_Main: summaryData.total_score_Main,
-        ...(summaryData.mccafe_date !== 0 && { total_score_Mccafe: summaryData.total_score_Mccafe }),
-        ...(summaryData.drivethru_date !== 0 && {  total_score_drivethru: summaryData.total_score_drivethru}),
+        ...((summaryData.mccafe_model !== '4' || summaryData.mccafe_model !== '5') && { total_score_Mccafe: summaryData.total_score_Mccafe }),
+        ...(summaryData.drivethru_date && {  total_score_drivethru: summaryData.total_score_drivethru}),
         total_score_delivery: summaryData.total_score_delivery,
         total_score_inside: summaryData.total_score_inside,
         };
 
         const targets = {
         target_Main: 3,
-        ...(summaryData.mccafe_date !== 0 && { target_Mccafe: 2 }),
-        ...(summaryData.drivethru_date !== 0 && {target_drivethru: 3 }),
+        ...((summaryData.mccafe_model !== '4' || summaryData.mccafe_model !== '5') && { target_Mccafe: 2 }),
+        ...(summaryData.drivethru_date && {target_drivethru: 3 }),
         target_delivery: 2,
         target_inside: 5,
         };
