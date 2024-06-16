@@ -1,4 +1,3 @@
-
 <!DOCTYPE html>
 <html >
 {% load static %}
@@ -278,8 +277,9 @@ select {
                 <select id="month" class="form-control drop-down-list" onchange="filterProvinces()">
                     <option value=""></option>
                     <!--<option value="February_2024">February 2024</option>-->
-                    <option value="April_2024">April 2024</option>
-                    <option value="May_2024">May 2024</option>
+                    <!--<option value="April_2024">April 2024</option>-->
+                    <!--<option value="May_2024">May 2024</option>-->
+                    <option value="June_2024">June 2024</option>
                 </select>
             </div>
             <div class="col-sm-3">
@@ -1943,7 +1943,7 @@ const chart = Highcharts.mapChart('container-visualizations', {
         ...((summaryData.mccafe_model !== '4' || summaryData.mccafe_model !== '5') && { target_Mccafe: 2 }),
         ...(summaryData.drivethru_date && {target_drivethru: 3 }),
         target_delivery: 2,
-        target_inside: 5,
+        target_inside: 4,
         };
         // Create series data for bars
         const barData = Object.values(data2);
