@@ -184,27 +184,32 @@ def get_stores(request):
 
 def get_provinces(request):
     month = request.GET.get('month')
-    if month:
-        # Assuming you have a model structure that associates months with provinces
-        if "_" in month:
-            month_name, year = month.split("_")
-            month_number = list(calendar.month_name).index(month_name.capitalize())
+    if month and "_" in month:
+        month_name, year = month.split("_")
+        month_number = list(calendar.month_name).index(month_name.capitalize())
 
-            # Get the first and last day of the month
-            _, last_day = calendar.monthrange(int(year), month_number)
+        # Get the first and last day of the month
+        _, last_day = calendar.monthrange(int(year), month_number)
 
-            # Create a timezone object (adjust to your project's timezone)
-            timezone = pytz.timezone('UTC')
+        # Create a timezone object (adjust to your project's timezone)
+        timezone = pytz.timezone('UTC')
 
-            # Generate a list of datetime objects for the entire month (with timezone awareness)
-            start_date = timezone.localize(datetime(int(year), month_number, 1, 0, 0, 0))
+        # Generate the start date for the month (beginning of the month)
+        start_date = timezone.localize(datetime(int(year), month_number, 1, 0, 0, 0))
+
+        # Generate the end date as the day before today
+        today = datetime.now(timezone)
+        if today.year == int(year) and today.month == month_number:
+            end_date = today - timedelta(days=1)
+        else:
+            # If today is not within the month in question, use the last day of the month
             end_date = timezone.localize(datetime(int(year), month_number, last_day, 23, 59, 59))
 
-            store_ids = Menu.objects.filter(menu_date__gte=start_date,menu_date__lte=end_date).values('store_id')
-            restaurant_province = Store_level.objects.filter(store_id__in=store_ids).values("region").distinct()
-            provinces_list = list(restaurant_province)
-        else:
-            provinces_list = []
+        
+
+        store_ids = Menu.objects.filter(menu_date__gte=start_date, menu_date__lte=end_date).values('store_id')
+        restaurant_province = Store_level.objects.filter(store_id__in=store_ids).values("region").distinct()
+        provinces_list = list(restaurant_province)
     else:
         provinces_list = []
 
