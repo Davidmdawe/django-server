@@ -1,4 +1,3 @@
-
 from django.shortcuts import render, redirect
 from django.contrib.auth import authenticate, login,logout
 from django.contrib import messages
@@ -7,12 +6,13 @@ from django.http import JsonResponse
 import random
 import calendar
 from django.views import View
-from datetime import datetime
+from datetime import datetime, timedelta
 from django.db.models import Sum
 from django.contrib.auth.models import User
 from django.contrib.auth.decorators import login_required
 from django.utils.timezone import make_aware
 from .filters import ShopsFilter
+import pytz
 
 
 
@@ -44,6 +44,7 @@ def home_view(request):
     #restaurant= Store_level.objects.values('site_name').distinct()
     #########
     month = 'June_2024'
+
     if month and "_" in month:
         month_name, year = month.split("_")
         month_number = list(calendar.month_name).index(month_name.capitalize())
@@ -54,18 +55,26 @@ def home_view(request):
         # Create a timezone object (adjust to your project's timezone)
         timezone = pytz.timezone('UTC')
 
-        # Generate a list of datetime objects for the entire month (with timezone awareness)
+        # Generate the start date for the month (beginning of the month)
         start_date = timezone.localize(datetime(int(year), month_number, 1, 0, 0, 0))
-        end_date = timezone.localize(datetime(int(year), month_number, last_day, 23, 59, 59))
 
-    outside_date__gte=start_date,
-    outside_date__lte=end_date
+        # Generate the end date as the day before today
+        today = datetime.now(timezone)
+        if today.year == int(year) and today.month == month_number:
+            end_date = today - timedelta(days=1)
+        else:
+            # If today is not within the month in question, use the last day of the month
+            end_date = timezone.localize(datetime(int(year), month_number, last_day, 23, 59, 59))
+
+    start_date_used = start_date
+    end_date_used = end_date
+    
     #######
     restaurant= Store_level.objects.filter(store_id__in=ids).values('site_name','store_id',)
     # Get all store IDs from Menu model
     
     all_store_ids = Menu.objects.filter(
-        menu_date__gte=start_date,menu_date__lte=end_date
+        menu_date__gte=start_date_used,menu_date__lte=end_date_used
     ).values_list('store_id', flat=True).distinct()
     # Filter store details from Shops model where the region is Gauteng
     gauteng_stores = Store_level.objects.filter(store_id__in=all_store_ids, region='GAUTENG')
@@ -110,12 +119,14 @@ def home_view(request):
     # Count the number of stores in Gauteng
     num_WESTERN_CAPE_stores =WESTERN_CAPE_stores.count()
 
-    province_ids = Menu.objects.values('store_id')
+    province_ids = Menu.objects.filter(
+        menu_date__gte=start_date_used,menu_date__lte=end_date_used
+    ).values('store_id')
     restaurant_province = Store_level.objects.filter(store_id__in=province_ids).all()
     shop_filter = ShopsFilter(request.GET, queryset=restaurant_province)
 
     total_stores=num_WESTERN_CAPE_stores+num_NORTHERN_CAPE_stores+num_NORTH_WEST_stores +num_LIMPOPO_stores+num_KWAZULU_NATAL_stores+num_EASTERN_CAPE_stores+num_FREE_STATE_stores+num_gauteng_stores
-    print(f'Number of stores in Gauteng: {num_gauteng_stores}')
+    print(f'Number of stores in Gauteng: {total_stores}')
     
     
     context = {'filter': shop_filter,'provinces': provinces,'total_stores':total_stores,'num_NORTHERN_CAPE_stores':num_NORTHERN_CAPE_stores,'num_WESTERN_CAPE_stores':num_WESTERN_CAPE_stores,'num_NORTH_WEST_stores':num_NORTH_WEST_stores,'num_MPUMALANGA_stores':num_MPUMALANGA_stores,'num_LIMPOPO_stores':num_LIMPOPO_stores,'num_KWAZULU_NATAL_stores':num_KWAZULU_NATAL_stores,'num_EASTERN_CAPE_stores':num_EASTERN_CAPE_stores,'num_FREE_STATE_stores':num_FREE_STATE_stores,'num_gauteng_stores':num_gauteng_stores,'username':username,'franchise_mcopco':franchise_mcopco,'restaurant':restaurant,'region_name':region_name}
@@ -138,27 +149,34 @@ def visuals_view(request):
 def get_stores(request):
     month = request.GET.get('month')
     province = request.GET.get('province')
-    if month:
-        # Assuming you have a model structure that associates months with provinces
-        if "_" in month:
-            month_name, year = month.split("_")
-            month_number = list(calendar.month_name).index(month_name.capitalize())
+    if month and "_" in month:
+        month_name, year = month.split("_")
+        month_number = list(calendar.month_name).index(month_name.capitalize())
 
-            # Get the first and last day of the month
-            _, last_day = calendar.monthrange(int(year), month_number)
+        # Get the first and last day of the month
+        _, last_day = calendar.monthrange(int(year), month_number)
 
-            # Create a timezone object (adjust to your project's timezone)
-            timezone = pytz.timezone('UTC')
+        # Create a timezone object (adjust to your project's timezone)
+        timezone = pytz.timezone('UTC')
 
-            # Generate a list of datetime objects for the entire month (with timezone awareness)
-            start_date = timezone.localize(datetime(int(year), month_number, 1, 0, 0, 0))
-            end_date = timezone.localize(datetime(int(year), month_number, last_day, 23, 59, 59))
+        # Generate the start date for the month (beginning of the month)
+        start_date = timezone.localize(datetime(int(year), month_number, 1, 0, 0, 0))
 
-            store_ids = Menu.objects.filter(menu_date__gte=start_date,menu_date__lte=end_date).values('store_id')
-            restaurant = Store_level.objects.filter(store_id__in=store_ids,region=province).values("site_name","store_id").distinct()
-            store_list = list(restaurant)
+        # Generate the end date as the day before today
+        today = datetime.now(timezone)
+        if today.year == int(year) and today.month == month_number:
+            end_date = today - timedelta(days=1)
         else:
-            store_list = []
+            # If today is not within the month in question, use the last day of the month
+            end_date = timezone.localize(datetime(int(year), month_number, last_day, 23, 59, 59))
+        print('Start')
+        print(start_date)
+        print('End')
+        print(end_date)
+        
+        store_ids = Menu.objects.filter(menu_date__gte=start_date, menu_date__lte=end_date).values('store_id')
+        restaurant = Store_level.objects.filter(store_id__in=store_ids, region=province).values("site_name", "store_id").distinct()
+        store_list = list(restaurant)
     else:
         store_list = []
 
