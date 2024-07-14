@@ -43,7 +43,7 @@ def home_view(request):
     ids=Menu.objects.values('store_id')
     #restaurant= Store_level.objects.values('site_name').distinct()
     #########
-    month = 'June_2024'
+    month = 'July_2024'
 
     if month and "_" in month:
         month_name, year = month.split("_")
