@@ -33,18 +33,7 @@ def login_view(request):
 
     return render(request, 'login.html')
 
-@login_required()
-def home_view(request):
-    provinces = Province.objects.all()  # Retrieve all provinces from the database
-    user = request.user
-    username=user.username
-    region_name = Store_level.objects.values('region').distinct()
-    franchise_mcopco = Store_level.objects.values('portfolio_type').distinct()
-    ids=Menu.objects.values('store_id')
-    #restaurant= Store_level.objects.values('site_name').distinct()
-    #########
-    month = 'July_2024'
-
+def get_month_date_range(month):
     if month and "_" in month:
         month_name, year = month.split("_")
         month_number = list(calendar.month_name).index(month_name.capitalize())
@@ -58,16 +47,35 @@ def home_view(request):
         # Generate the start date for the month (beginning of the month)
         start_date = timezone.localize(datetime(int(year), month_number, 1, 0, 0, 0))
 
-        # Generate the end date as the day before today
-        today = datetime.now(timezone)
-        if today.year == int(year) and today.month == month_number:
-            end_date = today - timedelta(days=1)
-        else:
-            # If today is not within the month in question, use the last day of the month
-            end_date = timezone.localize(datetime(int(year), month_number, last_day, 23, 59, 59))
+        # Generate the end date as the last day of the month
+        end_date = timezone.localize(datetime(int(year), month_number, last_day, 23, 59, 59))
 
-    start_date_used = start_date
-    end_date_used = end_date
+        return start_date, end_date
+    return None, None
+@login_required()
+def home_view(request):
+    provinces = Province.objects.all()  # Retrieve all provinces from the database
+    user = request.user
+    username=user.username
+    region_name = Store_level.objects.values('region').distinct()
+    franchise_mcopco = Store_level.objects.values('portfolio_type').distinct()
+    ids=Menu.objects.values('store_id')
+    #restaurant= Store_level.objects.values('site_name').distinct()
+    #########
+    start_month = 'June_2024'
+    end_month = 'July_2024'
+
+    # Get the start date for June 2024
+    june_start, _ = get_month_date_range(start_month)
+    # Get the end date for July 2024
+    _, july_end = get_month_date_range(end_month)
+
+    # Set the used start and end dates
+    start_date_used = june_start
+    end_date_used = july_end
+
+    print("Start Date:", start_date_used)
+    print("End Date:", end_date_used)
     
     #######
     restaurant= Store_level.objects.filter(store_id__in=ids).values('site_name','store_id',)
@@ -657,3 +665,4 @@ def get_store_data_store_level(request):
                     
     data.append({'drive_other':drive_other,'mcdelivery':mcdelivery,'drive_advert_desc':drive_advert_desc,'drive_advert':drive_advert,'drive_cod_layout_desc':drive_cod_layout_desc,'drive_cod_layout':drive_cod_layout,'drive_menu_board_layout_campaign_list':drive_menu_board_layout_campaign_list,'drive_menu_board_campaign_layout_desc':drive_menu_board_campaign_layout_desc,'drive_menu_board_campaign_layout':drive_menu_board_campaign_layout,'drive_menu_board_desc':drive_menu_board_desc,'drive_menu_board':drive_menu_board,'drive_menu':drive_menu,'is_drivethru':is_drivethru,'mccafe_menu_board_layout_campaign_list':mccafe_menu_board_layout_campaign_list,'mccafe_menu_board_campaign_layout_desc':mccafe_menu_board_campaign_layout_desc,'mccafe_menu_board_campaign_layout':mccafe_menu_board_campaign_layout,'mccafe_menu_display_desc':mccafe_menu_display_desc,'mccafe_menu_display':mccafe_menu_display,'mccafe_menu':mccafe_menu,'mccafe_model':mccafe_model,'menu_board_campaig_list':menu_board_campaig_list,'menu_board_campaign_layout_desc':menu_board_campaign_layout_desc,'menu_board_campaign_layout':menu_board_campaign_layout,'menu_board_display_desc':menu_board_display_desc,'menu_board_display':menu_board_display,'menu_pricepoint':menu_pricepoint,'menu_display':menu_display,'menu_pop_layout_desc':menu_pop_layout_desc,'menu_pop_layout':menu_pop_layout,'menu_date':menu_date,'inside_happymeal_campaigns_list':inside_happymeal_campaigns_list,'inside_happymeal_layout_desc':inside_happymeal_layout_desc,'inside_happymeal_layout':inside_happymeal_layout,'inside_mystore_image_url':inside_mystore_image_url,'inside_mystore_campaigns':inside_mystore_campaigns,'inside_sok_campaigns_list':inside_sok_campaigns_list,'inside_sok_layout_desc':inside_sok_layout_desc,'inside_sok_layout':inside_sok_layout,'inside_avail_sok':inside_avail_sok,'inside_television_number_work':inside_television_number_work,'inside_television_number':inside_television_number,'inside_television':inside_television,'inside_music':inside_music,'inside_entry_campaigns_list':inside_entry_campaigns_list,'inside_entry_campaigns':inside_entry_campaigns,'inside_date':inside_date,'outside_image_url':outside_image_url,'outside_promotions':outside_promotions,'outside_promotions_desc':outside_promotions_desc,'out_pop_description_inside':out_pop_description_inside,'mystorecamp_img_url':mystorecamp_img_url,'digital_menu_mc':digital_menu_mc,'insidemystorecamp':insidemystorecamp,'outsidemystorecamp':outsidemystorecamp,'digital_menu':digital_menu,'out_campaign_outside_store_site_name':out_campaign_outside_store_site_name,'out_campaign_outside_date':out_campaign_outside_date,'out_store_site_name':out_store_site_name,'out_description_inside_date':out_description_inside_date,'description_menu_store_site_name':description_menu_store_site_name,'description_menu_date':description_menu_date,'mccafe_store_site_name':mccafe_store_site_name,'mccafe_date':mccafe_date,'drive_store_site_name':drive_store_site_name,'drivethru_date':drivethru_date,'store_site_name':store_site_name,'delivery_date':delivery_date,'description_delivery':description_delivery,'target_delivery':target_delivery,'third_party_del':third_party_del,'mc_delivery':mc_delivery,'total_score_delivery':total_score_delivery,'activation_description':activation_description,'customer_order_display':customer_order_display,'drivethru_campaign':drivethru_campaign,'target_drivethru':target_drivethru,'activation_on_promo':activation_on_promo,'total_score_drivethru':total_score_drivethru,'description_mccafe':description_mccafe,'menu_promo':menu_promo,'mccafemenu_visibility':mccafemenu_visibility,'target_mccafe':target_mccafe,'total_score_Mccafe':total_score_Mccafe,'description_menu':description_menu,'menu_promotion':menu_promotion,'price_visibility':price_visibility,'out_description_inside':out_description_inside,'out_happy_m_campaign':out_happy_m_campaign,'out_promo_sok_campaigns':out_promo_sok_campaigns,'out_description_outside':out_description_outside,'out_campaigns':out_campaigns,'total_score_Main': total_score_Main,'menu_visibility':menu_visibility,'target_menu':target_menu,'total_score_inside': total_score_inside,'out_point_of_sale':out_point_of_sale,'out_self_order_kiosk':out_self_order_kiosk,'target_inside':target_inside,'total_score_outside': total_score_outside,'out_campaign':out_campaign, 'target_outside': target_outside, 'selected_store': selected_store,'out_branding_condition':out_branding_condition,'out_signage_condition':out_signage_condition})
     return JsonResponse(data, safe=False)
+
