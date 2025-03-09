@@ -62,8 +62,8 @@ def home_view(request):
     ids=Menu.objects.values('store_id')
     #restaurant= Store_level.objects.values('site_name').distinct()
     #########
-    start_month = 'June_2024'
-    end_month = 'December_2024'
+    start_month = 'January_2025'
+    end_month = 'March_2025'
 
     # Get the start date for June 2024
     june_start, _ = get_month_date_range(start_month)
