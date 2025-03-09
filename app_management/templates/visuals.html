@@ -1826,7 +1826,7 @@ const chart = Highcharts.mapChart('container-visualizations', {
             mccafedisplay.style.display = "none";
             drivethrudisplay.style.display = "none";
             
-            total_percentage = (summaryData.total_score_delivery + summaryData.total_score_Main + summaryData.total_score_inside + summaryData.total_score_outside) / 10;
+            total_percentage = ( summaryData.total_score_Main + summaryData.total_score_inside + summaryData.total_score_outside) / 10;
         } else if ((summaryData.mccafe_model === '4' || summaryData.mccafe_model === '5')) {
             // If mccafe_date is 0, hide mccafedisplay
             disclaimermccafeDiv.style.display = "block";
@@ -1834,7 +1834,7 @@ const chart = Highcharts.mapChart('container-visualizations', {
 
             mccafedisplay.style.display = "none";
             drivethrudisplay.style.display = "block";
-            total_percentage = (summaryData.total_score_delivery + summaryData.total_score_drivethru + summaryData.total_score_Main + summaryData.total_score_inside + summaryData.total_score_outside) / 12;
+            total_percentage = (summaryData.total_score_drivethru + summaryData.total_score_Main + summaryData.total_score_inside + summaryData.total_score_outside) / 12;
         } else if (!summaryData.is_drivethru) {
             // If drivethru_date is 0, hide drivethrudisplay
 
@@ -1843,14 +1843,14 @@ const chart = Highcharts.mapChart('container-visualizations', {
 
             mccafedisplay.style.display = "block";
             drivethrudisplay.style.display = "none";
-            total_percentage = (summaryData.total_score_delivery + summaryData.total_score_Mccafe + summaryData.total_score_Main + summaryData.total_score_inside + summaryData.total_score_outside) / 12;
+            total_percentage = (summaryData.total_score_Mccafe + summaryData.total_score_Main + summaryData.total_score_inside + summaryData.total_score_outside) / 12;
         } else {
             // Default case, show both displays
             disclaimermccafeDiv.style.display = "none";
             disclaimerdriveDiv.style.display = "none";
             mccafedisplay.style.display = "block";
             drivethrudisplay.style.display = "block";
-            total_percentage = (summaryData.total_score_delivery + summaryData.total_score_drivethru + summaryData.total_score_Mccafe + summaryData.total_score_Main + summaryData.total_score_inside + summaryData.total_score_outside) / 15;
+            total_percentage = ( summaryData.total_score_drivethru + summaryData.total_score_Mccafe + summaryData.total_score_Main + summaryData.total_score_inside + summaryData.total_score_outside) / 15;
         }
 
         // Round the total percentage to two decimal places
