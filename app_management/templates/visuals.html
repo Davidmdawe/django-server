@@ -1587,6 +1587,8 @@ const chart = Highcharts.mapChart('container-visualizations', {
         displayTextElementmccafe5.innerHTML = '<span style="color: black;font-size:110%"><b>'+'2.Is the menu Digital or Static? </b></span>' + summaryData.mccafe_menu;
         displayTextElementmccafe5.style.color = 'black';
         // Change the text content
+        if(summaryData.mccafe_model!=4)
+        {
           if (summaryData.mccafe_menu_display) {
                 displayTextElementmccafe.innerHTML = '✔'+'<span style="color:black;font-size:110%"><b>'+'3.Is the menu clearly displayed and fully functioning?</b></span><br>Answer:' + summaryData.mccafe_menu_display;
                 displayTextElementmccafe.style.color = 'green';
@@ -1598,6 +1600,7 @@ const chart = Highcharts.mapChart('container-visualizations', {
                 displayTextElementmccafe3.innerHTML ='<span style="color: black;font-size:110%"><b>'+'If no, give a brief description of the condition.?</b></span><br>Answer:'  + summaryData.mccafe_menu_display_desc;
                 displayTextElementmccafe3.style.fontWeight = 'bold';
             }
+            
             displayTextElementmccafe1.innerHTML = '<span style="color:black;font-size:110%"><b>1.Model of McCafé?</b></span>'+'<br>Answer:'+summaryData.mccafe_model;
             displayTextElementmccafe1.style.fontWeight = 'bold';
 
@@ -1614,6 +1617,7 @@ const chart = Highcharts.mapChart('container-visualizations', {
                 displayTextElementmccafe4.innerHTML ='<span style="color: black;font-size:110%"><b>'+'If no, give a brief description of what you see on menu.?</b></span><br>Answer:'  + summaryData.mccafe_menu_board_campaign_layout_desc;
                 displayTextElementmccafe4.style.fontWeight = 'bold';
             }
+        }
     };
 
     const creategaugeChartdrivethrustorelevel = (data) => {
@@ -1818,7 +1822,7 @@ const chart = Highcharts.mapChart('container-visualizations', {
         console.log('Displays:::')
         console.log(summaryData.mccafe_model)
         console.log(summaryData.is_drivethru)
-        if ((summaryData.mccafe_model === '4' || summaryData.mccafe_model === '5') && !summaryData.is_drivethru) {
+        if ((summaryData.mccafe_model === 4 || summaryData.mccafe_model === 5) && !summaryData.is_drivethru) {
             // If both dates are 0, hide both displays
             disclaimerdriveDiv.style.display = "block";
             disclaimermccafeDiv.style.display = "block";
@@ -1827,7 +1831,7 @@ const chart = Highcharts.mapChart('container-visualizations', {
             drivethrudisplay.style.display = "none";
             
             total_percentage = ( summaryData.total_score_Main + summaryData.total_score_inside + summaryData.total_score_outside) / 10;
-        } else if ((summaryData.mccafe_model === '4' || summaryData.mccafe_model === '5')) {
+        } else if ((summaryData.mccafe_model === 4 || summaryData.mccafe_model === 5)) {
             // If mccafe_date is 0, hide mccafedisplay
             disclaimermccafeDiv.style.display = "block";
             disclaimerdriveDiv.style.display = "none";
